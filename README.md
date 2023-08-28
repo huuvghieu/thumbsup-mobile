@@ -1,4 +1,4 @@
-# my_app
+# Thumbsup mobile app
 
 A new Flutter project.
 
