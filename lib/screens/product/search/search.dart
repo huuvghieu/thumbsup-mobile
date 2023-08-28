@@ -109,8 +109,7 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
             ),
             child: IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Filter()));
+                Navigator.of(context).push(_createRoute());
               },
               icon: const Icon(Icons.filter_list_sharp),
               color: AppColor.primaryDark,
@@ -120,6 +119,24 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
         ),
         const SizedBox(width: 10.0),
       ],
+    );
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const Filter(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
     );
   }
 }

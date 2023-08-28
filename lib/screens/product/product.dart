@@ -35,7 +35,8 @@ class _ProductState extends State<Product> {
                 color: Colors.white,
                 shape: BoxShape.circle,
                 boxShadow: [
-                  BoxShadow(blurRadius: 5, color: Colors.black12, spreadRadius: 1)
+                  BoxShadow(
+                      blurRadius: 5, color: Colors.black12, spreadRadius: 1)
                 ],
               ),
               child: CircleAvatar(
@@ -50,7 +51,8 @@ class _ProductState extends State<Product> {
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   },
-                  tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  tooltip:
+                      MaterialLocalizations.of(context).openAppDrawerTooltip,
                 ),
               ),
             );
@@ -58,7 +60,10 @@ class _ProductState extends State<Product> {
           title: const Center(
             child: Text(
               "Welcome, Phạm Quốc Thịnh",
-              style: TextStyle(color: Colors.black, fontSize: 15.0),
+              style: TextStyle(
+                  color: AppColor.lowText,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w700),
             ),
           ),
           actions: [
