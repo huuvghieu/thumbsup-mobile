@@ -55,7 +55,10 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
                   onChanged: (_) {
                     controller.openView();
                   },
-                  leading: const Icon(Icons.search_rounded),
+                  leading: const Icon(
+                    Icons.search_rounded,
+                    color: Colors.black54,
+                  ),
                   hintText: 'Tìm kiếm theo tên sản phẩm hoặc cửa hàng',
                   hintStyle: MaterialStateProperty.all(
                       const TextStyle(color: Colors.grey)),
@@ -91,14 +94,28 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
         const SizedBox(width: 10.0),
         Expanded(
           flex: 1,
-          child: IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Filter()));
-            },
-            icon: const Icon(Icons.filter_list_sharp),
-            color: AppColor.primaryDark,
-            iconSize: 40.0,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.rectangle,
+              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12.withOpacity(0.05),
+                  blurRadius: 5.0, // soften the shadow
+                  spreadRadius: 5.0, //extend the shadow
+                )
+              ],
+            ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Filter()));
+              },
+              icon: const Icon(Icons.filter_list_sharp),
+              color: AppColor.primaryDark,
+              iconSize: 32.0,
+            ),
           ),
         ),
         const SizedBox(width: 10.0),
