@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
-import 'package:my_app/screens/product/filter.dart';
+import 'package:my_app/screens/product/search/filter.dart';
 
 class SearchBarCustom extends StatefulWidget {
   const SearchBarCustom({super.key});

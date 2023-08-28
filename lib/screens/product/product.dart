@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
 import 'package:my_app/screens/product/menu.dart';
-import 'package:my_app/screens/product/search.dart';
+import 'package:my_app/screens/product/search/search.dart';
+import 'package:my_app/screens/product/store/store_carousel.dart';
 
 class Product extends StatefulWidget {
   const Product({super.key, required this.onItemTapped});
@@ -86,13 +87,15 @@ class _ProductState extends State<Product> {
                   child: Text(
                     "Bạn tìm gì nè?",
                     style: TextStyle(
-                      color: Colors.black87,
+                      color: AppColor.lowText,
                       fontSize: 35.0,
                     ),
                   ),
                 ),
                 SizedBox(height: 30.0),
                 SearchBarCustom(),
+                SizedBox(height: 30.0),
+                CarouselStore(),
               ],
             ),
           ),
