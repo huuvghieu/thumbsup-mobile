@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "65337539478",
+    "project_id": "thumbsup-exe",
+    "storage_bucket": "thumbsup-exe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65337539478:android:e663a2c8b63ccac246fbb7",
+        "android_client_info": {
+          "package_name": "com.example.my_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65337539478-csahrt4jpgmkd5p7a65pi20ehspfc75t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo0Xy8sIetMFJxw3pNG0s7RB5-I_g3Kis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65337539478-csahrt4jpgmkd5p7a65pi20ehspfc75t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
