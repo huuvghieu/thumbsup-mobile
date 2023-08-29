@@ -7,7 +7,6 @@ import 'package:my_app/filter/price_filter_model.dart';
 import '../../model/filter.dart';
 
 part 'filters_event.dart';
-
 part 'filters_state.dart';
 
 class FiltersBloc extends Bloc<FiltersEvent, FiltersState> {
