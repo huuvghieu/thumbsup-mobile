@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
-import 'package:my_app/screens/login/login.dart';
+
+import '../welcome/welcome.dart';
 
 class Menu extends StatelessWidget {
   const Menu({super.key, required this.onItemTapped});
@@ -126,8 +127,8 @@ class Menu extends StatelessWidget {
             onTap: () {
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => const Login()),
-                ModalRoute.withName('/login'),
+                MaterialPageRoute(builder: (context) => const Welcome()),
+                ModalRoute.withName('/welcome'),
               );
             },
           ),

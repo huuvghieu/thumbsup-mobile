@@ -61,15 +61,23 @@ class _ProductState extends State<Product> {
               ),
             );
           }),
-          title: const Center(
-            child: Text(
-              "Welcome, Phạm Quốc Thịnh",
+          title: Center(
+              child: RichText(
+                  text: const TextSpan(children: <TextSpan>[
+            TextSpan(
+                text: "Chào mừng, ",
+                style: TextStyle(
+                    color: AppColor.lowText,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600)),
+            TextSpan(
+              text: "Phạm Quốc Thịnh",
               style: TextStyle(
-                  color: AppColor.lowText,
+                  color: AppColor.primaryDark,
                   fontSize: 15.0,
-                  fontWeight: FontWeight.w700),
-            ),
-          ),
+                  fontWeight: FontWeight.w800),
+            )
+          ]))),
           actions: [
             Container(
               color: Colors.white,
@@ -101,9 +109,9 @@ class _ProductState extends State<Product> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30.0),
+                const SizedBox(height: 20.0),
                 const SearchBarCustom(),
-                const SizedBox(height: 30.0),
+                const SizedBox(height: 20.0),
                 CarouselStore(stores: stores),
               ],
             ),
