@@ -20,6 +20,35 @@ class Product extends StatefulWidget {
 class _ProductState extends State<Product> {
   late List<Store> stores = [];
 
+  Future refresh() async{
+    setState(() {
+      stores = [
+        Store(
+            id: 1,
+            name: "Lâm Music",
+            image:
+            "https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixl"
+                "ib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a351"
+                "34a6770ed3b&auto=format&fit=crop&w=1951&q=80",
+            favour: true,
+            rate: 4.5,
+            number: 719,
+            category: ["Tai nghe", "Đồng hồ", "Chuột máy tính"]),
+        Store(
+            id: 2,
+            name: "Thịnh Music",
+            image:
+            "https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixli"
+                "b=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3"
+                "a1084d3ede&auto=format&fit=crop&w=1950&q=80",
+            favour: false,
+            rate: 4.8,
+            number: 9999,
+            category: ["Tai nghe", "Đồng hồ", "Chuột máy tính", "Bàn phím"]),
+      ];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -91,32 +120,40 @@ class _ProductState extends State<Product> {
             )
           ],
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            width: double.infinity,
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Bạn tìm gì nè?",
-                    style: TextStyle(
-                      color: AppColor.lowText,
-                      fontSize: 35.0,
+        body: RefreshIndicator(
+          onRefresh: refresh,
+          child: SingleChildScrollView(
+            child: Container(
+              color: Colors.white,
+              width: double.infinity,
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Bạn tìm gì nè?",
+                      style: TextStyle(
+                        color: AppColor.lowText,
+                        fontSize: 35.0,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20.0),
-                const SearchBarCustom(),
-                const SizedBox(height: 20.0),
-                CarouselStore(stores: stores),
-                const SizedBox(height: 20.0),
-                const ProductList(),
-              ],
+                  const SizedBox(height: 20.0),
+                  const SearchBarCustom(),
+                  const SizedBox(height: 20.0),
+                  CarouselStore(stores: stores),
+                  // CarouselStore(
+                  //   key: shouldRefreshCarousel ? UniqueKey() : null,
+                  //   stores: stores,
+                  //   // Các thuộc tính khác của CarouselStore
+                  // ),
+                  const SizedBox(height: 20.0),
+                  const ProductList(),
+                ],
+              ),
             ),
           ),
         ),
