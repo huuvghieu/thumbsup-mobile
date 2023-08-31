@@ -122,33 +122,7 @@ class _ProductState extends State<Product> {
                   const SizedBox(height: 20.0),
                   CarouselStore(stores: stores),
                   const SizedBox(height: 20.0),
-                  // ListView(
-                  //   // shrinkWrap: true,
-                  //   physics: const NeverScrollableScrollPhysics(),
-                  //   children: <Widget>[
-                  //     Container(
-                  //       height: 50,
-                  //       color: Colors.amber[600],
-                  //       child: const Center(child: Text('Entry A')),
-                  //     ),
-                  //     Container(
-                  //       height: 50,
-                  //       color: Colors.amber[500],
-                  //       child: const Center(child: Text('Entry B')),
-                  //     ),
-                  //     Container(
-                  //       height: 50,
-                  //       color: Colors.amber[100],
-                  //       child: const Center(child: Text('Entry C')),
-                  //     ),
-                  //     Container(
-                  //       height: 50,
-                  //       color: Colors.amber[100],
-                  //       child: const Center(child: Text('Entry D')),
-                  //     ),
-                  //   ],
-                  // ),
-                  // ProductList(),
+                  ProductList(),
                 ],
               ),
             ),
