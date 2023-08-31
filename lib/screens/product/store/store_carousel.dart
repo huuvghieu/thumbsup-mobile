@@ -15,8 +15,12 @@ class CarouselStore extends StatefulWidget {
 
 class _CarouselStoreState extends State<CarouselStore> {
   int _current = 0;
-  late final List<Widget> imageSliders;
   final CarouselController _controller = CarouselController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +77,11 @@ class _CarouselStoreState extends State<CarouselStore> {
                   _current = index;
                 });
               }),
-          items: imageSliders,
+          items: carouselStoreWidget(),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: imageSliders.asMap().entries.map((entry) {
+          children: carouselStoreWidget().asMap().entries.map((entry) {
             return GestureDetector(
               onTap: () => _controller.animateToPage(entry.key),
               child: Container(
@@ -99,10 +103,8 @@ class _CarouselStoreState extends State<CarouselStore> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    imageSliders = widget.stores
+  List<Widget> carouselStoreWidget() {
+    return widget.stores
         .map((item) => GestureDetector(
               onTap: () {
                 print(item.name);

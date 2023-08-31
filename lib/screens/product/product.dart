@@ -20,33 +20,8 @@ class Product extends StatefulWidget {
 class _ProductState extends State<Product> {
   late List<Store> stores = [];
 
-  Future refresh() async{
-    setState(() {
-      stores = [
-        Store(
-            id: 1,
-            name: "Lâm Music",
-            image:
-            "https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixl"
-                "ib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a351"
-                "34a6770ed3b&auto=format&fit=crop&w=1951&q=80",
-            favour: true,
-            rate: 4.5,
-            number: 719,
-            category: ["Tai nghe", "Đồng hồ", "Chuột máy tính"]),
-        Store(
-            id: 2,
-            name: "Thịnh Music",
-            image:
-            "https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixli"
-                "b=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3"
-                "a1084d3ede&auto=format&fit=crop&w=1950&q=80",
-            favour: false,
-            rate: 4.8,
-            number: 9999,
-            category: ["Tai nghe", "Đồng hồ", "Chuột máy tính", "Bàn phím"]),
-      ];
-    });
+  Future refresh() async {
+    setState(() {});
   }
 
   @override
@@ -58,7 +33,7 @@ class _ProductState extends State<Product> {
       child: Scaffold(
         drawer: Menu(onItemTapped: widget.onItemTapped),
         appBar: AppBar(
-          toolbarHeight: 100.0,
+          toolbarHeight: 90.0,
           backgroundColor: Colors.white,
           shadowColor: Colors.transparent,
           leadingWidth: 70.0,
@@ -122,6 +97,7 @@ class _ProductState extends State<Product> {
         ),
         body: RefreshIndicator(
           onRefresh: refresh,
+          color: AppColor.primaryDark,
           child: SingleChildScrollView(
             child: Container(
               color: Colors.white,
@@ -141,17 +117,38 @@ class _ProductState extends State<Product> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 15.0),
                   const SearchBarCustom(),
                   const SizedBox(height: 20.0),
                   CarouselStore(stores: stores),
-                  // CarouselStore(
-                  //   key: shouldRefreshCarousel ? UniqueKey() : null,
-                  //   stores: stores,
-                  //   // Các thuộc tính khác của CarouselStore
-                  // ),
                   const SizedBox(height: 20.0),
-                  const ProductList(),
+                  // ListView(
+                  //   // shrinkWrap: true,
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   children: <Widget>[
+                  //     Container(
+                  //       height: 50,
+                  //       color: Colors.amber[600],
+                  //       child: const Center(child: Text('Entry A')),
+                  //     ),
+                  //     Container(
+                  //       height: 50,
+                  //       color: Colors.amber[500],
+                  //       child: const Center(child: Text('Entry B')),
+                  //     ),
+                  //     Container(
+                  //       height: 50,
+                  //       color: Colors.amber[100],
+                  //       child: const Center(child: Text('Entry C')),
+                  //     ),
+                  //     Container(
+                  //       height: 50,
+                  //       color: Colors.amber[100],
+                  //       child: const Center(child: Text('Entry D')),
+                  //     ),
+                  //   ],
+                  // ),
+                  // ProductList(),
                 ],
               ),
             ),

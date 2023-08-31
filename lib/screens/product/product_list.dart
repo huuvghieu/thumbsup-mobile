@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:my_app/model/product.dart';
 import 'package:my_app/services/product_service.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../common/color.dart';
 
@@ -16,7 +17,7 @@ class _ProductListState extends State<ProductList> {
   static const _pageSize = 14;
 
   final PagingController<int, Product> _pagingController =
-      PagingController(firstPageKey: 1);
+      PagingController(firstPageKey: 1, invisibleItemsThreshold: 2);
 
   @override
   void initState() {
@@ -49,6 +50,12 @@ class _ProductListState extends State<ProductList> {
   }
 
   @override
+  void didUpdateWidget(ProductList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _pagingController.refresh();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -71,19 +78,54 @@ class _ProductListState extends State<ProductList> {
             crossAxisCount: 2,
             mainAxisSpacing: 10.0,
             crossAxisSpacing: 10.0,
-            childAspectRatio: 1.5,
+            childAspectRatio: 0.9,
           ),
           builderDelegate: PagedChildBuilderDelegate<Product>(
-              itemBuilder: (context, item, index) {
-            return Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(item.name.toString()),
-            );
-          }),
+            itemBuilder: (context, item, index) {
+              return Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(item.name.toString()),
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 1000),
+            newPageProgressIndicatorBuilder: (context) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: AppColor.primaryDark,
+                ),
+              );
+            },
+            firstPageProgressIndicatorBuilder: (context) {
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _pageSize,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10.0,
+                  crossAxisSpacing: 10.0,
+                  childAspectRatio: 0.9,
+                ),
+                itemBuilder: (context, index) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ],
     );
