@@ -5,6 +5,7 @@ class Product {
   int? quantity;
   String? image;
   String? description;
+  String? store;
   bool? status;
 
   Product(
@@ -14,6 +15,7 @@ class Product {
       required this.quantity,
       required this.image,
       required this.description,
+      required this.store,
       required this.status});
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Product {
     quantity =  json['quantity'];
     image = json['image'];
     description = json['description'];
+    store = json['store'];
     status = json['status'];
   }
 
@@ -34,6 +37,7 @@ class Product {
     data['quantity'] = quantity;
     data['image'] = image;
     data['description'] = description;
+    data['store'] = store;
     data['status'] = status;
     return data;
   }
