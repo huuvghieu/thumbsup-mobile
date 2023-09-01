@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
+import 'package:my_app/common/image.dart';
 import 'package:my_app/model/product.dart';
 import 'package:my_app/services/product_service.dart';
 import 'package:shimmer/shimmer.dart';
@@ -77,18 +79,179 @@ class _ProductListState extends State<ProductList> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 10.0,
-            crossAxisSpacing: 10.0,
-            childAspectRatio: 0.9,
+            crossAxisSpacing: 8.0,
+            childAspectRatio: 0.55,
           ),
           builderDelegate: PagedChildBuilderDelegate<Product>(
             itemBuilder: (context, item, index) {
               return Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColor.lowText.withOpacity(0.3),
+                      blurRadius: 10.0, // soften the shadow
+                      spreadRadius: 1.0, //extend the shadow
+                      offset: const Offset(
+                        5.0, // Move to right 5  horizontally
+                        5.0, // Move to bottom 5 Vertically
+                      ),
+                    )
+                  ],
                 ),
-                child: Text(item.name.toString()),
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(5.0, 30.0, 5.0, 5.0),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Image.network(
+                              item.image.toString(),
+                              fit: BoxFit.cover,
+                              height: 150.0,
+                            ),
+                          ),
+                        ),
+                        const Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: EdgeInsets.all(7.0),
+                            child: SizedBox(
+                              child: Stack(children: [
+                                Image(
+                                  image: AssetImage(saleTag),
+                                  height: 30.0,
+                                ),
+                                Positioned(
+                                  right: 23,
+                                  child: Text(
+                                    "20",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ]),
+                            ),
+                          ),
+                        ),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "5.0",
+                                  style: TextStyle(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(width: 2.0),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      item.name.toString(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: AppColor.productNameColor,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text(
+                      item.name!.toUpperCase().toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: AppColor.productNameColor.withOpacity(0.8),
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        changeCurrency(item.unitPrice ?? 0),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 20.0,
+                            color: AppColor.primaryDark,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        changeCurrency(item.unitPrice ?? 0),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            decoration: TextDecoration.lineThrough,
+                            decorationThickness: 2.0,
+                            fontWeight: FontWeight.w700,
+                            color: AppColor.productNameColor.withOpacity(0.5)),
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              size: 20.0,
+                              Icons.fmd_good_sharp,
+                              color: AppColor.productNameColor,
+                            ),
+                            Text(
+                              "Cách 500m",
+                              style: TextStyle(
+                                fontSize: 11.0,
+                                color: AppColor.productNameColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              size: 20.0,
+                              Icons.fire_truck,
+                              color: AppColor.productNameColor,
+                            ),
+                            Text(
+                              "Số lượng: 100",
+                              style: TextStyle(
+                                fontSize: 11.0,
+                                color: AppColor.productNameColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               );
             },
             transitionDuration: const Duration(milliseconds: 1000),
@@ -107,7 +270,7 @@ class _ProductListState extends State<ProductList> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
+                  crossAxisSpacing: 8.0,
                   childAspectRatio: 0.9,
                 ),
                 itemBuilder: (context, index) {
@@ -129,5 +292,11 @@ class _ProductListState extends State<ProductList> {
         ),
       ],
     );
+  }
+
+  String changeCurrency(double price) {
+    return price.isNaN
+        ? "0"
+        : NumberFormat.currency(locale: 'vi').format(price);
   }
 }

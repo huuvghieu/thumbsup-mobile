@@ -19,8 +19,8 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     id = int.parse(json['id']);
     name = json['name'];
-    unitPrice = json['price'];
-    quantity = json['quantity'];
+    unitPrice = double.parse(json['unitPrice'].toString());
+    quantity =  json['quantity'];
     image = json['image'];
     description = json['description'];
     status = json['status'];
