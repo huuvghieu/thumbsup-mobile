@@ -10,3 +10,4 @@ const String register3Image = "assets/images/reg_3.png";
 const String phoneVerify = "assets/images/phone_verify.png";
 const String otpVerify = "assets/images/otp.png";
 const String shopping = "assets/images/shopping.png";
+const String saleTag = "assets/images/sale_tag.png";

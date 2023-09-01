@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/blocs/filters/filters_bloc.dart';
 import 'package:my_app/common/color.dart';
-import 'package:my_app/model/brand.dart';
 import 'package:my_app/model/price.dart';
 
 class Filter extends StatelessWidget {
