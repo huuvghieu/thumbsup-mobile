@@ -5,7 +5,6 @@ import 'package:my_app/common/image.dart';
 import 'package:my_app/model/product.dart';
 import 'package:my_app/services/product_service.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../common/color.dart';
 
@@ -39,7 +38,6 @@ class _ProductListState extends State<ProductList> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems = await ProductService.getProducts(pageKey, _pageSize);
-      print(pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -263,8 +261,8 @@ class _ProductListState extends State<ProductList> {
   Widget shimmerLoading() {
     return GridView.builder(
       itemCount: _pageSize,
-      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 10.0,

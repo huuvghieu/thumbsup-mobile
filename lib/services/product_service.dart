@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import '../model/product.dart';
 import 'package:http/http.dart' as http;
+
+import '../model/product.dart';
 
 class ProductService{
   static const baseUrl = "https://64eea856219b3e2873c36195.mockapi.io/product";
