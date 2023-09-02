@@ -98,33 +98,46 @@ class _ProductState extends State<Product> {
         body: RefreshIndicator(
           onRefresh: refresh,
           color: AppColor.primaryDark,
-          child: SingleChildScrollView(
-            child: Container(
-              color: Colors.white,
-              width: double.infinity,
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Bạn tìm gì nè?",
-                      style: TextStyle(
-                        color: AppColor.lowText,
-                        fontSize: 35.0,
+          child: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(10.0),
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Bạn tìm gì nè?",
+                          style: TextStyle(
+                            color: AppColor.lowText,
+                            fontSize: 35.0,
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 15.0),
+                      const SearchBarCustom(),
+                      const SizedBox(height: 20.0),
+                      CarouselStore(stores: stores),
+                      const Align(
+                        alignment: AlignmentDirectional.topStart,
+                        child: Text(
+                          "Sản phẩm nổi bật",
+                          style: TextStyle(
+                            color: AppColor.lowText,
+                            fontSize: 22.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                    ],
                   ),
-                  const SizedBox(height: 15.0),
-                  const SearchBarCustom(),
-                  const SizedBox(height: 20.0),
-                  CarouselStore(stores: stores),
-                  const SizedBox(height: 20.0),
-                  ProductList(),
-                ],
-              ),
+                ),
+                ProductList(),
+              ],
             ),
           ),
         ),
