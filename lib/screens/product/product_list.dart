@@ -62,6 +62,8 @@ class _ProductListState extends State<ProductList> {
       pagingController: _pagingController,
       shrinkWrapFirstPageIndicators: true,
       showNewPageProgressIndicatorAsGridChild: false,
+      showNoMoreItemsIndicatorAsGridChild: false,
+      showNewPageErrorIndicatorAsGridChild: false,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 10.0,
@@ -253,6 +255,32 @@ class _ProductListState extends State<ProductList> {
         },
         firstPageProgressIndicatorBuilder: (context) {
           return shimmerLoading();
+        },
+        noItemsFoundIndicatorBuilder: (context) {
+          return const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image(
+                      image: AssetImage(emptyIcon),
+                    height: 50.0,
+                  ),
+                  SizedBox(width: 10.0),
+                  Text(
+                      "Không tìm thấy sản phẩm!",
+                    style: TextStyle(
+                      color: AppColor.lowText,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w700
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
         },
       ),
     );

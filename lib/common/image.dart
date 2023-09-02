@@ -11,3 +11,4 @@ const String phoneVerify = "assets/images/phone_verify.png";
 const String otpVerify = "assets/images/otp.png";
 const String shopping = "assets/images/shopping.png";
 const String saleTag = "assets/images/sale_tag.png";
+const String emptyIcon = "assets/icons/out-of-stock.png";
