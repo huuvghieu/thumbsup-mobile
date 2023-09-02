@@ -136,7 +136,7 @@ class _ProductState extends State<Product> {
                     ],
                   ),
                 ),
-                // ProductList(),
+                ProductList(),
               ],
             ),
           ),

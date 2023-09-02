@@ -5,6 +5,7 @@ import 'package:my_app/common/image.dart';
 import 'package:my_app/model/product.dart';
 import 'package:my_app/services/product_service.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../common/color.dart';
 
@@ -61,6 +62,8 @@ class _ProductListState extends State<ProductList> {
   Widget build(BuildContext context) {
     return PagedSliverGrid<int, Product>(
       pagingController: _pagingController,
+      shrinkWrapFirstPageIndicators: true,
+      showNewPageProgressIndicatorAsGridChild: false,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 10.0,
@@ -246,25 +249,24 @@ class _ProductListState extends State<ProductList> {
             ),
           );
         },
-        transitionDuration: const Duration(milliseconds: 500),
         animateTransitions: true,
         newPageProgressIndicatorBuilder: (context) {
-          return shimmerLoading(1, 1);
+          return shimmerLoading();
         },
         firstPageProgressIndicatorBuilder: (context) {
-          return shimmerLoading(_pageSize, 2);
+          return shimmerLoading();
         },
       ),
     );
   }
 
-  Widget shimmerLoading(int size, int number) {
+  Widget shimmerLoading() {
     return GridView.builder(
-      shrinkWrap: true,
+      itemCount: _pageSize,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: size,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: number,
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
         mainAxisSpacing: 10.0,
         crossAxisSpacing: 8.0,
         childAspectRatio: 0.55,
