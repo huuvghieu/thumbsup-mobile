@@ -9,4 +9,5 @@ class AppColor {
   static const Color accentColor =  Color(0xFF168EED);
   static const Color primaryColor = Colors.deepOrange;
   static const Color backgroundHeartColor = Color(0xFFFE724C);
+  static const kTextColor = Color(0xFF757575);
 }

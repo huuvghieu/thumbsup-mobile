@@ -13,8 +13,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   static late List<Widget> _widgetOptions;
 
   void _onItemTapped(int index) {
@@ -54,35 +56,43 @@ class _HomeState extends State<Home> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
+
       bottomNavigationBar: BottomNavigationBar(
+
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
             label: 'Trang chủ',
             backgroundColor: AppColor.primary,
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart_rounded),
             label: 'Giỏ hàng',
             backgroundColor: Colors.blue,
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_rounded),
             label: 'Yêu thích',
             backgroundColor: Colors.purple,
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Thông báo',
             backgroundColor: Colors.pink,
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
             label: 'Tài khoản',
             backgroundColor: Colors.teal,
           ),
+          
         ],
         currentIndex: _selectedIndex,
+        
         // selectedItemColor: Colors.amber[800],
         selectedItemColor: AppColor.primaryDarkBold,
         onTap: _onItemTapped,
@@ -90,3 +100,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+

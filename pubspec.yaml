@@ -44,6 +44,9 @@ dependencies:
   carousel_slider: ^4.2.1
   infinite_scroll_pagination: ^4.0.0
   shimmer: ^3.0.0
+  google_fonts: ^5.1.0
+  # to use svg
+  flutter_svg: ^2.0.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -68,12 +71,12 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
-
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -117,3 +120,10 @@ flutter:
           weight: 600
         - asset: assets/fonts/Sofia Pro Bold VN.otf
           weight: 700
+    - family: Solway
+      fonts:
+        - asset: assets/fonts/solway/Solway-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/solway/Solway-Regular.ttf
+        - asset: assets/fonts/solway/Solway-Light.ttf      
+          weight: 300

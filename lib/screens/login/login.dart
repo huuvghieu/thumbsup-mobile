@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/screens/home/home.dart';
 import 'package:my_app/screens/login/register.dart';
+import 'package:my_app/screens/password/forget_password_screen.dart';
 import 'package:my_app/screens/widget/decorate_register.dart';
 
 import '../../common/color.dart';
@@ -32,7 +33,12 @@ class Login extends StatelessWidget {
                   const SizedBox(height: 50.0),
                   const LoginForm(),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context, MaterialPageRoute(
+                              builder: (context) => const ForgetPasswordScreen())
+                            );
+                      },
                       child: const Text(
                         "Quên mật khẩu?",
                         style: TextStyle(
@@ -54,7 +60,7 @@ class Login extends StatelessWidget {
                           fontSize: 18.0,
                           decoration: TextDecoration.underline),
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () => Navigator.pushReplacement(
+                        ..onTap = () => Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Register())),
