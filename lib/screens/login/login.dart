@@ -34,7 +34,7 @@ class Login extends StatelessWidget {
                   const LoginForm(),
                   TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                             context, MaterialPageRoute(
                               builder: (context) => const ForgetPasswordScreen())
                             );

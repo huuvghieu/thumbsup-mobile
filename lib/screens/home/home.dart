@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/screens/cart/cart_screen.dart';
+import 'package:my_app/screens/notification/components/notification_screen.dart';
 import 'package:my_app/screens/product/product.dart';
+import 'package:my_app/screens/profile/profile_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.index});
@@ -30,23 +33,25 @@ class _HomeState extends State<Home> {
     super.initState();
     _selectedIndex = widget.index;
     _widgetOptions = <Widget>[
+      //Trang chủ
       Product(onItemTapped: _onItemTapped),
-      const Text(
-        'Index 1: Cart',
-        style: optionStyle,
-      ),
+      // const Text(
+      //   'Index 1: Cart',
+      //   style: optionStyle,
+      // ),
+
+      //cart screen
+      CartScreen(onItemTapped: _onItemTapped),
+
+
       const Text(
         'Index 2: Wishlist',
         style: optionStyle,
       ),
-      const Text(
-        'Index 3: Notification',
-        style: optionStyle,
-      ),
-      const Text(
-        'Index 4: Profile',
-        style: optionStyle,
-      ),
+      NotificationScreen(onItemTapped: _onItemTapped),
+
+      //Profile
+      ProfileScreen(onItemTapped: _onItemTapped)
     ];
   }
 
@@ -69,25 +74,25 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart_rounded),
             label: 'Giỏ hàng',
-            backgroundColor: Colors.blue,
+            backgroundColor: AppColor.primary,
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_rounded),
             label: 'Yêu thích',
-            backgroundColor: Colors.purple,
+            backgroundColor: AppColor.primary,
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Thông báo',
-            backgroundColor: Colors.pink,
+            backgroundColor: AppColor.primary,
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
             label: 'Tài khoản',
-            backgroundColor: Colors.teal,
+            backgroundColor: AppColor.primary,
           ),
           
         ],

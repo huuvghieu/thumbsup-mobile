@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
+import 'package:my_app/screens/home/components/categories.dart';
 import 'package:my_app/screens/product/menu.dart';
 import 'package:my_app/screens/product/product_list.dart';
 import 'package:my_app/screens/product/search/search.dart';
@@ -121,6 +122,7 @@ class _ProductState extends State<Product> {
                       const SizedBox(height: 15.0),
                       const SearchBarCustom(),
                       const SizedBox(height: 20.0),
+                      // Categories(),
                       CarouselStore(stores: stores),
                       const Align(
                         alignment: AlignmentDirectional.topStart,

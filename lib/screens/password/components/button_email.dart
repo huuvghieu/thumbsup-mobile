@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_app/screens/password/password_through_email.dart';
 
 class ButtonEmail extends StatelessWidget {
   final String svgPicture;
@@ -16,7 +17,13 @@ class ButtonEmail extends StatelessWidget {
       width: double.infinity,
       height: 60,
       child: ElevatedButton(
-        onPressed: () => {},
+        onPressed: () => {
+          Navigator.push(
+            context, MaterialPageRoute(
+              builder: (context) => const PasswordThroughEmailScreen(),
+            )
+          )
+        },
         style: ElevatedButton.styleFrom(
           shadowColor: Colors.black,
           backgroundColor: const Color.fromARGB(211, 237, 237, 237),
