@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/screens/profile_order/components/tab_bar_order.dart';
-import 'package:my_app/screens/profile_order/components/tab_bar_view_waiting_order.dart';
-import 'package:my_app/screens/profile_order/components/tab_bar_view_completed_order.dart';
+import 'package:my_app/screens/wishlist/components/tab_bar_view_product.dart';
+import 'package:my_app/screens/wishlist/components/tab_bar_view_store.dart';
+import 'package:my_app/screens/wishlist/components/tab_bar_wishlist.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -15,7 +15,7 @@ class Body extends StatelessWidget {
       headerSliverBuilder: (context, value) {
         return [
           SliverToBoxAdapter(
-            child: TabBarOrder(fem: fem, ffem: ffem),
+            child: TabBarWishList(fem: fem, ffem: ffem),
           ),
         ];
       },
@@ -24,13 +24,11 @@ class Body extends StatelessWidget {
         width: double.infinity,
         child: TabBarView(
           children: [
-            TabBarViewWaitingOrder(fem: fem, ffem: ffem),
-            TabBarViewCompletedOrder(fem: fem, ffem: ffem)
+            TabBarViewProduct(fem: fem, ffem: ffem),
+            TabBarViewStore(fem: fem, ffem: ffem),
           ],
         ),
       ),
     );
   }
 }
-
-

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../notification/components/body.dart';
+import 'components/body.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key, required this.onItemTapped});
@@ -32,6 +32,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       shadowColor: Colors.transparent,
       backgroundColor: Colors.white,
       leadingWidth: 70.0,
+      
       title:const Center(
         child: Text(
           'Thông báo',

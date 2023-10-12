@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
-import 'package:my_app/screens/home/components/categories.dart';
 import 'package:my_app/screens/product/menu.dart';
 import 'package:my_app/screens/product/product_list.dart';
 import 'package:my_app/screens/product/search/search.dart';

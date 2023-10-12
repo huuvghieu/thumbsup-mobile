@@ -31,6 +31,7 @@ class _CartScreenState extends State<CartScreen> {
       shadowColor: Colors.transparent,
       backgroundColor: Colors.white,
       leadingWidth: 70.0,
+      
       title:const Center(
         child: Text(
           'Giỏ hàng',

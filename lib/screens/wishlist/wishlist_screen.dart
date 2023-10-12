@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
-import 'package:my_app/main.dart';
-import 'package:my_app/screens/profile_order/components/body.dart';
+import 'package:my_app/screens/wishlist/components/body.dart';
 
-class ProfileOrderScreen extends StatelessWidget {
-  const ProfileOrderScreen({super.key});
+class WishListScreen extends StatefulWidget {
+  const WishListScreen({super.key, required this.onItemTapped});
 
+  final ValueChanged<int> onItemTapped;
+  @override
+  State<WishListScreen> createState() => _WishListScreenState();
+}
+
+class _WishListScreenState extends State<WishListScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -19,6 +24,7 @@ class ProfileOrderScreen extends StatelessWidget {
         child: Scaffold(
           appBar: buildAppBar(),
           backgroundColor: Colors.white,
+    
           body: Body(),
         ),
       ),
@@ -61,7 +67,7 @@ class ProfileOrderScreen extends StatelessWidget {
         }),
         title: const Center(
           child: Text(
-            'Đơn hàng của tôi',
+            'Danh sách yêu thích',
             style: TextStyle(
               fontFamily: 'Solway',
               color: Colors.black,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/screens/cart/cart_screen.dart';
-import 'package:my_app/screens/notification/components/notification_screen.dart';
+import 'package:my_app/screens/notification/notification_screen.dart';
 import 'package:my_app/screens/product/product.dart';
 import 'package:my_app/screens/profile/profile_screen.dart';
+import 'package:my_app/screens/wishlist/wishlist_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.index});
@@ -43,11 +44,10 @@ class _HomeState extends State<Home> {
       //cart screen
       CartScreen(onItemTapped: _onItemTapped),
 
+      //wishlist screen
+      WishListScreen(onItemTapped: _onItemTapped),
 
-      const Text(
-        'Index 2: Wishlist',
-        style: optionStyle,
-      ),
+      //notification screen
       NotificationScreen(onItemTapped: _onItemTapped),
 
       //Profile

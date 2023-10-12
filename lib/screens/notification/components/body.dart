@@ -27,9 +27,9 @@ class Body extends StatelessWidget {
                   width: 347 * fem,
                   height: 90 * fem,
                   decoration: BoxDecoration(
+                    color: Colors.white,
                     border:
                         Border.all(color: Color.fromARGB(255, 187, 183, 183)),
-                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10 * fem),
                     boxShadow: [
                       BoxShadow(
@@ -85,7 +85,6 @@ class Body extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 40 * fem,
               ),
@@ -154,7 +153,6 @@ class Body extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 40 * fem,
               ),
@@ -223,8 +221,7 @@ class Body extends StatelessWidget {
                   ),
                 ),
               ),
-
-                           SizedBox(
+              SizedBox(
                 height: 40 * fem,
               ),
               Container(

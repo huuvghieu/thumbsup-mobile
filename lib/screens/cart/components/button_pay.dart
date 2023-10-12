@@ -31,13 +31,13 @@ class ButtonPay extends StatelessWidget {
                 return RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.3 * fem),
                     side: const BorderSide(
-                      color: AppColor.primaryDark,
+                      color: AppColor.primary,
                     ));
               }
               return RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.3 * fem),
                   side: const BorderSide(
-                    color: Color(0xffeeeeee),
+                    color: Colors.white,
                   ));
             }),
             backgroundColor:
