@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
-import 'package:my_app/main.dart';
 import 'package:my_app/screens/profile_order/components/body.dart';
 
 class ProfileOrderScreen extends StatelessWidget {

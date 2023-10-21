@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
+import 'package:my_app/logic/cubits/google_auth/cubit/google_auth_cubit.dart';
 import 'package:my_app/screens/login/login.dart';
 import 'package:my_app/screens/login/register.dart';
 
@@ -93,26 +95,35 @@ class Welcome extends StatelessWidget {
               const SizedBox(
                 height: 25.0,
               ),
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Image(
-                    image: AssetImage(googleLogo),
-                    width: 30,
-                    height: 30,
-                  ),
-                  label: const Text(
-                    "Đăng nhập bằng Google",
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                      elevation: 10.0,
-                      shadowColor: Colors.black,
-                      minimumSize: const Size(double.infinity, 50.0),
-                      backgroundColor: AppColor.primary),
-                ),
+              BlocConsumer<GoogleAuthCubit, GoogleAuthState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  return Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: ElevatedButton.icon(
+                      onPressed: state is GoogleAuthLoadingState
+                          ? null
+                          : () {
+                              context.read<GoogleAuthCubit>().login();
+                            },
+                      icon: const Image(
+                        image: AssetImage(googleLogo),
+                        width: 30,
+                        height: 30,
+                      ),
+                      label: const Text(
+                        "Đăng nhập bằng Google",
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.w500),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          elevation: 10.0,
+                          shadowColor: Colors.black,
+                          minimumSize: const Size(double.infinity, 50.0),
+                          backgroundColor: AppColor.primary),
+                    ),
+                  );
+                },
               ),
               const SizedBox(
                 height: 25.0,

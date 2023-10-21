@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
 
 class Cost extends StatelessWidget {
@@ -8,15 +9,17 @@ class Cost extends StatelessWidget {
     super.key,
     required this.fem,
     required this.ffem,
+    required this.subTotal
   });
 
   final double fem;
   final double ffem;
+  final num subTotal;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(4 * fem, 0 * fem, 0 * fem, 63 * fem),
+      margin: EdgeInsets.fromLTRB(4 * fem, 0 * fem, 0 * fem, 40 * fem),
       width: 342 * fem,
       height: 169 * fem,
       child: Stack(
@@ -61,10 +64,12 @@ class Cost extends StatelessWidget {
                               0 * fem, 0 * fem, 0 * fem, 13 * fem),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    0 * fem, 2 * fem, 150 * fem, 0 * fem),
+                              Align(
+                                // margin: EdgeInsets.fromLTRB(
+                                //     0 * fem, 2 * fem, 100 * fem, 0 * fem),
+                                alignment: Alignment.centerLeft,
                                 child: Text(
                                   'Tổng phụ',
                                   style: TextStyle(
@@ -75,35 +80,36 @@ class Cost extends StatelessWidget {
                                       color: Colors.black),
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    0 * fem, 0 * fem, 2 * fem, 2 * fem),
+                              Align(
+                                // margin: EdgeInsets.fromLTRB(
+                                //     0 * fem, 0 * fem, 2 * fem, 2 * fem),
+                                alignment: Alignment.centerRight,
                                 child: Text(
-                                  '1.840.000',
+                                  changeCurrency(subTotal.toDouble() ?? 0),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontFamily: 'Solway',
                                     fontSize: 16 * ffem,
                                     fontWeight: FontWeight.w400,
                                     height: 1.2 * ffem / fem,
-                                    color: Color(0xff000000),
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    0 * fem, 1 * fem, 0 * fem, 0 * fem),
-                                child: Text(
-                                  'VND',
-                                  style: TextStyle(
-                                    fontFamily: 'Solway',
-                                    fontSize: 14 * ffem,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.2 * ffem / fem,
-                                    color: AppColor.kTextColor,
-                                  ),
-                                ),
-                              ),
+                              // Container(
+                              //   margin: EdgeInsets.fromLTRB(
+                              //       0 * fem, 1 * fem, 0 * fem, 0 * fem),
+                              //   child: Text(
+                              //     'VND',
+                              //     style: TextStyle(
+                              //       fontFamily: 'Solway',
+                              //       fontSize: 14 * ffem,
+                              //       fontWeight: FontWeight.w400,
+                              //       height: 1.2 * ffem / fem,
+                              //       color: AppColor.kTextColor,
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -150,7 +156,7 @@ class Cost extends StatelessWidget {
                                     fontSize: 16 * ffem,
                                     fontWeight: FontWeight.w400,
                                     height: 1.2 * ffem / fem,
-                                    color: Color(0xff000000),
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),
@@ -240,7 +246,7 @@ class Cost extends StatelessWidget {
                               0 * fem, 0 * fem, 9 * fem, 13 * fem),
                           width: 331 * fem,
                           height: 1 * fem,
-                          decoration:const BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Color(0xfff1f1f3),
                           ),
                         ),
@@ -298,5 +304,11 @@ class Cost extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String changeCurrency(double price) {
+    return price.isNaN
+        ? "0"
+        : NumberFormat.currency(locale: 'vi').format(price);
   }
 }

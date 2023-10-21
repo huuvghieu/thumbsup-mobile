@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/screens/profile_order/order_detail_screen.dart';
 
 class TabBarViewCompletedOrder extends StatelessWidget {
   const TabBarViewCompletedOrder({
@@ -150,7 +151,13 @@ class TabBarViewCompletedOrder extends StatelessWidget {
                     width: 140 * fem,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const OrderDetailHistory(),
+                            ))
+                      },
                       style: ButtonStyle(
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(

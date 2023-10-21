@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/screens/home/home.dart';
 
-class ButtonReserve extends StatelessWidget {
-  const ButtonReserve({
+class ButtonBackToHome extends StatelessWidget {
+  const ButtonBackToHome({
     super.key,
     required this.fem,
     required this.ffem,
@@ -15,36 +16,41 @@ class ButtonReserve extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin:
-          EdgeInsets.fromLTRB(15 * fem, 0 * fem, 0 * fem, 0 * fem),
-      width: 150 * fem,
+          EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 0 * fem),
       height: double.infinity,
       decoration: BoxDecoration(
         color: AppColor.primary,
-        borderRadius: BorderRadius.circular(23.5 * fem),
+        borderRadius: BorderRadius.circular(5 * fem),
       ),
       child: TextButton(
-        onPressed: () => {},
+        onPressed: () => {
+          Navigator.push(
+            context, MaterialPageRoute(
+              builder: (context) => const Home(index: 0,),
+            )
+          )
+        },
         style: ButtonStyle(
             shape: MaterialStateProperty.resolveWith<
                 RoundedRectangleBorder?>((Set<MaterialState> states) {
               if (states.contains(MaterialState.focused)) {
                 return RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.3 * fem),
+                    borderRadius: BorderRadius.circular(5 * fem),
                     side: const BorderSide(
-                      color: AppColor.primaryDark,
+                      color: AppColor.primary,
                     ));
               }
               return RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.3 * fem),
+                  borderRadius: BorderRadius.circular(5 * fem),
                   side: const BorderSide(
-                    color: Color(0xffeeeeee),
+                    color: Colors.white,
                   ));
             }),
             backgroundColor:
                 MaterialStateProperty.all<Color?>(AppColor.primary)),
         child: Center(
           child: Text(
-            'ĐẶT TRƯỚC',
+            'Về trang chủ',
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 14 * ffem,

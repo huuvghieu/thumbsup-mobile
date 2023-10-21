@@ -19,7 +19,7 @@ class ButtonPay extends StatelessWidget {
       width: 150 * fem,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: Color(0xffffbd59),
+        color: AppColor.primary,
         borderRadius: BorderRadius.circular(23.5 * fem),
       ),
       child: TextButton(
@@ -41,7 +41,7 @@ class ButtonPay extends StatelessWidget {
                   ));
             }),
             backgroundColor:
-                MaterialStateProperty.all<Color?>(Color(0xFFE3A344))),
+                MaterialStateProperty.all<Color?>(AppColor.primary)),
         child: Center(
           child: Text(
             'THANH TOÁN',

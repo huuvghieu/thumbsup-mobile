@@ -3,6 +3,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/image.dart';
 import 'package:my_app/model/product.dart';
+import 'package:my_app/screens/product_details/product_detail_screen.dart';
 import 'package:my_app/services/product_service.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -74,7 +75,11 @@ class _ProductListState extends State<ProductList> {
         itemBuilder: (context, item, index) {
           return GestureDetector(
             onTap: () {
-              print(item.name);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductDetailScreen(product: item,),
+                  ));
             },
             child: Container(
               alignment: Alignment.center,
@@ -183,7 +188,7 @@ class _ProductListState extends State<ProductList> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      changeCurrency(item.unitPrice ?? 0),
+                      changeCurrency(item.unitPrice!.toDouble() ?? 0),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -195,7 +200,7 @@ class _ProductListState extends State<ProductList> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      changeCurrency(item.unitPrice ?? 0),
+                      changeCurrency(item.unitPrice!.toDouble() ?? 0),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -265,17 +270,16 @@ class _ProductListState extends State<ProductList> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image(
-                      image: AssetImage(emptyIcon),
+                    image: AssetImage(emptyIcon),
                     height: 50.0,
                   ),
                   SizedBox(width: 10.0),
                   Text(
-                      "Không tìm thấy sản phẩm!",
+                    "Không tìm thấy sản phẩm!",
                     style: TextStyle(
-                      color: AppColor.lowText,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w700
-                    ),
+                        color: AppColor.lowText,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w700),
                   )
                 ],
               ),
