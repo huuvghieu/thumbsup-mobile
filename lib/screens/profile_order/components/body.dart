@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/screens/profile_order/components/tab_bar_order.dart';
-import 'package:my_app/screens/profile_order/components/tab_bar_view_waiting_order.dart';
 import 'package:my_app/screens/profile_order/components/tab_bar_view_completed_order.dart';
+import 'package:my_app/screens/profile_order/components/tab_bar_view_waiting_order.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});

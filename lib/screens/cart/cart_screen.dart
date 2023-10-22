@@ -4,7 +4,6 @@ import 'package:my_app/common/color.dart';
 import 'package:my_app/data/models/cart_model.dart';
 import 'package:my_app/logic/blocs/cart/cart_bloc.dart';
 import 'package:my_app/logic/cubits/counter/cubit/counter_cubit.dart';
-import 'package:my_app/screens/cart/components/body.dart';
 import 'package:my_app/screens/cart/components/button_pay.dart';
 import 'package:my_app/screens/cart/components/button_reserve.dart';
 import 'package:my_app/screens/cart/components/cart_product_card.dart';

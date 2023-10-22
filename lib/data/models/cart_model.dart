@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:my_app/model/product.dart';
-import 'package:my_app/services/product_service.dart';
 
 class Cart extends Equatable {
   final List<Product> products;

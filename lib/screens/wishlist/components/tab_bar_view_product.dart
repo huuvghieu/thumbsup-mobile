@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/common/color.dart';
 import 'package:my_app/screens/wishlist/components/product_cart_wishlist.dart';
 
 class TabBarViewProduct extends StatelessWidget {
