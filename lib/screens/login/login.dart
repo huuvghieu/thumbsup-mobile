@@ -1,9 +1,15 @@
+import 'dart:convert';
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/model/jwt.dart';
 import 'package:my_app/screens/home/home.dart';
 import 'package:my_app/screens/login/register.dart';
 import 'package:my_app/screens/password/forget_password_screen.dart';
 import 'package:my_app/screens/widget/decorate_register.dart';
+import 'package:my_app/services/login_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/color.dart';
 import '../../common/image.dart';
@@ -35,9 +41,10 @@ class Login extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         Navigator.push(
-                            context, MaterialPageRoute(
-                              builder: (context) => const ForgetPasswordScreen())
-                            );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ForgetPasswordScreen()));
                       },
                       child: const Text(
                         "Quên mật khẩu?",
@@ -147,6 +154,7 @@ class LoginFormState extends State<LoginForm> {
   final userController = TextEditingController();
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
   void dispose() {
@@ -200,12 +208,63 @@ class LoginFormState extends State<LoginForm> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Home(index: 0)),
-                        ModalRoute.withName('/'),
-                      );
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const Center(
+                                child: CircularProgressIndicator(
+                                    color: AppColor.primaryDark));
+                          });
+                      LoginService.login(
+                              userController.text, passwordController.text)
+                          .then((result) => {
+                                Navigator.of(context).pop(),
+                                if (result is Jwt)
+                                  {
+                                    _prefs.then((SharedPreferences prefs) =>
+                                        prefs.setString(
+                                            "jwt", jsonEncode(result))),
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Home(index: 0)),
+                                      ModalRoute.withName('/'),
+                                    ),
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(SnackBar(
+                                        elevation: 0,
+                                        duration:
+                                            const Duration(milliseconds: 2000),
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                          title: 'Login success!',
+                                          message:
+                                              'Welcome ${result.user.toString()} to Thumbsup!',
+                                          contentType: ContentType.success,
+                                        ),
+                                      ))
+                                  }
+                                else if (result is String)
+                                  {
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(SnackBar(
+                                        elevation: 0,
+                                        duration:
+                                            const Duration(milliseconds: 1000),
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                          title: 'Login fail!',
+                                          message: result,
+                                          contentType: ContentType.failure,
+                                        ),
+                                      ))
+                                  }
+                              });
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.primaryDark,

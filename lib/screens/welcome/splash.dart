@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
+import 'package:my_app/screens/home/home.dart';
 import 'package:my_app/screens/welcome/get_start.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -12,6 +14,7 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   bool animate = false;
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
   void initState() {
@@ -56,21 +59,36 @@ class _SplashState extends State<Splash> {
   }
 
   Future startAnimation() async {
+    final SharedPreferences prefs = await _prefs;
+    final String? jwt = prefs.getString("jwt");
+
     await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       animate = true;
     });
     await Future.delayed(const Duration(milliseconds: 3000));
     if (context.mounted) {
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const Scaffold(body: GetStart()),
-          transitionDuration: const Duration(seconds: 1),
-          transitionsBuilder: (_, a, __, c) =>
-              FadeTransition(opacity: a, child: c),
-        ),
-      );
+      if (jwt != null) {
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const Scaffold(body: Home(index: 0)),
+            transitionDuration: const Duration(seconds: 1),
+            transitionsBuilder: (_, a, __, c) =>
+                FadeTransition(opacity: a, child: c),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const Scaffold(body: GetStart()),
+            transitionDuration: const Duration(seconds: 1),
+            transitionsBuilder: (_, a, __, c) =>
+                FadeTransition(opacity: a, child: c),
+          ),
+        );
+      }
     }
   }
 }

@@ -44,14 +44,6 @@ class App extends StatelessWidget {
             home: StreamBuilder<User?>(
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (context, AsyncSnapshot<User?> snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
-                  return Home(index: 0);
-                } else if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
                 return const Scaffold(
                   backgroundColor: Colors.white,
                   body: Splash(),

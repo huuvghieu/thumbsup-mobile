@@ -58,6 +58,7 @@ class TextFormFieldCustomState extends State<TextFormFieldCustom> {
         TextFormField(
           focusNode: _focusnode,
           obscureText: _isObscure,
+          controller: widget.controller,
           decoration: InputDecoration(
             hintText: widget.hint,
             fillColor: Colors.white,
@@ -76,7 +77,7 @@ class TextFormFieldCustomState extends State<TextFormFieldCustom> {
             ),
             prefixIcon: Icon(
               widget.icon,
-              color: _focusnode!.hasFocus ? AppColor.primaryDark : null,
+              color: _focusnode.hasFocus ? AppColor.primaryDark : null,
             ),
             focusColor: AppColor.primaryDark,
             errorBorder: OutlineInputBorder(

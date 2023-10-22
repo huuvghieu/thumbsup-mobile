@@ -11,7 +11,7 @@ import 'package:my_app/screens/cart/components/cost.dart';
 import 'package:my_app/screens/cart/components/discount_code.dart';
 
 class CartScreen extends StatefulWidget {
-   CartScreen({super.key, required this.onItemTapped});
+   const CartScreen({super.key, required this.onItemTapped});
 
   final ValueChanged<int> onItemTapped;
 

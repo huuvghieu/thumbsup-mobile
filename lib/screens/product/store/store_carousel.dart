@@ -2,12 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 
-import '../../../model/store.dart';
+import '../../../model/ads.dart';
 
 class CarouselStore extends StatefulWidget {
-  const CarouselStore({super.key, required this.stores});
+  const CarouselStore({super.key, required this.ads});
 
-  final List<Store> stores;
+  final List<Ads> ads;
 
   @override
   State<CarouselStore> createState() => _CarouselStoreState();
@@ -104,7 +104,7 @@ class _CarouselStoreState extends State<CarouselStore> {
   }
 
   List<Widget> carouselStoreWidget() {
-    return widget.stores
+    return widget.ads
         .map((item) => GestureDetector(
               onTap: () {
                 print(item.name);

@@ -6,7 +6,7 @@ import 'package:my_app/screens/product/product_list.dart';
 import 'package:my_app/screens/product/search/search.dart';
 import 'package:my_app/screens/product/store/store_carousel.dart';
 
-import '../../model/store.dart';
+import '../../model/ads.dart';
 
 class Product extends StatefulWidget {
   const Product({super.key, required this.onItemTapped});
@@ -18,7 +18,7 @@ class Product extends StatefulWidget {
 }
 
 class _ProductState extends State<Product> {
-  late List<Store> stores = [];
+  late List<Ads> ads = [];
 
   Future refresh() async {
     setState(() {});
@@ -122,7 +122,7 @@ class _ProductState extends State<Product> {
                       const SearchBarCustom(),
                       const SizedBox(height: 20.0),
                       // Categories(),
-                      CarouselStore(stores: stores),
+                      CarouselStore(ads: ads),
                       const Align(
                         alignment: AlignmentDirectional.topStart,
                         child: Text(
@@ -137,7 +137,7 @@ class _ProductState extends State<Product> {
                     ],
                   ),
                 ),
-                ProductList(),
+                const ProductList(),
               ],
             ),
           ),
@@ -149,8 +149,8 @@ class _ProductState extends State<Product> {
   @override
   void initState() {
     super.initState();
-    stores = [
-      Store(
+    ads = [
+      Ads(
           id: 1,
           name: "Lâm Music",
           image:
@@ -161,7 +161,7 @@ class _ProductState extends State<Product> {
           rate: 4.5,
           number: 719,
           category: ["Tai nghe", "Đồng hồ", "Chuột máy tính"]),
-      Store(
+      Ads(
           id: 2,
           name: "Thịnh Music",
           image:
@@ -172,7 +172,7 @@ class _ProductState extends State<Product> {
           rate: 4.8,
           number: 9999,
           category: ["Tai nghe", "Đồng hồ", "Chuột máy tính", "Bàn phím"]),
-      Store(
+      Ads(
           id: 3,
           name: "Lá ngọc cành vàng",
           image:
@@ -183,7 +183,7 @@ class _ProductState extends State<Product> {
           rate: 5.0,
           number: 12354,
           category: ["Chuột máy tính", "Bàn phím"]),
-      Store(
+      Ads(
           id: 4,
           name: "Happy gear",
           image:
@@ -194,7 +194,7 @@ class _ProductState extends State<Product> {
           rate: 3.8,
           number: 9999,
           category: ["Tai nghe", "Chuột máy tính", "Bàn phím"]),
-      Store(
+      Ads(
           id: 5,
           name: "FPT shop",
           image:
@@ -205,7 +205,7 @@ class _ProductState extends State<Product> {
           rate: 3.9,
           number: 852,
           category: ["Tai nghe", "Chuột máy tính", "Bàn phím"]),
-      Store(
+      Ads(
           id: 6,
           name: "GadgetZone",
           image:
