@@ -350,7 +350,7 @@ class _BodyState extends State<Body> {
   void loadUserInfo() {
     sharedPref.read("jwt").then((value) => {
           jwt = Jwt.fromJsonString(value),
-          if (jwt.user is Customer)
+          if (jwt.role == "Customer")
             {
               isStore = false,
               CustomerService.getCustomerById(
@@ -362,7 +362,7 @@ class _BodyState extends State<Body> {
                         })
                       })
             }
-          else if (jwt.user is Store)
+          else if (jwt.role == "Store")
             {
               isStore = true,
               StoreService.getStoreById(
