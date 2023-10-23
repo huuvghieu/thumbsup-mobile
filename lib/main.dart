@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/blocs/filters/filters_bloc.dart';
 import 'package:my_app/data/repositories/geolocation_repository.dart';
 import 'package:my_app/logic/cubits/google_auth/cubit/google_auth_cubit.dart';
-import 'package:my_app/screens/home/home.dart';
 import 'package:my_app/screens/welcome/splash.dart';
 
 void main() async {

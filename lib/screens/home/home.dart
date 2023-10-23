@@ -36,10 +36,6 @@ class _HomeState extends State<Home> {
     _widgetOptions = <Widget>[
       //Trang chủ
       Product(onItemTapped: _onItemTapped),
-      // const Text(
-      //   'Index 1: Cart',
-      //   style: optionStyle,
-      // ),
 
       //cart screen
       CartScreen(onItemTapped: _onItemTapped),
@@ -74,25 +70,25 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart_rounded),
             label: 'Giỏ hàng',
-            backgroundColor: AppColor.primary,
+            backgroundColor: Colors.indigoAccent,
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_rounded),
             label: 'Yêu thích',
-            backgroundColor: AppColor.primary,
+            backgroundColor: Colors.red,
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Thông báo',
-            backgroundColor: AppColor.primary,
+            backgroundColor: Colors.blue,
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
             label: 'Tài khoản',
-            backgroundColor: AppColor.primary,
+            backgroundColor: Colors.deepPurpleAccent,
           ),
           
         ],

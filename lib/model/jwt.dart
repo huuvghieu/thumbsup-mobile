@@ -20,6 +20,16 @@ class Jwt {
     }
   }
 
+  Jwt.fromJsonString(Map<String, dynamic> jsonJwt) {
+    token = jsonJwt['token'];
+    role = jsonJwt['role'];
+    if (role == "Customer") {
+      user = jsonJwt['user'] != null ? Customer.fromJson(json.decode(jsonJwt['user'])) : null;
+    } else if (role == "Store") {
+      user = jsonJwt['user'] != null ? Store.fromJson(json.decode(jsonJwt['user'])) : null;
+    }
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['token'] = token;

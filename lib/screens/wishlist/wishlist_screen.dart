@@ -25,7 +25,7 @@ class _WishListScreenState extends State<WishListScreen> {
           appBar: buildAppBar(),
           backgroundColor: Colors.white,
     
-          body: Body(),
+          body: const Body(),
         ),
       ),
     );
@@ -54,12 +54,12 @@ class _WishListScreenState extends State<WishListScreen> {
               child: IconButton(
                 color: Colors.greenAccent,
                 icon: const Icon(
-                  Icons.arrow_back_ios_rounded,
+                  Icons.home_filled,
                   color: Colors.black,
                   size: 20,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  widget.onItemTapped(0);
                 },
               ),
             ),

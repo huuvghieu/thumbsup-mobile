@@ -16,9 +16,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
-      child: Scaffold(
+      child: const Scaffold(
         backgroundColor: Colors.white,
-
         body: Body(),
       ),
     );

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,7 @@ import 'package:my_app/screens/login/register.dart';
 import 'package:my_app/screens/password/forget_password_screen.dart';
 import 'package:my_app/screens/widget/decorate_register.dart';
 import 'package:my_app/services/login_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:my_app/services/shared_pref%20_service.dart';
 
 import '../../common/color.dart';
 import '../../common/image.dart';
@@ -154,7 +152,7 @@ class LoginFormState extends State<LoginForm> {
   final userController = TextEditingController();
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final SharedPref sharedPref = SharedPref();
 
   @override
   void dispose() {
@@ -221,9 +219,7 @@ class LoginFormState extends State<LoginForm> {
                                 Navigator.of(context).pop(),
                                 if (result is Jwt)
                                   {
-                                    _prefs.then((SharedPreferences prefs) =>
-                                        prefs.setString(
-                                            "jwt", jsonEncode(result))),
+                                    sharedPref.save("jwt", result),
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
