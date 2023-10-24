@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/screens/reserve/reserve_screen.dart';
 
 class ButtonReserve extends StatelessWidget {
   const ButtonReserve({
@@ -23,7 +24,13 @@ class ButtonReserve extends StatelessWidget {
         borderRadius: BorderRadius.circular(23.5 * fem),
       ),
       child: TextButton(
-        onPressed: () => {},
+        onPressed: () => {
+           Navigator.push(
+            context, MaterialPageRoute(
+              builder: (context) => const ReserveScreen(),
+            )
+          )
+        },
         style: ButtonStyle(
             shape: MaterialStateProperty.resolveWith<
                 RoundedRectangleBorder?>((Set<MaterialState> states) {

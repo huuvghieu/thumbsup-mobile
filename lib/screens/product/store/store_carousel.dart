@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/screens/store/screens/store_screen.dart';
 
 import '../../../model/ads.dart';
 
@@ -107,7 +108,11 @@ class _CarouselStoreState extends State<CarouselStore> {
     return widget.ads
         .map((item) => GestureDetector(
               onTap: () {
-                print(item.name);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StoreScreen(),
+                    ));
               },
               child: Container(
                 decoration: BoxDecoration(
