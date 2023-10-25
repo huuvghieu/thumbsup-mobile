@@ -1,17 +1,22 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
 import 'package:my_app/logic/cubits/google_auth/cubit/google_auth_cubit.dart';
+import 'package:my_app/model/jwt.dart';
+import 'package:my_app/screens/home/home.dart';
 import 'package:my_app/screens/login/login.dart';
 import 'package:my_app/screens/login/register.dart';
+import 'package:my_app/services/shared_pref%20_service.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final SharedPref sharedPref = SharedPref();
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -103,19 +108,85 @@ class Welcome extends StatelessWidget {
                     child: ElevatedButton.icon(
                       onPressed: state is GoogleAuthLoadingState
                           ? null
-                          : () {
-                              context.read<GoogleAuthCubit>().login();
-                            },
+                          : () => {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const Center(
+                                          child: CircularProgressIndicator(
+                                              color: AppColor.primaryDark));
+                                    }),
+                                context
+                                    .read<GoogleAuthCubit>()
+                                    .login()
+                                    .then((result) => {
+                                          Navigator.of(context).pop(),
+                                          if (result is Jwt)
+                                            {
+                                              sharedPref.save("jwt", result),
+                                              Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const Home(index: 0)),
+                                                ModalRoute.withName('/'),
+                                              ),
+                                              ScaffoldMessenger.of(context)
+                                                ..hideCurrentSnackBar()
+                                                ..showSnackBar(SnackBar(
+                                                  elevation: 0,
+                                                  duration: const Duration(
+                                                      milliseconds: 2000),
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  content:
+                                                      AwesomeSnackbarContent(
+                                                    title: 'Login success!',
+                                                    message:
+                                                        'Welcome ${result.user.toString()} to Thumbsup!',
+                                                    contentType:
+                                                        ContentType.success,
+                                                  ),
+                                                ))
+                                            }
+                                          else if (result is String)
+                                            {
+                                              ScaffoldMessenger.of(context)
+                                                ..hideCurrentSnackBar()
+                                                ..showSnackBar(SnackBar(
+                                                  elevation: 0,
+                                                  duration: const Duration(
+                                                      milliseconds: 1000),
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  content:
+                                                      AwesomeSnackbarContent(
+                                                    title: 'Login fail!',
+                                                    message: result,
+                                                    contentType:
+                                                        ContentType.failure,
+                                                  ),
+                                                ))
+                                            }
+                                        }),
+                              },
                       icon: const Image(
                         image: AssetImage(googleLogo),
                         width: 30,
                         height: 30,
                       ),
-                      label: const Text(
-                        "Đăng nhập bằng Google",
-                        style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.w500),
-                      ),
+                      label: state is GoogleAuthLoadingState
+                          ? const CircularProgressIndicator(
+                              color: AppColor.primaryDark)
+                          : const Text(
+                              "Đăng nhập bằng Google",
+                              style: TextStyle(
+                                  fontSize: 20.0, fontWeight: FontWeight.w500),
+                            ),
                       style: ElevatedButton.styleFrom(
                           elevation: 10.0,
                           shadowColor: Colors.black,

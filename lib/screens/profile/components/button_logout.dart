@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/screens/welcome/welcome.dart';
 import 'package:my_app/services/shared_pref%20_service.dart';
@@ -16,6 +18,8 @@ class ButtonLogout extends StatelessWidget {
       height: 60,
       child: ElevatedButton(
         onPressed: () => {
+          GoogleSignIn().signOut(),
+          FirebaseAuth.instance.signOut(),
           sharedPref.remove("jwt"),
           Navigator.pushAndRemoveUntil(
             context,
