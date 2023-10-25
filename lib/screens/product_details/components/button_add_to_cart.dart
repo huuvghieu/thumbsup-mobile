@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/model/product.dart';
 
 class ButtonAddToCart extends StatelessWidget {
@@ -11,7 +12,7 @@ class ButtonAddToCart extends StatelessWidget {
 
   final double fem;
   final double ffem;
-  Product product;
+  ProductModel product;
 
   @override
   Widget build(BuildContext context) {

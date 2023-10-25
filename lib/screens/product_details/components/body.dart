@@ -3,22 +3,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
+import 'package:my_app/data/models/product_model.dart';
+import 'package:my_app/data/repositories/store_repository.dart';
+import 'package:my_app/logic/blocs/store/store_bloc.dart';
 import 'package:my_app/logic/cubits/counter/cubit/counter_cubit.dart';
-import 'package:my_app/model/product.dart';
 import 'package:my_app/screens/product_details/components/button_add_to_cart.dart';
 
 class Body extends StatelessWidget {
   Body({super.key, required this.product});
 
-  Product product;
+  ProductModel product;
 
   @override
   Widget build(BuildContext context) {
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
-    return BlocProvider(
-      create: (context) => CounterCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CounterCubit(),
+        ),
+        BlocProvider(
+          create: (context) => StoreBloc(
+              RepositoryProvider.of<StoreRepository>(context), product.storeId)
+            ..add(const LoadStoreByIdEvent()),
+        ),
+      ],
       child: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.fromLTRB(22 * fem, 27 * fem, 5 * fem, 32 * fem),
@@ -100,7 +111,7 @@ class Body extends StatelessWidget {
                                             width: 170 * fem,
                                             height: 168 * fem,
                                             child: Image.network(
-                                                product.image.toString(),
+                                                product.imageCover.toString(),
                                                 fit: BoxFit.cover),
                                           ),
                                         ),
@@ -125,10 +136,11 @@ class Body extends StatelessWidget {
                                     margin: EdgeInsets.fromLTRB(
                                         0 * fem, 0 * fem, 0 * fem, 11 * fem),
                                     child: Text(
-                                      product.name.toString(),
+                                      product.productName.toString(),
+                                      overflow: TextOverflow.clip,
                                       style: TextStyle(
                                           fontFamily: 'Solway',
-                                          fontSize: 24 * ffem,
+                                          fontSize: 22 * ffem,
                                           height: 1.15 * ffem / fem,
                                           letterSpacing: -0.56 * fem,
                                           color: Colors.black,
@@ -232,10 +244,10 @@ class Body extends StatelessWidget {
                                         0 * fem, 0 * fem, 30 * fem, 0 * fem),
                                     child: Text(
                                       changeCurrency(
-                                          product.unitPrice!.toDouble() ?? 0),
+                                          product.salePrice!.toDouble() ?? 0),
                                       style: TextStyle(
                                         fontFamily: 'Solway',
-                                        fontSize: 22 * ffem,
+                                        fontSize: 20 * ffem,
                                         fontWeight: FontWeight.bold,
                                         height: 1.2 * ffem / fem,
                                         color: AppColor.primary,
@@ -317,10 +329,10 @@ class Body extends StatelessWidget {
                               width: double.infinity,
                               child: Text(
                                 changeCurrency(
-                                    (product.unitPrice!.toDouble()) ?? 0),
+                                    (product.originalPrice!.toDouble()) ?? 0),
                                 style: TextStyle(
                                   fontFamily: 'Solway',
-                                  fontSize: 20 * ffem,
+                                  fontSize: 19 * ffem,
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic,
                                   decoration: TextDecoration.lineThrough,
@@ -418,7 +430,8 @@ class Body extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    product.store.toString().toUpperCase(),
+                    product.storeName.toString().toUpperCase(),
+                    overflow: TextOverflow.clip,
                     style: TextStyle(
                       fontFamily: 'Solway',
                       fontSize: 18 * ffem,
@@ -429,32 +442,58 @@ class Body extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                width: 108 * fem,
-                height: 55 * fem,
-                color: Colors.blue,
-                margin:
-                    EdgeInsets.fromLTRB(0 * fem, 10 * fem, 0 * fem, 0 * fem),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                ),
+              BlocBuilder<StoreBloc, StoreState>(
+                builder: (context, state) {
+                  if (state is StoreLoadingState) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColor.primary,
+                      ),
+                    );
+                  }
+                  if (state is StoreByIdLoadedState) {
+                    return Container(
+                        width: 170 * fem,
+                        height: 100 * fem,
+                        margin: EdgeInsets.fromLTRB(
+                            0 * fem, 10 * fem, 150 * fem, 0 * fem),
+                        child: Image.network('${state.storeModel.coverPhoto}'));
+                  }
+
+                  return Container();
+                },
               ),
-              Container(
-                margin:
-                    EdgeInsets.fromLTRB(0 * fem, 15 * fem, 0 * fem, 0 * fem),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Địa chỉ: 606/59 đường 3 Tháng 2, F14, Q10, HCM',
-                    style: TextStyle(
-                      fontFamily: 'Solway',
-                      fontSize: 14 * ffem,
-                      fontWeight: FontWeight.w400,
-                      height: 1.2 * ffem / fem,
-                      color: Colors.black,
+              BlocBuilder<StoreBloc, StoreState>(
+                builder: (context, state) {
+                 if (state is StoreLoadingState) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColor.primary,
+                      ),
+                    );
+                  }
+                  if (state is StoreByIdLoadedState) {
+                    return Container(
+                    margin: EdgeInsets.fromLTRB(
+                        0 * fem, 15 * fem, 0 * fem, 0 * fem),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        state.storeModel.address.toString(),
+                        style: TextStyle(
+                          fontFamily: 'Solway',
+                          fontSize: 14 * ffem,
+                          fontWeight: FontWeight.w400,
+                          height: 1.2 * ffem / fem,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                  }
+
+                  return Container();
+                },
               ),
               ButtonAddToCart(
                 fem: fem,

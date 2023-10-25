@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/model/product.dart';
 
 class ItemCard extends StatelessWidget {
@@ -11,7 +12,7 @@ class ItemCard extends StatelessWidget {
 
   final double fem;
   final double ffem;
-  Product product;
+  ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class ItemCard extends StatelessWidget {
           Container(
             width: 80*fem,
             child: Text(
-              product.name.toString(),
+              product.productName.toString(),
               style: TextStyle(
                 fontFamily: 'Solway',
                 fontSize: 12 * ffem,
@@ -46,7 +47,7 @@ class ItemCard extends StatelessWidget {
               ),
           ),
           Text(
-            product.unitPrice.toString(),
+            product.salePrice.toString(),
             style: TextStyle(
                 fontFamily: 'Solway',
                 fontSize: 12 * ffem,

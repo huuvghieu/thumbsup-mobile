@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_app/data/models/product_model.dart';
+import 'package:my_app/data/repositories/store_repository.dart';
 import 'package:my_app/model/product.dart';
 import 'package:my_app/screens/product_details/components/body.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   ProductDetailScreen({super.key, required this.product});
-  Product product;
+  ProductModel product;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -13,10 +16,13 @@ class ProductDetailScreen extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Body(product: product,),
+        body: RepositoryProvider(
+          create: (context) => StoreRepository(),
+          child: Body(
+            product: product,
+          ),
+        ),
       ),
     );
   }
-  
 }
-

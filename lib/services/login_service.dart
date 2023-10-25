@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:my_app/model/jwt.dart';
+import 'package:my_app/services/network_handler.dart';
 
 class LoginService {
   static const baseUrl =
@@ -25,7 +26,8 @@ class LoginService {
     }
   }
 
-  static Future<dynamic> loginWithGoogle(String idToken, String clientId, String clientSecret) async {
+  static Future<dynamic> loginWithGoogle(
+      String idToken, String clientId, String clientSecret) async {
     var response = await http.post(
       Uri.parse("$baseUrl/google/login"),
       headers: <String, String>{
@@ -38,6 +40,9 @@ class LoginService {
       }),
     );
     if (response.statusCode == 200) {
+      final result = Jwt.fromJson(json.decode(utf8.decode(response.bodyBytes)));
+      String token = result.token.toString();
+      NetWorkHandler.storeToken(token);
       return Jwt.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       return response.body.toString();

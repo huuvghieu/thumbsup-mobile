@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_app/data/repositories/wishlist_product_repository.dart';
+import 'package:my_app/data/repositories/wishlist_store_repository.dart';
 import 'package:my_app/screens/wishlist/components/tab_bar_view_product.dart';
 import 'package:my_app/screens/wishlist/components/tab_bar_view_store.dart';
 import 'package:my_app/screens/wishlist/components/tab_bar_wishlist.dart';
@@ -24,8 +27,14 @@ class Body extends StatelessWidget {
         width: double.infinity,
         child: TabBarView(
           children: [
-            TabBarViewProduct(fem: fem, ffem: ffem),
-            TabBarViewStore(fem: fem, ffem: ffem),
+            RepositoryProvider(
+              create: (context) => WishListRepository(),
+              child: TabBarViewProduct(fem: fem, ffem: ffem),
+            ),
+             RepositoryProvider(
+              create: (context) => WishListStoreRepository(),
+              child: TabBarViewStore(fem: fem, ffem: ffem),
+            ),
           ],
         ),
       ),

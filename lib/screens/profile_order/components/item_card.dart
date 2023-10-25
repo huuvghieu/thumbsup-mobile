@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/model/product.dart';
 
 class ItemCard extends StatelessWidget {
@@ -13,7 +14,7 @@ class ItemCard extends StatelessWidget {
 
   final double fem;
   final double ffem;
-  Product product;
+  ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class ItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.network(
-            product.image.toString(),
+            product.imageCover.toString(),
             height: 80,
             width: 100,
             fit: BoxFit.cover,
@@ -37,7 +38,7 @@ class ItemCard extends StatelessWidget {
               Container(
                 width: 180 * fem,
                 child: Text(
-                  product.name.toString(),
+                  product.productName.toString(),
                   softWrap: true,
                   style: TextStyle(
                     fontFamily: 'Solway',
@@ -76,7 +77,7 @@ class ItemCard extends StatelessWidget {
               ),
 
               Text(
-                changeCurrency(product.unitPrice!.toDouble() ?? 0),
+                changeCurrency(product.salePrice!.toDouble() ?? 0),
                 style: TextStyle(
                   fontFamily: 'Solway',
                   fontSize: 16 * ffem,

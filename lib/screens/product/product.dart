@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
+import 'package:my_app/model/customer.dart';
+import 'package:my_app/model/jwt.dart';
+import 'package:my_app/model/store.dart';
+import 'package:my_app/model/store_extra.dart';
 import 'package:my_app/screens/product/menu.dart';
-import 'package:my_app/screens/product/product_list.dart';
+import 'package:my_app/screens/product/product_screen.dart';
 import 'package:my_app/screens/product/search/search.dart';
 import 'package:my_app/screens/product/store/store_carousel.dart';
+import 'package:my_app/services/customer_service.dart';
+import 'package:my_app/services/shared_pref%20_service.dart';
+import 'package:my_app/services/store_service.dart';
 
 import '../../model/ads.dart';
 
@@ -19,9 +26,16 @@ class Product extends StatefulWidget {
 
 class _ProductState extends State<Product> {
   late List<Ads> ads = [];
+  Jwt jwt = Jwt();
+  bool isStore = true;
+  bool isLoading = true;
+  SharedPref sharedPref = SharedPref();
+  String? fullName;
+  String? avatar;
 
   Future refresh() async {
     setState(() {});
+    loadUserInfo();
   }
 
   @override
@@ -68,16 +82,16 @@ class _ProductState extends State<Product> {
           }),
           title: Center(
               child: RichText(
-                  text: const TextSpan(children: <TextSpan>[
-            TextSpan(
+                  text: TextSpan(children: <TextSpan>[
+            const TextSpan(
                 text: "Chào mừng, ",
                 style: TextStyle(
                     color: AppColor.lowText,
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600)),
             TextSpan(
-              text: "Phạm Quốc Thịnh",
-              style: TextStyle(
+              text: '$fullName',
+              style: const TextStyle(
                   color: AppColor.primaryDark,
                   fontSize: 15.0,
                   fontWeight: FontWeight.w800),
@@ -87,10 +101,12 @@ class _ProductState extends State<Product> {
             Container(
               color: Colors.white,
               margin: const EdgeInsets.fromLTRB(5.0, 25.0, 10.0, 25.0),
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 backgroundColor: AppColor.primary,
-                backgroundImage: AssetImage(logoImage),
                 radius: 25.0,
+                child: Image.network(
+                  '$avatar'
+                ),
               ),
             )
           ],
@@ -137,7 +153,7 @@ class _ProductState extends State<Product> {
                     ],
                   ),
                 ),
-                const ProductList(),
+                const ProductScreen(),
               ],
             ),
           ),
@@ -149,6 +165,7 @@ class _ProductState extends State<Product> {
   @override
   void initState() {
     super.initState();
+    loadUserInfo();
     ads = [
       Ads(
           id: 1,
@@ -217,5 +234,37 @@ class _ProductState extends State<Product> {
           number: 602,
           category: ["Tai nghe", "Bàn phím"]),
     ];
+  }
+
+  void loadUserInfo() {
+    sharedPref.read("jwt").then((value) => {
+          jwt = Jwt.fromJsonString(value),
+          if (jwt.role == "Customer")
+            {
+              isStore = false,
+              CustomerService.getCustomerById(
+                      jwt.token.toString(), (jwt.user as Customer).id!)
+                  .then((value) => {
+                        setState(() {
+                          isLoading = false;
+                          jwt.user = value as Customer;
+                        })
+                      }),
+              fullName = (jwt.user as Customer).fullName,
+              avatar = (jwt.user as Customer).avatar,
+            }
+          else if (jwt.role == "Store")
+            {
+              isStore = true,
+              StoreService.getStoreById(
+                      jwt.token.toString(), (jwt.user as Store).id!)
+                  .then((value) => {
+                        setState(() {
+                          isLoading = false;
+                          jwt.user = value as StoreExtra;
+                        })
+                      })
+            }
+        });
   }
 }

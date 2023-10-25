@@ -51,6 +51,7 @@ dependencies:
   timelines: ^0.1.0
   awesome_snackbar_content: ^0.1.3
   shared_preferences: ^2.2.2
+  flutter_secure_storage: ^9.0.0
   # to use svg
   flutter_svg: ^2.0.7
 
