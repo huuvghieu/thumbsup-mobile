@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_app/services/login_service.dart';
 
 // import 'package:my_app/data/models/user_model.dart';
 
@@ -11,7 +12,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final _auth = FirebaseAuth.instance;
 
-  Future<User?> login() async {
+  Future<dynamic> login() async {
     emit(GoogleAuthLoadingState());
     try {
       //select google account
@@ -30,12 +31,18 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       );
 
       //login to firebase using the credentials
-      final UserCredential = await _auth.signInWithCredential(credential);
+      final userCredential = await _auth.signInWithCredential(credential);
+      emit(GoogleAuthSuccessState(userCredential.user!));
 
-      emit(GoogleAuthSuccessState(UserCredential.user!));
-      return UserCredential.user!;
+      String idToken = googleAuth.idToken.toString();
+      String clientId = "65337539478-c9ngcg9nickv14dv6ed0krvsmnkv4lsk.apps.googleusercontent.com";
+      String clientSecret = "";
+
+      return await LoginService.loginWithGoogle(idToken, clientId, clientSecret);
     } catch (e) {
       emit(GoogleAuthFailedState(e.toString()));
+      return e.toString();
     }
+    return null;
   }
 }

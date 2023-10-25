@@ -1,6 +1,8 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_app/logic/cubits/google_auth/cubit/google_auth_cubit.dart';
 import 'package:my_app/model/jwt.dart';
 import 'package:my_app/screens/home/home.dart';
 import 'package:my_app/screens/login/register.dart';
@@ -18,6 +20,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SharedPref sharedPref = SharedPref();
     return SafeArea(
       child: GestureDetector(
         onTap: () {
@@ -109,23 +112,99 @@ class Login extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10.0),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Image(
-                      image: AssetImage(googleLogo),
-                      width: 30,
-                      height: 30,
-                    ),
-                    label: const Text("GOOGLE"),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.primaryDark,
-                        padding:
-                            const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        elevation: 10.0,
-                        shadowColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0))),
-                  ),
+                  BlocConsumer<GoogleAuthCubit, GoogleAuthState>(
+                      listener: (context, state) {},
+                      builder: (context, state) {
+                        return ElevatedButton.icon(
+                          onPressed: state is GoogleAuthLoadingState
+                              ? null
+                              : () => {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const Center(
+                                              child: CircularProgressIndicator(
+                                                  color: AppColor.primaryDark));
+                                        }),
+                                    context
+                                        .read<GoogleAuthCubit>()
+                                        .login()
+                                        .then((result) => {
+                                              Navigator.of(context).pop(),
+                                              if (result is Jwt)
+                                                {
+                                                  sharedPref.save(
+                                                      "jwt", result),
+                                                  Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const Home(
+                                                                index: 0)),
+                                                    ModalRoute.withName('/'),
+                                                  ),
+                                                  ScaffoldMessenger.of(context)
+                                                    ..hideCurrentSnackBar()
+                                                    ..showSnackBar(SnackBar(
+                                                      elevation: 0,
+                                                      duration: const Duration(
+                                                          milliseconds: 2000),
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      content:
+                                                          AwesomeSnackbarContent(
+                                                        title: 'Login success!',
+                                                        message:
+                                                            'Welcome ${result.user.toString()} to Thumbsup!',
+                                                        contentType:
+                                                            ContentType.success,
+                                                      ),
+                                                    ))
+                                                }
+                                              else if (result is String)
+                                                {
+                                                  ScaffoldMessenger.of(context)
+                                                    ..hideCurrentSnackBar()
+                                                    ..showSnackBar(SnackBar(
+                                                      elevation: 0,
+                                                      duration: const Duration(
+                                                          milliseconds: 1000),
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      content:
+                                                          AwesomeSnackbarContent(
+                                                        title: 'Login fail!',
+                                                        message: result,
+                                                        contentType:
+                                                            ContentType.failure,
+                                                      ),
+                                                    ))
+                                                }
+                                            }),
+                                  },
+                          icon: const Image(
+                            image: AssetImage(googleLogo),
+                            width: 30,
+                            height: 30,
+                          ),
+                          label: state is GoogleAuthLoadingState
+                              ? const CircularProgressIndicator(
+                                  color: AppColor.primaryDark)
+                              : const Text("GOOGLE"),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.primaryDark,
+                              padding: const EdgeInsets.fromLTRB(
+                                  20.0, 10.0, 20.0, 10.0),
+                              elevation: 10.0,
+                              shadowColor: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0))),
+                        );
+                      }),
                   const SizedBox(
                     height: 20.0,
                   )
