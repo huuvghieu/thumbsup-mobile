@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:http/http.dart';
 import 'package:my_app/data/models/cart_model.dart';
+import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/model/product.dart';
 
 part 'cart_event.dart';
@@ -8,37 +10,54 @@ part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc() : super(CartLoading()) {
-    on<CartStarted>(_onCartStarted);
-    on<CartProductAdded>(_onCartProductAdded);
-    on<CartProductRemoved>(_onCartProductRemoved);
+    on<LoadCartEvent>(_onCartStarted);
+    on<AddProductEvent>(_onCartProductAdded);
+    on<RemoveProductEvent>(_onCartProductRemoved);
   }
 
   Future<void> _onCartStarted(
-      CartStarted event, Emitter<CartState> emit) async {
+      LoadCartEvent event, Emitter<CartState> emit) async {
+    emit(CartLoading());
     try {
-      await Future<void>.delayed(Duration(seconds: 1));
-      emit(CartLoaded());
-    } catch (_) {}
+      await Future<void>.delayed(const Duration(seconds: 1));
+      emit(CartLoaded(cart: Cart(products: [])));
+    } catch (_) {
+      emit(CartError());
+    }
   }
 
   Future<void> _onCartProductAdded(
-      CartProductAdded event, Emitter<CartState> emit) async {
+      AddProductEvent event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
-      final state = this.state as CartLoaded;
-      emit(CartLoaded(
-          cart: Cart(
-              products: List.from(state.cart.products)..add(event.product))));
+      try {
+        emit(
+          CartLoaded(
+            cart: Cart(
+              products: (state as CartLoaded).cart.products..add(event.product),
+            ),
+          ),
+        );
+      } on Exception {
+        emit(CartError());
+      }
     }
   }
 
   Future<void> _onCartProductRemoved(
-      CartProductRemoved event, Emitter<CartState> emit) async {
+      RemoveProductEvent event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
-      final state = this.state as CartLoaded;
-      emit(CartLoaded(
-          cart: Cart(
-              products: List.from(state.cart.products)
-                ..remove(event.product))));
+      try {
+        final products = (state as CartLoaded).cart.products;
+        emit(
+          CartLoaded(
+            cart: Cart(
+              products: products..remove(event.product),
+            ),
+          ),
+        );
+      } on Exception {
+        emit(CartError());
+      }
     }
   }
 }

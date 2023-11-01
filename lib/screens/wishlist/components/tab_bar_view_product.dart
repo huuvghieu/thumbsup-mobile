@@ -33,10 +33,13 @@ class TabBarViewProduct extends StatelessWidget {
                   return Expanded(
                     child: ListView.builder(
                       itemCount: state.wishLists.length,
-                      itemBuilder: (context, index) => ProductCardWishList(
-                        fem: fem,
-                        ffem: ffem,
-                        wishListProducModel: state.wishLists[index],
+                      itemBuilder: (context, index) => RepositoryProvider(
+                        create: (context) => WishListRepository(),
+                        child: ProductCardWishList(
+                          fem: fem,
+                          ffem: ffem,
+                          wishListProducModel: state.wishLists[index],
+                        ),
                       ),
                     ),
                   );

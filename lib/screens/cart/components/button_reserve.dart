@@ -17,7 +17,7 @@ class ButtonReserve extends StatelessWidget {
     return Container(
       margin:
           EdgeInsets.fromLTRB(15 * fem, 0 * fem, 0 * fem, 0 * fem),
-      width: 150 * fem,
+      width: 130 * fem,
       height: double.infinity,
       decoration: BoxDecoration(
         color: AppColor.primary,
@@ -54,7 +54,7 @@ class ButtonReserve extends StatelessWidget {
             'ĐẶT TRƯỚC',
             style: TextStyle(
                 color: Colors.black,
-                fontSize: 14 * ffem,
+                fontSize: 12 * ffem,
                 fontFamily: 'Solway'),
             textAlign: TextAlign.center,
           ),

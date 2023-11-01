@@ -19,6 +19,23 @@ class WishListLoadedState extends WishListState {
   List<Object?> get props => [wishLists];
 }
 
+
+class AddWishListSuccessState extends WishListState {
+
+  const AddWishListSuccessState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class RemoveWishListSuccessState extends WishListState {
+
+  const RemoveWishListSuccessState();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class WishListErrorState extends WishListState {
   String? error;
   WishListErrorState(this.error);

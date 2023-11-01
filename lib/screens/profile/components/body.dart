@@ -278,7 +278,7 @@ class _BodyState extends State<Body> {
                   child: Column(
                     children: [
                       ButtonWallet(fem: fem, ffem: ffem),
-                      ButtonOrder(fem: fem, ffem: ffem),
+                      ButtonOrder(fem: fem, ffem: ffem, customerId: (jwt.user as Customer).id),
                       ButtonHistoryTransaction(fem: fem, ffem: ffem),
                       SizedBox(
                         height: 50 * fem,

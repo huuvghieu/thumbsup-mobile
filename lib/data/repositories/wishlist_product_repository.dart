@@ -33,4 +33,33 @@ class WishListRepository {
       throw Exception(e.toString());
     }
   }
+
+  Future<bool> createWishListProduct(int customerId, int productId) async {
+    try {
+      token = await NetWorkHandler.storage.read(key: 'token');
+      final Map<String, String> headers = {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      };
+
+      Map body = {
+        'customerId': customerId,
+        'productId': productId,
+      };
+
+      http.Response response = await http.post(
+          Uri.parse('$endpoint'),
+          body: jsonEncode(body),
+          headers: headers);
+
+      if (response.statusCode == 200) {
+        print('Create Success!');
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 }

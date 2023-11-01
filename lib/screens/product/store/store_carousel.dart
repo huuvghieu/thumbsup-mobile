@@ -1,14 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/data/models/ads_store_model.dart';
 import 'package:my_app/screens/store/screens/store_screen.dart';
-
-import '../../../model/ads.dart';
 
 class CarouselStore extends StatefulWidget {
   const CarouselStore({super.key, required this.ads});
 
-  final List<Ads> ads;
+  final List<AdsStoreModel> ads;
 
   @override
   State<CarouselStore> createState() => _CarouselStoreState();
@@ -40,7 +39,15 @@ class _CarouselStoreState extends State<CarouselStore> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => RepositoryProvider(
+                  //               create: (context) => ProductRepository(),
+                  //               child: ProductListScreen(products: [],),
+                  //             )));
+                },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   minimumSize: Size.zero,
@@ -147,7 +154,7 @@ class _CarouselStoreState extends State<CarouselStore> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  item.rate.toString(),
+                                  item.rating.toString(),
                                   style: const TextStyle(
                                       fontSize: 15.0,
                                       fontWeight: FontWeight.w700),
@@ -159,7 +166,7 @@ class _CarouselStoreState extends State<CarouselStore> {
                                 ),
                                 const SizedBox(width: 2.0),
                                 Text(
-                                  item.number.toString(),
+                                  item.numOfFollowing.toString(),
                                   style: const TextStyle(
                                       fontSize: 15.0,
                                       fontWeight: FontWeight.w700,
@@ -172,7 +179,7 @@ class _CarouselStoreState extends State<CarouselStore> {
                               padding:
                                   const EdgeInsets.only(right: 5.0, left: 5.0),
                               decoration: BoxDecoration(
-                                color: item.favour
+                                color: item.favor!
                                     ? AppColor.backgroundHeartColor
                                     : Colors.black26,
                                 shape: BoxShape.circle,
@@ -190,7 +197,7 @@ class _CarouselStoreState extends State<CarouselStore> {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Image.network(
-                        item.image,
+                        item.coverPhoto.toString(),
                         fit: BoxFit.cover,
                         width: 1000.0,
                         height: 120.0,
@@ -203,7 +210,7 @@ class _CarouselStoreState extends State<CarouselStore> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              item.name.toUpperCase(),
+                              item.storeName.toUpperCase(),
                               style: const TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w800,
@@ -265,7 +272,7 @@ class _CarouselStoreState extends State<CarouselStore> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: item.category
+                                  children: item.cateList!
                                       .map(
                                         (category) => Container(
                                           padding: const EdgeInsets.all(5.0),

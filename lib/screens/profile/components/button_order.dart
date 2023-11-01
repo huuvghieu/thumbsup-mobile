@@ -8,10 +8,12 @@ class ButtonOrder extends StatelessWidget {
     super.key,
     required this.fem,
     required this.ffem,
+    required this.customerId
   });
 
   final double fem;
   final double ffem;
+  final int? customerId;
 
   @override
   Widget build(BuildContext context) {
@@ -22,63 +24,53 @@ class ButtonOrder extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () => {
           Navigator.push(
-            context, MaterialPageRoute(
-              builder: (context) => const ProfileOrderScreen(),
-            )
-          )
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfileOrderScreen(customerId: customerId,),
+              ))
         },
         style: ButtonStyle(
-            shape: MaterialStateProperty.resolveWith<
-                    RoundedRectangleBorder?>(
+            shape: MaterialStateProperty.resolveWith<RoundedRectangleBorder?>(
                 (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
                 return RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(10 * fem),
+                    borderRadius: BorderRadius.circular(10 * fem),
                     side: const BorderSide(
                       color: AppColor.primaryDark,
                     ));
               }
               return RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(10 * fem),
+                  borderRadius: BorderRadius.circular(10 * fem),
                   side: const BorderSide(
                     color: Color(0xffeeeeee),
                   ));
             }),
-            backgroundColor: MaterialStateProperty.all(
-                Color.fromARGB(255, 255, 255, 255))),
-
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    10 * fem, 0 * fem, 20 * fem, 0 * fem),
-                child: SvgPicture.asset(
-                  'assets/icons/history-order-icon.svg',
-                  width: 30 * fem,
-                  height: 30 * fem,
-                ),
-              ),
-              Text(
-                'Đơn hàng của tôi',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20 * ffem,
-                    fontFamily: 'Solway'),
-                textAlign: TextAlign.center,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    50 * fem, 0 * fem, 0 * fem, 0 * fem),
-                child: SvgPicture.asset(
-                  'assets/icons/arrow-next-icon.svg',
-                  width: 30 * fem,
-                  height: 30 * fem,
-                ),
-              ),
-            ]),
+            backgroundColor:
+                MaterialStateProperty.all(Color.fromARGB(255, 255, 255, 255))),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(10 * fem, 0 * fem, 20 * fem, 0 * fem),
+            child: SvgPicture.asset(
+              'assets/icons/history-order-icon.svg',
+              width: 30 * fem,
+              height: 30 * fem,
+            ),
+          ),
+          Text(
+            'Đơn hàng của tôi',
+            style: TextStyle(
+                color: Colors.black, fontSize: 20 * ffem, fontFamily: 'Solway'),
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(50 * fem, 0 * fem, 0 * fem, 0 * fem),
+            child: SvgPicture.asset(
+              'assets/icons/arrow-next-icon.svg',
+              width: 30 * fem,
+              height: 30 * fem,
+            ),
+          ),
+        ]),
       ),
     );
   }

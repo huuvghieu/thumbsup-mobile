@@ -4,7 +4,8 @@ import 'package:my_app/screens/profile_track_order/components/button_order_detai
 import 'package:timelines/timelines.dart';
 
 class ProfileTrackOrder extends StatelessWidget {
-  const ProfileTrackOrder({super.key});
+  const ProfileTrackOrder({super.key, required this.id});
+  final int? id;
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +145,7 @@ class ProfileTrackOrder extends StatelessWidget {
               child: ButtonOrderDetail(
                 fem: fem,
                 ffem: ffem,
+                customerId: id,
               ),
             ),
           ],

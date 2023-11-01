@@ -18,7 +18,7 @@ class ProductService {
         'Authorization': 'Bearer $token'
       };
       http.Response response = await http.get(
-          Uri.parse('$endpoint?page=$page&limit=$limit'),
+          Uri.parse('$endpoint?sort=id%2Cdesc&page=$page&limit=$limit'),
           headers: headers);
 
       if (response.statusCode == 200) {

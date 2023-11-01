@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
-import 'package:my_app/data/models/product_model.dart';
-import 'package:my_app/model/product.dart';
+import 'package:my_app/data/models/order_detail_model.dart';
 
 class ItemCard extends StatelessWidget {
-   ItemCard({
+  ItemCard({
     super.key,
     required this.fem,
     required this.ffem,
-    required this.product,
+    required this.orderDetailModel,
   });
 
   final double fem;
   final double ffem;
-  ProductModel product;
+  OrderDetailModel orderDetailModel;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(15*fem, 0*fem, 0*fem, 20*fem),
+      padding: EdgeInsets.fromLTRB(15 * fem, 0 * fem, 0 * fem, 20 * fem),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.network(
-            product.imageCover.toString(),
+            orderDetailModel.productImage.toString(),
             height: 80,
             width: 100,
             fit: BoxFit.cover,
@@ -38,7 +37,7 @@ class ItemCard extends StatelessWidget {
               Container(
                 width: 180 * fem,
                 child: Text(
-                  product.productName.toString(),
+                  orderDetailModel.productName.toString(),
                   softWrap: true,
                   style: TextStyle(
                     fontFamily: 'Solway',
@@ -50,9 +49,9 @@ class ItemCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5*fem),
+                padding: EdgeInsets.only(bottom: 5 * fem),
                 child: Text(
-                  'Đồ điện tử',
+                  'Số lượng: ${orderDetailModel.quantity}',
                   style: TextStyle(
                     fontFamily: 'Solway',
                     fontSize: 14 * ffem,
@@ -62,22 +61,8 @@ class ItemCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 5*fem),
-                child: Text(
-                  'Số lượng: 1',
-                  style: TextStyle(
-                    fontFamily: 'Solway',
-                    fontSize: 14 * ffem,
-                    fontWeight: FontWeight.w400,
-                    height: 1.2 * ffem / fem,
-                    color: AppColor.kTextColor,
-                  ),
-                ),
-              ),
-
               Text(
-                changeCurrency(product.salePrice!.toDouble() ?? 0),
+                changeCurrency(orderDetailModel.salePrice!.toDouble() ?? 0),
                 style: TextStyle(
                   fontFamily: 'Solway',
                   fontSize: 16 * ffem,
@@ -93,7 +78,7 @@ class ItemCard extends StatelessWidget {
     );
   }
 
-String changeCurrency(double price) {
+  String changeCurrency(double price) {
     return price.isNaN
         ? "0"
         : NumberFormat.currency(locale: 'vi').format(price);

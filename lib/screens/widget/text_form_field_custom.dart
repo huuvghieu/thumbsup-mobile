@@ -8,15 +8,17 @@ class TextFormFieldCustom extends StatefulWidget {
   final IconData icon;
   final bool isPassword;
   final TextEditingController controller;
+  TextInputType? keyboardType;
 
-  const TextFormFieldCustom(
-      {super.key,
-      required this.label,
-      required this.hint,
-      required this.controller,
-      required this.icon,
-      required this.isPassword,
-      });
+  TextFormFieldCustom({
+    super.key,
+    required this.label,
+    required this.hint,
+    required this.controller,
+    required this.icon,
+    required this.isPassword,
+    this.keyboardType
+  });
 
   @override
   State<TextFormFieldCustom> createState() => TextFormFieldCustomState();
@@ -59,6 +61,7 @@ class TextFormFieldCustomState extends State<TextFormFieldCustom> {
           focusNode: _focusnode,
           obscureText: _isObscure,
           controller: widget.controller,
+          keyboardType: widget.keyboardType,
           decoration: InputDecoration(
             hintText: widget.hint,
             fillColor: Colors.white,

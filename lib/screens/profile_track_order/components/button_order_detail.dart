@@ -7,10 +7,12 @@ class ButtonOrderDetail extends StatelessWidget {
     super.key,
     required this.fem,
     required this.ffem,
+    required this.customerId,
   });
 
   final double fem;
   final double ffem;
+  final int? customerId;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class ButtonOrderDetail extends StatelessWidget {
         onPressed: () => {
           Navigator.push(
             context, MaterialPageRoute(
-              builder: (context) => const ProfileOrderScreen(),
+              builder: (context) => ProfileOrderScreen(customerId: customerId,),
             )
           )
         },

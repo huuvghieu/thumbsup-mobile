@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
-import 'package:my_app/screens/product/search/filter.dart';
+import 'package:my_app/screens/product/search/filter_screen.dart';
 
 class SearchBarCustom extends StatefulWidget {
   const SearchBarCustom({super.key});
@@ -130,7 +130,8 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
         const end = Offset.zero;
         const curve = Curves.ease;
 
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),

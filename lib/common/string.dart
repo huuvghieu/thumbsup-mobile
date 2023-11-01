@@ -7,5 +7,7 @@ class AppString {
   static const String kPassNullError = 'Nhập mật khẩu của bạn!';
   static const String kShortPassError = 'Mật khẩu quá ngắn!';
   static const String kMatchPassError = 'Mật khẩu không trùng với nhau!';
-  static const String baseURL = 'https://thumbsup-api.azurewebsites.net/api/v1/';
+  static const String baseURL =
+      'https://thumbsup-api.azurewebsites.net/api/v1/';
+  static int? customerId;
 }

@@ -1,9 +1,11 @@
-class ProductModel {
+import 'package:equatable/equatable.dart';
+
+class ProductModel extends Equatable {
   final int id;
   final String productName;
   final double originalPrice;
   final double salePrice;
-  final double discount;
+  final int discount;
   int? shelfLife;
   double? weight;
   int? rating;
@@ -50,29 +52,29 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-       id:  json['id'],
-       productName:  json['productName'],
-       originalPrice:  (json['originalPrice'] as num).toDouble(),
-       salePrice:  (json['salePrice'] as num).toDouble(),
-       discount:  (json['discount'] as num).toDouble(),
-       shelfLife:  (json['shelfLife'] as num).toInt(),
-       weight:  (json['weight'] as num).toDouble(),
-       rating:  (json['rating'] as num).toInt(),
-       quantity: (json['quantity'] as num).toInt(),
-       numOfRating: (json['numOfRating'] as num).toInt(),
-       description:  json['description'],
-       favor:  json['favor'],
-       state:  json['state'],
-       storeId:  json['storeId'],
-       storeName:  json['storeName'],
-       categoryId:  json['categoryId'],
-       categoryName:  json['categoryName'],
-       brandId:  json['brandId'],
-       brandName:  json['brandName'],
-       countryId:  json['countryId'],
-       countryName:  json['countryName'],
-       imageCover:  json['imageCover'],
-       status:  json['status'],
+      id: json['id'],
+      productName: json['productName'],
+      originalPrice: (json['originalPrice'] as num).toDouble(),
+      salePrice: (json['salePrice'] as num).toDouble(),
+      discount: (json['discount'] as num).toInt(),
+      shelfLife: (json['shelfLife'] as num).toInt(),
+      weight: (json['weight'] as num).toDouble(),
+      rating: (json['rating'] as num).toInt(),
+      quantity: (json['quantity'] as num).toInt(),
+      numOfRating: (json['numOfRating'] as num).toInt(),
+      description: json['description'],
+      favor: json['favor'],
+      state: json['state'],
+      storeId: json['storeId'],
+      storeName: json['storeName'],
+      categoryId: json['categoryId'],
+      categoryName: json['categoryName'],
+      brandId: json['brandId'],
+      brandName: json['brandName'],
+      countryId: json['countryId'],
+      countryName: json['countryName'],
+      imageCover: json['imageCover'],
+      status: json['status'],
     );
   }
 
@@ -103,4 +105,29 @@ class ProductModel {
     data['status'] = this.status;
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        productName,
+        originalPrice,
+        salePrice,
+        discount,
+        weight,
+        rating,
+        quantity,
+        numOfRating,
+        description,
+        favor,
+        state,
+        storeId,
+        storeName,
+        categoryId,
+        categoryName,
+        brandId,
+        brandName,
+        countryId,
+        imageCover,
+        status
+      ];
 }

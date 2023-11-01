@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/data/models/order_model.dart';
 import 'package:my_app/screens/profile_order/order_detail_screen.dart';
 
 class OrderWaitingCard extends StatelessWidget {
@@ -7,18 +9,33 @@ class OrderWaitingCard extends StatelessWidget {
     super.key,
     required this.fem,
     required this.ffem,
+    required this.orderModel,
   });
 
   final double fem;
   final double ffem;
+  final OrderModel orderModel;
 
   @override
   Widget build(BuildContext context) {
+    int totalQuantity = 0;
+
+    int sumQuantity() {
+      int sum = 0;
+      orderModel.orderDetailList!.forEach((detail) {
+        sum += detail.quantity!;
+      });
+      return sum;
+    }
+
+    DateTime converToDatetime(String dateTime) {
+      DateTime date = DateTime.parse(dateTime);
+      return date.add(Duration(days: 7));
+    }
+
     return Container(
-      margin:
-          EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 60 * fem),
-      padding:
-          EdgeInsets.fromLTRB(17 * fem, 17 * fem, 18 * fem, 18 * fem),
+      margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 60 * fem),
+      padding: EdgeInsets.fromLTRB(17 * fem, 17 * fem, 18 * fem, 18 * fem),
       width: double.infinity,
       decoration: BoxDecoration(
           color: Colors.white,
@@ -35,25 +52,24 @@ class OrderWaitingCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.fromLTRB(
-                0 * fem, 0 * fem, 1 * fem, 24 * fem),
+            margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 1 * fem, 24 * fem),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(
-                      0 * fem, 15 * fem, 12 * fem, 0 * fem),
+                  margin:
+                      EdgeInsets.fromLTRB(0 * fem, 15 * fem, 12 * fem, 0 * fem),
                   width: 81 * fem,
-                  height: 40 * fem,
-                  child: Image.asset(
-                    'assets/images/lamvu-store.png',
-                    fit: BoxFit.cover,
+                  height: 60 * fem,
+                  child: Image.network(
+                    '${orderModel.orderDetailList![0].productImage}',
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(
-                      0 * fem, 21 * fem, 29 * fem, 0 * fem),
-                  width: 96 * fem,
+                  margin:
+                      EdgeInsets.fromLTRB(0 * fem, 21 * fem, 20 * fem, 0 * fem),
+                  width: 150 * fem,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -62,7 +78,7 @@ class OrderWaitingCard extends StatelessWidget {
                             0 * fem, 0 * fem, 0 * fem, 7 * fem),
                         width: double.infinity,
                         child: Text(
-                          '2 món',
+                          '${totalQuantity = sumQuantity()} món',
                           style: TextStyle(
                               fontFamily: 'Solway',
                               fontSize: 12 * ffem,
@@ -71,42 +87,43 @@ class OrderWaitingCard extends StatelessWidget {
                               color: AppColor.kTextColor),
                         ),
                       ),
-                      Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0 * fem, 0 * fem, 0 * fem, 0 * fem),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Lâm Music',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'Solway',
-                                    fontSize: 16 * ffem,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                    height: 1.2 * ffem / fem),
-                              ),
-                              Container(
-                                margin: EdgeInsets.fromLTRB(2 * fem,
-                                    2 * fem, 0 * fem, 0 * fem),
-                                width: 8 * fem,
-                                height: 8 * fem,
-                                child: Image.asset(
-                                  'assets/images/tick-blue.png',
-                                  width: 8 * fem,
-                                  height: 8 * fem,
-                                ),
-                              ),
-                            ],
-                          )),
+                      Row(
+                        children: [
+                          Container(
+                            width: 90 * fem,
+                            child: Text(
+                              '${orderModel.storeName}',
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontFamily: 'Solway',
+                                  fontSize: 16 * ffem,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                  height: 1.2 * ffem / fem),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(
+                                2 * fem, 2 * fem, 0 * fem, 0 * fem),
+                            width: 8 * fem,
+                            height: 8 * fem,
+                            child: Image.asset(
+                              'assets/images/tick-blue.png',
+                              width: 8 * fem,
+                              height: 8 * fem,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(
-                      0 * fem, 0 * fem, 0 * fem, 43 * fem),
+                  margin:
+                      EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 43 * fem),
                   child: Text(
-                    '#264100',
+                    '#${orderModel.id}',
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontFamily: 'Solway',
@@ -121,16 +138,15 @@ class OrderWaitingCard extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(
-                1 * fem, 0 * fem, 0 * fem, 8 * fem),
+            margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0 * fem, 8 * fem),
             width: double.infinity,
             height: 65 * fem,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(
-                      0 * fem, 0 * fem, 65 * fem, 0 * fem),
+                  margin:
+                      EdgeInsets.fromLTRB(0 * fem, 0 * fem, 65 * fem, 0 * fem),
                   width: 113 * fem,
                   height: double.infinity,
                   child: Column(
@@ -139,7 +155,7 @@ class OrderWaitingCard extends StatelessWidget {
                         margin: EdgeInsets.fromLTRB(
                             0 * fem, 0 * fem, 0 * fem, 2 * fem),
                         child: Text(
-                          'Ước tính đến trong',
+                          'Nhận hàng trước',
                           style: TextStyle(
                             fontFamily: 'Solway',
                             fontSize: 12 * ffem,
@@ -150,40 +166,18 @@ class OrderWaitingCard extends StatelessWidget {
                         ),
                       ),
                       Container(
+                        width: 150 * fem,
                         margin: EdgeInsets.fromLTRB(
-                            0 * fem, 0 * fem, 28 * fem, 0 * fem),
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 2 * fem, 0 * fem),
-                              child: Text(
-                                '25',
-                                style: TextStyle(
-                                  fontFamily: 'Solway',
-                                  fontSize: 39.2 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2 * ffem / fem,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0 * fem,
-                                  14 * fem, 0 * fem, 0 * fem),
-                              child: Text(
-                                'Phút',
-                                style: TextStyle(
-                                  fontFamily: 'Solway',
-                                  fontSize: 15 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2 * ffem / fem,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
+                            0 * fem, 0 * fem, 0 * fem, 0 * fem),
+                        child: Text(
+                          '${DateFormat('dd-MM-yyyy').format(converToDatetime(orderModel.dateCreated!))}',
+                          style: TextStyle(
+                            fontFamily: 'Solway',
+                            fontSize: 18 * ffem,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2 * ffem / fem,
+                            color: Colors.black,
+                          ),
                         ),
                       )
                     ],
@@ -197,7 +191,7 @@ class OrderWaitingCard extends StatelessWidget {
                         margin: EdgeInsets.fromLTRB(
                             0 * fem, 0 * fem, 1 * fem, 3 * fem),
                         child: Text(
-                          'Hiện tại',
+                          'Tình trạng',
                           style: TextStyle(
                             fontFamily: 'Solway',
                             fontSize: 12 * ffem,
@@ -213,7 +207,7 @@ class OrderWaitingCard extends StatelessWidget {
                             maxWidth: 109 * fem,
                           ),
                           child: Text(
-                            'Sản phẩm đang trên đường giao',
+                            orderModel.stateCurrent.toString(),
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontFamily: 'Solway',
@@ -234,22 +228,17 @@ class OrderWaitingCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(
-                    0 * fem, 0 * fem, 5 * fem, 0 * fem),
+                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 5 * fem, 0 * fem),
                 decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(25 * fem))),
+                    borderRadius: BorderRadius.all(Radius.circular(25 * fem))),
                 width: 140 * fem,
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () => {},
                   style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(25 * fem))),
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.white)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25 * fem))),
+                      backgroundColor: MaterialStateProperty.all(Colors.white)),
                   child: Center(
                     child: Text(
                       'Hủy',
@@ -265,11 +254,9 @@ class OrderWaitingCard extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(
-                    5 * fem, 0 * fem, 0 * fem, 0 * fem),
+                margin: EdgeInsets.fromLTRB(5 * fem, 0 * fem, 0 * fem, 0 * fem),
                 decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(25 * fem))),
+                    borderRadius: BorderRadius.all(Radius.circular(25 * fem))),
                 width: 140 * fem,
                 height: 50,
                 child: ElevatedButton(
@@ -277,17 +264,18 @@ class OrderWaitingCard extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              const OrderDetailHistory(),
+                          builder: (context) => OrderDetailHistory(
+                            orderDetailList: orderModel.orderDetailList,
+                            subTotal: orderModel.amount,
+                            total: orderModel.amount,
+                          ),
                         ))
                   },
                   style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(25 * fem))),
-                      backgroundColor: MaterialStateProperty.all(
-                          AppColor.primary)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25 * fem))),
+                      backgroundColor:
+                          MaterialStateProperty.all(AppColor.primary)),
                   child: Center(
                     child: Text(
                       'Xem tiến độ',

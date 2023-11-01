@@ -155,7 +155,7 @@ class TabBarViewCompletedOrder extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const OrderDetailHistory(),
+                              builder: (context) =>  OrderDetailHistory(orderDetailList: [], subTotal:0, total: 0,),
                             ))
                       },
                       style: ButtonStyle(

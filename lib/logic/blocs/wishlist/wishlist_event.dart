@@ -12,19 +12,27 @@ class StartWishListEvent extends WishListEvent {
 }
 
 class AddWishListProductEvent extends WishListEvent {
-  final ProductModel productModel;
+  final int customerId;
+  final int productId;
 
-  const AddWishListProductEvent(this.productModel);
+  const AddWishListProductEvent({
+    required this.customerId,
+    required this.productId,
+  });
 
   @override
-  List<Object?> get props => [productModel];
+  List<Object?> get props => [customerId, productId];
 }
 
 class RemoveWishListProductEvent extends WishListEvent {
-  final ProductModel productModel;
+  final int customerId;
+  final int productId;
 
-  const RemoveWishListProductEvent(this.productModel);
+  const RemoveWishListProductEvent({
+    required this.customerId,
+    required this.productId,
+  });
 
   @override
-  List<Object?> get props => [productModel];
+  List<Object?> get props => [customerId, productId];
 }

@@ -1,11 +1,15 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
+import 'package:my_app/common/string.dart';
 import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/data/repositories/store_repository.dart';
+import 'package:my_app/data/repositories/wishlist_product_repository.dart';
 import 'package:my_app/logic/blocs/store/store_bloc.dart';
+import 'package:my_app/logic/blocs/wishlist/wishlist_bloc.dart';
 import 'package:my_app/logic/cubits/counter/cubit/counter_cubit.dart';
 import 'package:my_app/screens/product_details/components/button_add_to_cart.dart';
 
@@ -28,6 +32,11 @@ class Body extends StatelessWidget {
           create: (context) => StoreBloc(
               RepositoryProvider.of<StoreRepository>(context), product.storeId)
             ..add(const LoadStoreByIdEvent()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              WishListBloc(RepositoryProvider.of<WishListRepository>(context))
+                ..add(const StartWishListEvent()),
         ),
       ],
       child: SingleChildScrollView(
@@ -78,13 +87,14 @@ class Body extends StatelessWidget {
                                           child: Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromARGB(
+                                                  color: const Color.fromARGB(
                                                       255, 243, 241, 241)),
                                               borderRadius:
                                                   BorderRadius.circular(100),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Color(0x3fd3d1d8),
+                                                  color:
+                                                      const Color(0x3fd3d1d8),
                                                   offset: Offset(
                                                       15 * fem, 15 * fem),
                                                   blurRadius: 15 * fem,
@@ -115,20 +125,63 @@ class Body extends StatelessWidget {
                                                 fit: BoxFit.cover),
                                           ),
                                         ),
-                                        Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                25 * fem,
-                                                0 * fem,
-                                                0 * fem,
-                                                0 * fem),
-                                            child: IconButton(
-                                              icon: const Icon(
-                                                Icons.place,
-                                                color: Colors.purple,
-                                                size: 40,
-                                              ),
-                                              onPressed: () {},
-                                            ))
+                                        BlocBuilder<WishListBloc,
+                                            WishListState>(
+                                          builder: (context, state) {
+                                            if (state is WishListLoadingState) {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: AppColor.primary,
+                                                ),
+                                              );
+                                            }
+                                            if (state is WishListLoadedState) {
+                                              return Container(
+                                                  margin: EdgeInsets.fromLTRB(
+                                                      25 * fem,
+                                                      0 * fem,
+                                                      0 * fem,
+                                                      0 * fem),
+                                                  child: IconButton(
+                                                    icon: const Icon(
+                                                      Icons.favorite,
+                                                      color: Colors.red,
+                                                      size: 40,
+                                                    ),
+                                                    onPressed: () {
+                                                      context
+                                                          .read<WishListBloc>()
+                                                          .add(AddWishListProductEvent(
+                                                              customerId: AppString
+                                                                  .customerId!,
+                                                              productId:
+                                                                  product.id));
+                                                    },
+                                                  ));
+                                            }
+                                            if (state
+                                                is AddWishListSuccessState) {
+                                              //                               ScaffoldMessenger.of(context)
+                                              // ..hideCurrentSnackBar()
+                                              // ..showSnackBar(SnackBar(
+                                              //   elevation: 0,
+                                              //   duration: const Duration(milliseconds: 2000),
+                                              //   behavior: SnackBarBehavior.floating,
+                                              //   backgroundColor: Colors.transparent,
+                                              //   content: AwesomeSnackbarContent(
+                                              //     title: 'Yêu thích thành công!',
+                                              //     message: 'Sản phẩm ${product.productName} đã được yêu thích',
+                                              //     contentType: ContentType.success,
+                                              //   ),
+                                              // ));
+                                              context
+                                                  .read<WishListBloc>()
+                                                  .add(StartWishListEvent());
+                                            }
+                                            return Container();
+                                          },
+                                        )
                                       ],
                                     ),
                                   ),
@@ -180,7 +233,7 @@ class Body extends StatelessWidget {
                                                     7 * fem,
                                                     0 * fem),
                                                 child: Text(
-                                                  '4.5',
+                                                  product.rating.toString(),
                                                   style: TextStyle(
                                                       fontFamily: 'Solway',
                                                       fontSize: 14 * ffem,
@@ -197,7 +250,7 @@ class Body extends StatelessWidget {
                                                     13 * fem,
                                                     0 * fem),
                                                 child: Text(
-                                                  '(30+)',
+                                                  '(${product.numOfRating}+)',
                                                   style: TextStyle(
                                                     fontFamily: 'Solway',
                                                     fontSize: 14 * ffem,
@@ -241,85 +294,19 @@ class Body extends StatelessWidget {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.fromLTRB(
-                                        0 * fem, 0 * fem, 30 * fem, 0 * fem),
+                                        0 * fem, 0 * fem, 25 * fem, 0 * fem),
                                     child: Text(
                                       changeCurrency(
-                                          product.salePrice!.toDouble() ?? 0),
+                                          product.salePrice.toDouble()),
                                       style: TextStyle(
                                         fontFamily: 'Solway',
-                                        fontSize: 20 * ffem,
+                                        fontSize: 22 * ffem,
                                         fontWeight: FontWeight.bold,
                                         height: 1.2 * ffem / fem,
                                         color: AppColor.primary,
                                       ),
                                     ),
                                   ),
-                                  BlocConsumer<CounterCubit, CounterState>(
-                                    listener: (context, state) {},
-                                    builder: (context, state) {
-                                      return Container(
-                                        margin: EdgeInsets.fromLTRB(0 * fem,
-                                            0 * fem, 10 * fem, 0.4 * fem),
-                                        height: double.infinity,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(17 * fem),
-                                        ),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            FloatingActionButton(
-                                              onPressed: () {
-                                                BlocProvider.of<CounterCubit>(
-                                                        context)
-                                                    .decrement();
-                                              },
-                                              backgroundColor: Colors.white,
-                                              shape: const CircleBorder(
-                                                  side: BorderSide(
-                                                      color: AppColor.primary)),
-                                              child: const Icon(
-                                                Icons.remove,
-                                                color: AppColor.primary,
-                                              ),
-                                            ),
-                                            Container(
-                                                margin: EdgeInsets.fromLTRB(
-                                                    0 * fem,
-                                                    0 * fem,
-                                                    0 * fem,
-                                                    3 * fem),
-                                                child: Text(
-                                                  state.counterValue.toString(),
-                                                  style: TextStyle(
-                                                    fontFamily: 'Solway',
-                                                    fontSize: 18 * ffem,
-                                                    fontWeight: FontWeight.w400,
-                                                    height: 1.2 * ffem / fem,
-                                                    color: Colors.black,
-                                                  ),
-                                                )),
-                                            FloatingActionButton(
-                                              onPressed: () {
-                                                BlocProvider.of<CounterCubit>(
-                                                        context)
-                                                    .increment();
-                                              },
-                                              backgroundColor: AppColor.primary,
-                                              shape: const CircleBorder(
-                                                  side: BorderSide(
-                                                      color: Colors.white)),
-                                              child: const Icon(
-                                                Icons.add,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  )
                                 ],
                               ),
                             ),
@@ -329,7 +316,7 @@ class Body extends StatelessWidget {
                               width: double.infinity,
                               child: Text(
                                 changeCurrency(
-                                    (product.originalPrice!.toDouble()) ?? 0),
+                                    (product.originalPrice.toDouble())),
                                 style: TextStyle(
                                   fontFamily: 'Solway',
                                   fontSize: 19 * ffem,
@@ -453,8 +440,8 @@ class Body extends StatelessWidget {
                   }
                   if (state is StoreByIdLoadedState) {
                     return Container(
-                        width: 170 * fem,
-                        height: 100 * fem,
+                        width: 220 * fem,
+                        height: 140 * fem,
                         margin: EdgeInsets.fromLTRB(
                             0 * fem, 10 * fem, 150 * fem, 0 * fem),
                         child: Image.network('${state.storeModel.coverPhoto}'));
@@ -465,7 +452,7 @@ class Body extends StatelessWidget {
               ),
               BlocBuilder<StoreBloc, StoreState>(
                 builder: (context, state) {
-                 if (state is StoreLoadingState) {
+                  if (state is StoreLoadingState) {
                     return const Center(
                       child: CircularProgressIndicator(
                         color: AppColor.primary,
@@ -474,22 +461,22 @@ class Body extends StatelessWidget {
                   }
                   if (state is StoreByIdLoadedState) {
                     return Container(
-                    margin: EdgeInsets.fromLTRB(
-                        0 * fem, 15 * fem, 0 * fem, 0 * fem),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        state.storeModel.address.toString(),
-                        style: TextStyle(
-                          fontFamily: 'Solway',
-                          fontSize: 14 * ffem,
-                          fontWeight: FontWeight.w400,
-                          height: 1.2 * ffem / fem,
-                          color: Colors.black,
+                      margin: EdgeInsets.fromLTRB(
+                          0 * fem, 15 * fem, 0 * fem, 0 * fem),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          state.storeModel.address.toString(),
+                          style: TextStyle(
+                            fontFamily: 'Solway',
+                            fontSize: 14 * ffem,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2 * ffem / fem,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );
                   }
 
                   return Container();

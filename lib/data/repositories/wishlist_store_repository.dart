@@ -24,7 +24,7 @@ class WishListStoreRepository {
         final List<dynamic> result =
             jsonDecode(utf8.decode(response.bodyBytes));
         wishListStores =
-            result.map(((e) => WishListStoreModel.fromJson(e))).toList();
+            result.map((e) => WishListStoreModel.fromJson(e)).toList();
         return result.map(((e) => WishListStoreModel.fromJson(e))).toList();
       } else {
         throw Exception(response.reasonPhrase);

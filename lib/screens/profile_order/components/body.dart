@@ -4,8 +4,9 @@ import 'package:my_app/screens/profile_order/components/tab_bar_view_completed_o
 import 'package:my_app/screens/profile_order/components/tab_bar_view_waiting_order.dart';
 
 class Body extends StatelessWidget {
-  const Body({super.key});
+  const Body({super.key, required this.customerId});
 
+  final int? customerId;
   @override
   Widget build(BuildContext context) {
     double baseWidth = 375;
@@ -24,7 +25,11 @@ class Body extends StatelessWidget {
         width: double.infinity,
         child: TabBarView(
           children: [
-            TabBarViewWaitingOrder(fem: fem, ffem: ffem),
+            TabBarViewWaitingOrder(
+              fem: fem,
+              ffem: ffem,
+              id: customerId,
+            ),
             TabBarViewCompletedOrder(fem: fem, ffem: ffem)
           ],
         ),
@@ -32,5 +37,3 @@ class Body extends StatelessWidget {
     );
   }
 }
-
-
