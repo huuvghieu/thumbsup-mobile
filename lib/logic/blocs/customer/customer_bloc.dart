@@ -5,17 +5,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/data/models/order_model.dart';
 import 'package:my_app/data/repositories/customer_repository.dart';
-import 'package:my_app/logic/blocs/store/store_bloc.dart';
-import 'package:my_app/screens/login/register.dart';
 
 part 'customer_event.dart';
 part 'customer_state.dart';
 
 class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
   final CustomerRepository customerRepository;
-  int? id;
-
-  CustomerBloc({required this.customerRepository, this.id})
+  CustomerBloc({required this.customerRepository})
       : super(CustomerLoadingState()) {
     on<RegisterEvent>(_onRegisterCustomer);
     on<LoadOrderByCustomerIdEvent>(_onLoadOrderByCustomerId);
@@ -48,7 +44,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       LoadOrderByCustomerIdEvent event, Emitter<CustomerState> emit) async {
     emit(CustomerLoadingState());
     try {
-      final orderList = await customerRepository.getOrderListByCustomerId(id!);
+      final orderList = await customerRepository.getOrderListByCustomerId(event.id);
       emit(OrderByCustoerIdLoadedState(orderList!));
     } catch (e) {
       emit(CustomerError(e.toString()));

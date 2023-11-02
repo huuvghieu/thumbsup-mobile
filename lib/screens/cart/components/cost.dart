@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_app/common/color.dart';
 
 class Cost extends StatelessWidget {
   const Cost({
@@ -49,7 +48,7 @@ class Cost extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 20 * fem),
                 child: Text(
-                  changeCurrency(subTotal.toDouble() ?? 0),
+                  changeCurrency(subTotal.toDouble()),
                   style: TextStyle(
                     fontFamily: 'Solway',
                     fontSize: 14 * ffem,
@@ -83,7 +82,7 @@ class Cost extends StatelessWidget {
                 ),
               ),
               Text(
-                changeCurrency(tax!.toDouble() ?? 0),
+                changeCurrency(tax.toDouble()),
                 style: TextStyle(
                   fontFamily: 'Solway',
                   fontSize: 14 * ffem,
@@ -116,7 +115,7 @@ class Cost extends StatelessWidget {
                 ),
               ),
               Text(
-                changeCurrency(deliveryFree!.toDouble() ?? 0),
+                changeCurrency(deliveryFree.toDouble()),
                 style: TextStyle(
                   fontFamily: 'Solway',
                   fontSize: 14 * ffem,
@@ -166,7 +165,7 @@ class Cost extends StatelessWidget {
                 ],
               ),
               Text(
-                changeCurrency(total.toDouble() ?? 0),
+                changeCurrency(total.toDouble()),
                 style: TextStyle(
                   fontFamily: 'Solway',
                   fontSize: 17 * ffem,

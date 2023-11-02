@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
-import 'package:my_app/screens/widget/decorate_register.dart';
 import 'package:my_app/screens/widget/decorate_top.dart';
 
 class BodyConfirmedPayment extends StatelessWidget {

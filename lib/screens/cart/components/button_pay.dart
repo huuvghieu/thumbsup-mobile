@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/data/repositories/order_repository.dart';
+import 'package:my_app/data/repositories/review_repository.dart';
 import 'package:my_app/logic/blocs/cart/cart_bloc.dart';
 import 'package:my_app/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:my_app/screens/payment/screens/checkout_screen.dart';
-import 'package:my_app/screens/payment/screens/method_payment_screen.dart';
+import 'package:my_app/screens/payment/screens/completed_payment_screen.dart';
 
 class ButtonPay extends StatelessWidget {
   const ButtonPay({
@@ -74,7 +75,10 @@ class ButtonPay extends StatelessWidget {
                                   ),
                                 )))
 
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => MethodPaymentScreen(),
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => RepositoryProvider(
+                    //             create: (context) => ReviewRepository(),
+                    //             child: CompletedPaymentScreen(),
+                    //           ),
                     
                     // ))
                   }

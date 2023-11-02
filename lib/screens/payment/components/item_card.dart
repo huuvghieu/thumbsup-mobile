@@ -66,7 +66,7 @@ class ItemCard extends StatelessWidget {
                 ),
               ),
               Text(
-                changeCurrency(productModel.salePrice!.toDouble() ?? 0),
+                changeCurrency(productModel.salePrice.toDouble()),
                 style: TextStyle(
                   fontFamily: 'Solway',
                   fontSize: 16 * ffem,

@@ -7,10 +7,12 @@ import 'package:my_app/data/models/checkout_model.dart';
 import 'package:my_app/data/models/create_model/create_order_detail_model.dart';
 import 'package:my_app/data/models/create_model/create_order_model.dart';
 import 'package:my_app/data/models/product_model.dart';
+import 'package:my_app/data/repositories/review_repository.dart';
 import 'package:my_app/logic/blocs/cart/cart_bloc.dart';
 import 'package:my_app/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:my_app/screens/cart/components/cost.dart';
 import 'package:my_app/screens/home/home.dart';
+import 'package:my_app/screens/payment/screens/completed_payment_screen.dart';
 
 import '../components/item_card.dart';
 
@@ -43,6 +45,7 @@ class CheckoutScreen extends StatelessWidget {
 
               if (state is CheckoutLoadedState) {
                 Map store = state.cart!.productStore(state.cart!.products);
+                //sent event with customerId
                 context
                     .read<CheckoutBloc>()
                     .add(UpdateCheckoutEvent(customerId: (id as num).toInt()));
@@ -55,6 +58,7 @@ class CheckoutScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: store.keys.length,
                       itemBuilder: (context, index) {
+                        //map List<ProductModel> to List<CreateOrderDetailModel>
                         List<CreateOrderDetailModel> detailList = (store.values
                                 .elementAt(index) as List<ProductModel>)
                             .map((product) => CreateOrderDetailModel(
@@ -68,12 +72,17 @@ class CheckoutScreen extends StatelessWidget {
                                   state: product.state,
                                 ))
                             .toList();
+
+                        //get total for each orderDetail
                         double amount = 0;
                         detailList.forEach((detail) {
                           amount += detail.amount!;
                         });
+
                         Map cart = state.cart!
                             .productQuantity(store.values.elementAt(index));
+
+                        //create order
                         CreateOrderModel order = CreateOrderModel(
                             amount: amount,
                             customerId: id,
@@ -212,7 +221,10 @@ class CheckoutScreen extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Home(index: 0)));
+                          builder: (context) => RepositoryProvider(
+                                create: (context) => ReviewRepository(),
+                                child: const CompletedPaymentScreen(),
+                              )));
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
                     ..showSnackBar(SnackBar(
@@ -250,7 +262,7 @@ class CheckoutScreen extends StatelessWidget {
                 });
               }
 
-              return Text('Something went wrong');
+              return const Text('Something went wrong');
             },
           )),
     );
@@ -259,7 +271,7 @@ class CheckoutScreen extends StatelessWidget {
   AppBar buildAppBar(BuildContext context) {
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
+    // double ffem = fem * 0.97;
     return AppBar(
       toolbarHeight: 100 * fem,
       backgroundColor: Colors.white,

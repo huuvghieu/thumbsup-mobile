@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
+import 'package:my_app/common/string.dart';
 import 'package:my_app/screens/wishlist/components/body.dart';
 
 class WishListScreen extends StatefulWidget {
@@ -79,11 +80,11 @@ class _WishListScreenState extends State<WishListScreen> {
           Container(
             color: Colors.white,
             margin: const EdgeInsets.fromLTRB(5.0, 25.0, 10.0, 25.0),
-            child: const CircleAvatar(
-              backgroundColor: AppColor.primary,
-              backgroundImage: AssetImage(logoImage),
-              radius: 25.0,
-            ),
+            child:  CircleAvatar(
+                backgroundColor: AppColor.primary,
+                radius: 25.0,
+                child: Image.network('${AppString.avatar}'),
+              ),
           )
         ],
       );

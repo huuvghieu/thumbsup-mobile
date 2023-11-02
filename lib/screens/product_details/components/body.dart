@@ -1,4 +1,3 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -129,11 +128,8 @@ class Body extends StatelessWidget {
                                             WishListState>(
                                           builder: (context, state) {
                                             if (state is WishListLoadingState) {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: AppColor.primary,
-                                                ),
+                                              return  Center(
+                                                child: Container()
                                               );
                                             }
                                             if (state is WishListLoadedState) {
@@ -337,20 +333,20 @@ class Body extends StatelessWidget {
                     Positioned(
                       left: 238 * fem,
                       top: 180 * fem,
-                      child: const Align(
+                      child: Align(
                         child: Padding(
                           padding: EdgeInsets.all(7.0),
                           child: SizedBox(
                             child: Stack(children: [
-                              Image(
+                              const Image(
                                 image: AssetImage(saleTag),
                                 height: 30.0,
                               ),
                               Positioned(
                                 right: 23,
                                 child: Text(
-                                  "20",
-                                  style: TextStyle(
+                                  '${product.discount}',
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w700),
@@ -432,10 +428,8 @@ class Body extends StatelessWidget {
               BlocBuilder<StoreBloc, StoreState>(
                 builder: (context, state) {
                   if (state is StoreLoadingState) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColor.primary,
-                      ),
+                    return  Center(
+                      child: Container()
                     );
                   }
                   if (state is StoreByIdLoadedState) {

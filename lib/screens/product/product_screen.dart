@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/image.dart';
-import 'package:my_app/common/string.dart';
 import 'package:my_app/data/models/product_model.dart';
-import 'package:my_app/model/product.dart';
 import 'package:my_app/screens/product_details/product_detail_screen.dart';
 import 'package:my_app/services/product_service.dart';
 import 'package:shimmer/shimmer.dart';
@@ -130,21 +128,21 @@ class _ProductScreenState extends State<ProductScreen> {
                             ),
                           ),
                         ),
-                        const Align(
+                         Align(
                           alignment: Alignment.topRight,
                           child: Padding(
-                            padding: EdgeInsets.all(7.0),
+                            padding: const EdgeInsets.all(7.0),
                             child: SizedBox(
                               child: Stack(children: [
-                                Image(
+                               const Image(
                                   image: AssetImage(saleTag),
                                   height: 30.0,
                                 ),
                                 Positioned(
                                   right: 23,
                                   child: Text(
-                                    "20",
-                                    style: TextStyle(
+                                    '${item.discount}',
+                                    style:const  TextStyle(
                                         color: Colors.white,
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.w700),
@@ -205,7 +203,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        changeCurrency(item.salePrice!.toDouble() ?? 0),
+                        changeCurrency(item.salePrice.toDouble()),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(

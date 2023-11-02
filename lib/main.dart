@@ -10,16 +10,13 @@ import 'package:my_app/data/repositories/customer_repository.dart';
 import 'package:my_app/data/repositories/geolocation_repository.dart';
 import 'package:my_app/data/repositories/order_repository.dart';
 import 'package:my_app/data/repositories/product_repository.dart';
-import 'package:my_app/data/repositories/store_repository.dart';
+import 'package:my_app/data/repositories/state_repository.dart';
 import 'package:my_app/logic/blocs/cart/cart_bloc.dart';
 import 'package:my_app/logic/blocs/category/category_bloc.dart';
-import 'package:my_app/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:my_app/logic/blocs/city/city_bloc.dart';
-import 'package:my_app/logic/blocs/customer/customer_bloc.dart';
 import 'package:my_app/logic/blocs/filters/filters_bloc.dart';
-import 'package:my_app/logic/blocs/store/store_bloc.dart';
+import 'package:my_app/logic/blocs/state/state_bloc.dart';
 import 'package:my_app/logic/cubits/google_auth/cubit/google_auth_cubit.dart';
-import 'package:my_app/logic/cubits/product/product_cubit.dart';
 import 'package:my_app/screens/welcome/splash.dart';
 
 void main() async {
@@ -56,6 +53,9 @@ class App extends StatelessWidget {
         RepositoryProvider<OrderRepository>(
           create: (_) => OrderRepository(),
         ),
+        RepositoryProvider<StateRepository>(
+          create: (_) => StateRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -78,7 +78,10 @@ class App extends StatelessWidget {
                 CategoryBloc(context.read<CategoryRepository>())
                   ..add(const LoadCategoryEvent()),
           ),
-
+          BlocProvider(
+            create: (context) => StateBloc(context.read<StateRepository>())
+              ..add(const LoadStateEvent()),
+          ),
           BlocProvider(
             create: (context) => FiltersBloc(
                 categoryRepository: context.read<CategoryRepository>(),
@@ -90,7 +93,7 @@ class App extends StatelessWidget {
               create: (context) => CityBloc(context.read<CityRepository>())
                 ..add(const LoadCityEvent())),
           // BlocProvider(
-          //   create: (context) => CheckoutBloc(cartBloc: context.read<CartBloc>(), 
+          //   create: (context) => CheckoutBloc(cartBloc: context.read<CartBloc>(),
           //   orderRepository: context.read<OrderRepository>()),
           // )
         ],

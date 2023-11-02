@@ -103,7 +103,7 @@ class CartProductCard extends StatelessWidget {
                           height: 5 * fem,
                         ),
                         Text(
-                          changeCurrency(product.salePrice.toDouble() ?? 0),
+                          changeCurrency(product.salePrice.toDouble()),
                           style: TextStyle(
                             fontFamily: 'Solway',
                             fontSize: 16 * ffem,

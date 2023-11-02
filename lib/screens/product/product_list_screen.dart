@@ -234,21 +234,21 @@ class ProductView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Align(
+                  Align(
                     alignment: Alignment.topRight,
                     child: Padding(
                       padding: EdgeInsets.all(7.0),
                       child: SizedBox(
                         child: Stack(children: [
-                          Image(
+                          const Image(
                             image: AssetImage(saleTag),
                             height: 30.0,
                           ),
                           Positioned(
                             right: 23,
                             child: Text(
-                              "20",
-                              style: TextStyle(
+                              '${product.discount}',
+                              style:const TextStyle(
                                   color: Colors.white,
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.w700),

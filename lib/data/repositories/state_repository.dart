@@ -8,9 +8,9 @@ import 'package:my_app/services/network_handler.dart';
 class StateRepository {
   static String endpoint = '${AppString.baseURL}states';
   static String? token;
-  static StateModel? stateModel;
+  static List<StateModel>? stateModels;
 
-  Future<StateModel?> getStates() async {
+  Future<List<StateModel>?> getStates() async {
     try {
       token = await NetWorkHandler.storage.read(key: 'token');
       final Map<String, String> headers = {
@@ -18,12 +18,12 @@ class StateRepository {
         'Authorization': 'Bearer $token'
       };
       http.Response response =
-          await http.get(Uri.parse('$endpoint/?sort=id%2Casc'), headers: headers);
+          await http.get(Uri.parse('$endpoint?sort=id%2Casc'), headers: headers);
 
       if (response.statusCode == 200) {
-        final result = jsonDecode(utf8.decode(response.bodyBytes));
-        stateModel = StateModel.fromJson(result);
-        return stateModel;
+        final List result = jsonDecode(utf8.decode(response.bodyBytes))['content'];
+        stateModels = result.map((e) => StateModel.fromJson(e)).toList();
+        return stateModels;
       } else {
         throw Exception(response.reasonPhrase);
       }

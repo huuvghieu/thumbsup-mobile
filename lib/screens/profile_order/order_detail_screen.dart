@@ -3,10 +3,13 @@ import 'package:my_app/data/models/order_detail_model.dart';
 import 'package:my_app/screens/cart/components/cost.dart';
 import 'package:my_app/screens/profile_order/components/button_back_to_home.dart';
 import 'package:my_app/screens/profile_order/components/item_card.dart';
-import 'package:my_app/services/product_service.dart';
 
 class OrderDetailHistory extends StatelessWidget {
-  OrderDetailHistory({super.key, required this.orderDetailList, required this.subTotal, required this.total});
+  OrderDetailHistory(
+      {super.key,
+      required this.orderDetailList,
+      required this.subTotal,
+      required this.total});
 
   List<OrderDetailModel>? orderDetailList;
   final double? subTotal;

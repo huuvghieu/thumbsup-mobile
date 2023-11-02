@@ -49,7 +49,10 @@ class RegisterEvent extends CustomerEvent {
 }
 
 class LoadOrderByCustomerIdEvent extends CustomerEvent {
-  const LoadOrderByCustomerIdEvent();
+  final int id;
+  const LoadOrderByCustomerIdEvent({
+    required this.id
+  });
 
   @override
   List<Object?> get props => [];

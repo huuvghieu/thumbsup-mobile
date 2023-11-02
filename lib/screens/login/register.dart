@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
-import 'package:my_app/data/repositories/city_repository.dart';
 import 'package:my_app/data/repositories/customer_repository.dart';
 import 'package:my_app/logic/blocs/customer/customer_bloc.dart';
 import 'package:my_app/screens/login/components/dropdrown_form.dart';

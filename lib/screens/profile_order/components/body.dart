@@ -28,9 +28,11 @@ class Body extends StatelessWidget {
             TabBarViewWaitingOrder(
               fem: fem,
               ffem: ffem,
-              id: customerId,
+              id: customerId!,
             ),
-            TabBarViewCompletedOrder(fem: fem, ffem: ffem)
+            TabBarViewCompletedOrder(fem: fem, ffem: ffem,
+            id: customerId!,
+            )
           ],
         ),
       ),

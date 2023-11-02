@@ -70,7 +70,7 @@ class _CartScreenState extends State<CartScreen> {
                       Icon(Icons.signal_cellular_no_sim_outlined,
                       color: AppColor.primary,
                       size: 100,),
-                      Text('Không có sản phẩm \n     trong giở hàng',
+                      Text('Không có sản phẩm \n     trong giỏ hàng',
                       style: TextStyle(
                         fontFamily: 'Solway',
                         fontSize: 20,

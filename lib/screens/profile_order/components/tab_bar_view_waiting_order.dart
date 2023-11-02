@@ -4,7 +4,6 @@ import 'package:my_app/common/color.dart';
 import 'package:my_app/data/repositories/customer_repository.dart';
 import 'package:my_app/logic/blocs/customer/customer_bloc.dart';
 import 'package:my_app/screens/profile_order/components/order_waiting_card.dart';
-import 'package:my_app/screens/profile_order/components/order_waiting_reserved_card.dart';
 
 class TabBarViewWaitingOrder extends StatelessWidget {
   const TabBarViewWaitingOrder({
@@ -16,16 +15,15 @@ class TabBarViewWaitingOrder extends StatelessWidget {
 
   final double fem;
   final double ffem;
-  final int? id;
+  final int id;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CustomerBloc(
           customerRepository:
-              RepositoryProvider.of<CustomerRepository>(context),
-          id: id)
-        ..add(const LoadOrderByCustomerIdEvent()),
+              RepositoryProvider.of<CustomerRepository>(context))
+        ..add(LoadOrderByCustomerIdEvent(id: id)),
       child: BlocBuilder<CustomerBloc, CustomerState>(
         builder: (context, state) {
           if (state is CustomerLoadingState) {
@@ -36,18 +34,37 @@ class TabBarViewWaitingOrder extends StatelessWidget {
             );
           }
           if (state is OrderByCustoerIdLoadedState) {
+          final checkOrder = state.orderModelList
+                          .where(
+                            (order) =>
+                                !order.stateCurrent!.contains('Đã nhận hàng'),
+                          )
+                          .toList();
+             if (checkOrder.isEmpty) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.edit_document,
+                  size: 50*fem,
+                  color: AppColor.primary,),
+                  Text(
+                    'Không có đơn hàng',
+                    style: TextStyle(
+                        fontFamily: 'Solway',
+                        fontSize: 25 * fem,
+                        color: AppColor.primary),
+                  ),
+                ],
+              );
+            }
+
             return Container(
               child: Column(children: [
                 Expanded(
                   child: ListView.builder(
                     itemCount: state.orderModelList.length,
                     itemBuilder: (context, index) {
-                      final checkOrder = state.orderModelList
-                          .where(
-                            (order) =>
-                                !order.stateCurrent!.contains('Đã hoàn thành'),
-                          )
-                          .toList();
+                   
                       if (checkOrder.isNotEmpty) {
                         return OrderWaitingCard(
                             fem: fem,

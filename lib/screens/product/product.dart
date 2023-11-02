@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/common/image.dart';
 import 'package:my_app/common/string.dart';
 import 'package:my_app/data/models/ads_store_model.dart';
 import 'package:my_app/model/customer.dart';
@@ -31,7 +32,7 @@ class _ProductState extends State<Product> {
   bool isLoading = true;
   SharedPref sharedPref = SharedPref();
   String? fullName = '';
-  String? avatar = 'https://cdn-icons-png.flaticon.com/512/6386/6386976.png';
+
 
   @override
   void initState() {
@@ -112,7 +113,7 @@ class _ProductState extends State<Product> {
               child: CircleAvatar(
                 backgroundColor: AppColor.primary,
                 radius: 25.0,
-                child: Image.network('$avatar'),
+                child: Image.network('${AppString.avatar}'),
               ),
             )
           ],
@@ -188,7 +189,7 @@ class _ProductState extends State<Product> {
                         })
                       }),
               fullName = (jwt.user as Customer).fullName,
-              avatar = (jwt.user as Customer).avatar,
+              AppString.avatar = (jwt.user as Customer).avatar!,
               AppString.customerId = (jwt.user as Customer).id,
             }
           else if (jwt.role == "Store")
