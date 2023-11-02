@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/logic/blocs/cart/cart_bloc.dart';
-import 'package:my_app/model/product.dart';
 
 class ButtonAddToCart extends StatelessWidget {
   ButtonAddToCart({

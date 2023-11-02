@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/http.dart';
 import 'package:my_app/data/models/cart_model.dart';
 import 'package:my_app/data/models/product_model.dart';
-import 'package:my_app/model/product.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';

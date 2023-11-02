@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/data/models/order_model.dart';
 import 'package:my_app/screens/profile_order/order_detail_screen.dart';
-import 'package:my_app/screens/profile_order/profile_order_screen.dart';
 
 class ButtonOrderDetail extends StatelessWidget {
   const ButtonOrderDetail({

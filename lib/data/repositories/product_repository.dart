@@ -55,9 +55,9 @@ class ProductRepository {
       if (cateList.isNotEmpty) {
         for (int i = 0; i < cateList.length; i++) {
           if (i == cateList.length - 1) {
-            filterCateId = filterCateId + 'categoryIds=${cateList[i].id}';
+            filterCateId = '${filterCateId}categoryIds=${cateList[i].id}';
           } else {
-            filterCateId = filterCateId + 'categoryIds=${cateList[i].id}&';
+            filterCateId = '${filterCateId}categoryIds=${cateList[i].id}&';
           }
         }
       }
@@ -65,9 +65,9 @@ class ProductRepository {
       if (brandList.isNotEmpty) {
         for (int i = 0; i < brandList.length; i++) {
           if (i == cateList.length - 1) {
-            filterBrandId = filterBrandId + '&brandIds=${brandList[i].id}';
+            filterBrandId = '$filterBrandId&brandIds=${brandList[i].id}';
           } else {
-            filterBrandId = filterBrandId + '&brandIds=${brandList[i].id}&';
+            filterBrandId = '$filterBrandId&brandIds=${brandList[i].id}&';
           }
         }
       }

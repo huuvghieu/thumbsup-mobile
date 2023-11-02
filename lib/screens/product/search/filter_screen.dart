@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -70,13 +68,13 @@ class Filter extends StatelessWidget {
         },
       )),
       body: const SingleChildScrollView(
-        padding: const EdgeInsets.all(5.0),
+        padding: EdgeInsets.all(5.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(20.0, 10.0, 0.0, 0.0),
+              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
               child: ExpansionTile(
                 initiallyExpanded: true,
                 title: Text(
@@ -94,7 +92,7 @@ class Filter extends StatelessWidget {
             ),
             SizedBox(height: 30.0),
             Padding(
-              padding: EdgeInsets.fromLTRB(20.0, 10.0, 0.0, 0.0),
+              padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
               child: ExpansionTile(
                 initiallyExpanded: true,
                 title: Text(
@@ -112,7 +110,7 @@ class Filter extends StatelessWidget {
             ),
             SizedBox(height: 30.0),
             Padding(
-              padding: EdgeInsets.fromLTRB(20.0, 10.0, 0.0, 0.0),
+              padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
               child: ExpansionTile(
                 title: Text(
                   "Thương hiệu",

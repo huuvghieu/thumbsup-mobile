@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/data/models/city_model.dart';
-import 'package:my_app/data/repositories/city_repository.dart';
 import 'package:my_app/logic/blocs/city/city_bloc.dart';
 
 class DropDownTextFieldCustom extends StatefulWidget {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/screens/profile_reserve_order/components/item_card.dart';
 import 'package:my_app/services/product_service.dart';

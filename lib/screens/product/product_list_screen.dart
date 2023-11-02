@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
@@ -13,9 +13,11 @@ import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/data/repositories/product_repository.dart';
 import 'package:my_app/logic/cubits/product/product_cubit.dart';
 import 'package:my_app/screens/product_details/product_detail_screen.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductListScreen extends StatelessWidget {
   static const String routeName = '/product-list-screen';
+
   const ProductListScreen(
       {required this.categories,
       required this.brands,
@@ -36,7 +38,7 @@ class ProductListScreen extends StatelessWidget {
         priceStart: priceStart,
         priceEnd: priceEnd,
       ),
-      settings: RouteSettings(name: routeName),
+      settings: const RouteSettings(name: routeName),
     );
   }
 
@@ -105,88 +107,125 @@ class ProductListScreen extends StatelessWidget {
         body: BlocProvider(
           create: (context) => ProductCubit(
               ProductRepository(), categories, brands, priceStart, priceEnd),
-          child: ProductView(),
+          child: Container(
+              margin: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
+              child: const ProductView()),
         ),
       ),
     );
   }
 }
 
-class ProductView extends StatelessWidget {
-  ProductView({
+class ProductView extends StatefulWidget {
+  const ProductView({
     super.key,
   });
 
-  final scrollController = ScrollController();
+  @override
+  State<ProductView> createState() => _ProductViewState();
+}
 
-  void setupScrollController(context) {
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels != 0) {
-          BlocProvider.of<ProductCubit>(context).loadProducts();
-        }
-      }
+class _ProductViewState extends State<ProductView> {
+  //PQT
+  final PagingController<int, ProductModel> _pagingController =
+      PagingController(firstPageKey: 1, invisibleItemsThreshold: 2);
+
+  @override
+  void initState() {
+    super.initState();
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    setupScrollController(context);
+  void dispose() {
+    super.dispose();
+    _pagingController.dispose();
+  }
+  //PQT
+
+  Future<void> _fetchPage(int pageKey) async {
     BlocProvider.of<ProductCubit>(context).loadProducts();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return _productList();
   }
 
   Widget _productList() {
-    return BlocBuilder<ProductCubit, ProductState>(
-      builder: ((context, state) {
-        if (state is ProductLoadingState && state.isFirstFetch) {
-          return _loadIndicator();
+    return BlocBuilder<ProductCubit, ProductState>(builder: ((context, state) {
+      int page = 1;
+
+      if (state is ProductLoadedState) {
+        try {
+          final newItems = state.products;
+          final isLastPage = newItems.length < 10;
+          if (isLastPage) {
+            _pagingController.appendLastPage(newItems);
+          } else {
+            final nextPageKey = page;
+            _pagingController.appendPage(newItems, nextPageKey);
+          }
+        } catch (error) {
+          _pagingController.error = error;
         }
+      }
 
-        bool isLoading = false;
-
-        List<ProductModel> products = [];
-
-        if (state is ProductLoadingState) {
-          products = state.oldProducts;
-          isLoading = true;
-        } else if (state is ProductLoadedState) {
-          products = state.products;
-        }
-        return GridView.builder(
-          controller: scrollController,
+      return CustomScrollView(slivers: <Widget>[
+        PagedSliverGrid<int, ProductModel>(
+          pagingController: _pagingController,
+          shrinkWrapFirstPageIndicators: true,
+          showNewPageProgressIndicatorAsGridChild: false,
+          showNoMoreItemsIndicatorAsGridChild: false,
+          showNewPageErrorIndicatorAsGridChild: false,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 10.0,
             crossAxisSpacing: 8.0,
-            childAspectRatio: 0.55, // Change the cross-axis count as needed
+            childAspectRatio: 0.55,
           ),
-          itemBuilder: (context, index) {
-            if (index < products.length) {
-              return _product(products[index], context);
-            } else {
-              Timer(Duration(milliseconds: 30), () {
-                scrollController
-                    .jumpTo(scrollController.position.maxScrollExtent);
-              });
-              return Container();
-            }
-          },
-          itemCount: products.length + (isLoading ? 1 : 0),
-        );
-      }),
-    );
-  }
-
-  Widget _loadIndicator() {
-    return const Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Center(
-        child: CircularProgressIndicator(
-          color: AppColor.primary,
+          builderDelegate: PagedChildBuilderDelegate<ProductModel>(
+            itemBuilder: (context, item, index) {
+              return _product(item, context);
+            },
+            animateTransitions: true,
+            newPageProgressIndicatorBuilder: (context) {
+              return shimmerLoading();
+            },
+            firstPageProgressIndicatorBuilder: (context) {
+              return shimmerLoading();
+            },
+            noItemsFoundIndicatorBuilder: (context) {
+              return const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image(
+                        image: AssetImage(emptyIcon),
+                        height: 50.0,
+                      ),
+                      SizedBox(width: 10.0),
+                      Text(
+                        "Không tìm thấy sản phẩm!",
+                        style: TextStyle(
+                            color: AppColor.lowText,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w700),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ),
-      ),
-    );
+      ]);
+    }));
   }
 
   Widget _product(ProductModel product, BuildContext context) {
@@ -237,7 +276,7 @@ class ProductView extends StatelessWidget {
                   Align(
                     alignment: Alignment.topRight,
                     child: Padding(
-                      padding: EdgeInsets.all(7.0),
+                      padding: const EdgeInsets.all(7.0),
                       child: SizedBox(
                         child: Stack(children: [
                           const Image(
@@ -248,7 +287,7 @@ class ProductView extends StatelessWidget {
                             right: 23,
                             child: Text(
                               '${product.discount}',
-                              style:const TextStyle(
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.w700),
@@ -373,6 +412,33 @@ class ProductView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget shimmerLoading() {
+    return GridView.builder(
+      itemCount: 10,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10.0,
+        crossAxisSpacing: 5.0,
+        childAspectRatio: 0.55,
+      ),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+        );
+      },
     );
   }
 

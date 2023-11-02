@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:my_app/common/string.dart';
 import 'package:my_app/data/models/create_model/create_order_model.dart';
 import 'package:my_app/data/models/order_model.dart';
-import 'package:my_app/data/models/store_model.dart';
 import 'package:my_app/services/network_handler.dart';
 
 class OrderRepository {

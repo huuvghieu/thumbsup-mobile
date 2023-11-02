@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:my_app/common/string.dart';
 import 'package:my_app/data/models/order_model.dart';
 import 'package:my_app/services/network_handler.dart';
-import 'package:http_parser/http_parser.dart';
 
 class CustomerRepository {
   static String endpoint = '${AppString.baseURL}customers';

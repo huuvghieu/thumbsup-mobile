@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:my_app/data/models/price_model.dart';
-import 'package:my_app/filter/price_filter_model.dart';
 
 class PriceFilterModel extends Equatable {
   final int id;

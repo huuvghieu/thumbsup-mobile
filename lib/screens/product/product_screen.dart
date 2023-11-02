@@ -57,7 +57,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Future<void> _getStoreById(int id) async {
     try {} catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -94,7 +94,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   ));
             },
             child: Hero(
-              tag: 'product_${index}',
+              tag: 'product_$index',
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(

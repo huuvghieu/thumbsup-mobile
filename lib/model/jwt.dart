@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:my_app/data/models/customer_model.dart';
 import 'package:my_app/model/customer.dart';
 import 'package:my_app/model/store.dart';
 
@@ -15,7 +14,7 @@ class Jwt {
     token = json['token'];
     role = json['role'];
     if (role == "Customer") {
-      user = json['user'] != null ? CustomerModel.fromJson(json['user']) : null;
+      user = json['user'] != null ? Customer.fromJson(json['user']) : null;
     } else if (role == "Store") {
       user = json['user'] != null ? Store.fromJson(json['user']) : null;
     }

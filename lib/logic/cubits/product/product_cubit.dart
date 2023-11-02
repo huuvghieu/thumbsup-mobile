@@ -39,7 +39,7 @@ class ProductCubit extends Cubit<ProductState> {
         .filteredProducts(page, categories!, brands!, priceStart!, priceEnd!)
         .then((newProducts) {
       page++;
-      final products = (state as ProductLoadingState).oldProducts;
+      List<ProductModel> products = [];
       products.addAll(newProducts);
 
       emit(ProductLoadedState(products: products));

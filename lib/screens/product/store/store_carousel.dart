@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/data/models/ads_store_model.dart';
 import 'package:my_app/screens/store/screens/store_screen.dart';
+import 'package:my_app/services/ads_store_service.dart';
 
 class CarouselStore extends StatefulWidget {
-  const CarouselStore({super.key, required this.ads});
-
-  final List<AdsStoreModel> ads;
+  const CarouselStore({super.key});
 
   @override
   State<CarouselStore> createState() => _CarouselStoreState();
@@ -16,10 +15,16 @@ class CarouselStore extends StatefulWidget {
 class _CarouselStoreState extends State<CarouselStore> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
+  List<AdsStoreModel> ads = [];
 
   @override
   void initState() {
     super.initState();
+    _fetchAds();
+  }
+
+  Future<void> _fetchAds() async {
+    ads = await AdsStoreService.getAdsStore();
   }
 
   @override
@@ -112,7 +117,7 @@ class _CarouselStoreState extends State<CarouselStore> {
   }
 
   List<Widget> carouselStoreWidget() {
-    return widget.ads
+    return ads
         .map((item) => GestureDetector(
               onTap: () {
                 Navigator.push(

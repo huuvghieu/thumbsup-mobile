@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:my_app/data/models/order_model.dart';
 import 'package:my_app/data/models/store_model.dart';
 import 'package:my_app/data/repositories/store_repository.dart';
 
