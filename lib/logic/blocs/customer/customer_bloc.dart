@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
@@ -13,27 +14,31 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
   final CustomerRepository customerRepository;
   CustomerBloc({required this.customerRepository})
       : super(CustomerLoadingState()) {
+    on<StartRegisterEvent>(_onStartRegister);
     on<RegisterEvent>(_onRegisterCustomer);
     on<LoadOrderByCustomerIdEvent>(_onLoadOrderByCustomerId);
   }
 
+  void _onStartRegister(StartRegisterEvent event, Emitter<CustomerState> emit){
+    emit(CustomerRegistering());
+  }
+
   Future<void> _onRegisterCustomer(
       RegisterEvent event, Emitter<CustomerState> emit) async {
-    emit(CustomerRegistering());
     await Future.delayed(const Duration(seconds: 1));
     try {
       await customerRepository.registerCustomer(
-          userName: event.userName,
-          passWord: event.passWord,
-          passWordConfirmed: event.passWordConfirmed,
-          fullName: event.fullName,
-          email: event.email,
-          phone: event.phone,
-          dob: event.dob,
-          cityId: event.cityId,
-          selectedFile: event.selectedFile,
-          bytesData: event.bytesData!,
-          filename: event.filename!);
+        userName: event.userName,
+        passWord: event.passWord,
+        passWordConfirmed: event.passWordConfirmed,
+        fullName: event.fullName,
+        email: event.email,
+        phone: event.phone,
+        dob: event.dob,
+        cityId: event.cityId,
+        address: event.address,
+        avatar: event.avatar,
+      );
       emit(CustomerRegistered());
     } catch (e) {
       emit(CustomerError(e.toString()));
@@ -44,7 +49,8 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       LoadOrderByCustomerIdEvent event, Emitter<CustomerState> emit) async {
     emit(CustomerLoadingState());
     try {
-      final orderList = await customerRepository.getOrderListByCustomerId(event.id);
+      final orderList =
+          await customerRepository.getOrderListByCustomerId(event.id);
       emit(OrderByCustoerIdLoadedState(orderList!));
     } catch (e) {
       emit(CustomerError(e.toString()));

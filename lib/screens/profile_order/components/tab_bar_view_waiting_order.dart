@@ -62,7 +62,7 @@ class TabBarViewWaitingOrder extends StatelessWidget {
               child: Column(children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: state.orderModelList.length,
+                    itemCount: checkOrder.length,
                     itemBuilder: (context, index) {
                    
                       if (checkOrder.isNotEmpty) {

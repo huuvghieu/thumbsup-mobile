@@ -16,6 +16,14 @@ class ProductLoadedState extends ProductState {
   List<Object> get props => [products];
 }
 
+class ProductByIdLoadedState extends ProductState {
+  ProductByIdLoadedState(this.product);
+  final ProductModel product;
+
+  @override
+  List<Object> get props => [product];
+}
+
 class ProductErrorState extends ProductState {
   ProductErrorState(this.error);
   final String error;

@@ -5,7 +5,6 @@ import 'package:my_app/data/models/cart_model.dart';
 import 'package:my_app/data/models/checkout_model.dart';
 import 'package:my_app/data/models/create_model/create_order_detail_model.dart';
 import 'package:my_app/data/models/create_model/create_order_model.dart';
-import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/data/repositories/order_repository.dart';
 import 'package:my_app/logic/blocs/cart/cart_bloc.dart';
 import 'package:my_app/services/network_handler.dart';
@@ -44,7 +43,6 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
             emit(CheckoutFailedState());
           }
         });
-        (cartBloc.state as CartLoaded).cart.products = <ProductModel>[];
         emit(CheckoutSuccessState());
       } catch (_) {
         emit(CheckoutFailedState());

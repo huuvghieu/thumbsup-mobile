@@ -4,18 +4,36 @@ abstract class GeolocationEvent extends Equatable {
   const GeolocationEvent();
 }
 
-class LoadGeolocation extends GeolocationEvent {
+// class LoadGeolocation extends GeolocationEvent {
+//   @override
+//   List<Object?> get props => [];
+// }
+
+// class UpdateGeolocation extends GeolocationEvent {
+//   final Position position;
+
+//   const UpdateGeolocation({required this.position});
+  
+//   @override
+//   List<Object?> get props => [position];
+
+
+// }
+
+class LoadMap extends GeolocationEvent {
+  final GoogleMapController? controller;
+
+  const LoadMap({this.controller});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [controller];
 }
 
-class UpdateGeolocation extends GeolocationEvent {
-  final Position position;
+class SearchLocation extends GeolocationEvent {
+  final String placeId;
 
-  const UpdateGeolocation({required this.position});
-  
+  const SearchLocation({required this.placeId});
+
   @override
-  List<Object?> get props => [position];
-
-
+  List<Object?> get props => [placeId];
 }

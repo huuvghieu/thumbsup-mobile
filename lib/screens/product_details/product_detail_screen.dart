@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/data/models/product_model.dart';
+import 'package:my_app/data/repositories/product_repository.dart';
 import 'package:my_app/data/repositories/store_repository.dart';
 import 'package:my_app/data/repositories/wishlist_product_repository.dart';
 import 'package:my_app/screens/product_details/components/body.dart';
@@ -24,6 +25,9 @@ class ProductDetailScreen extends StatelessWidget {
             RepositoryProvider(
               create: (context) => WishListRepository(),
             ),
+            RepositoryProvider(
+              create: (context) => ProductRepository(),
+            ),  
           ],
           child: Body(
             product: product,

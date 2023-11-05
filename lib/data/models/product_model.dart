@@ -1,28 +1,55 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 
+part 'product_model.g.dart';
+
+@HiveType(typeId: 0)
 class ProductModel extends Equatable {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String productName;
+  @HiveField(2)
   final double originalPrice;
+  @HiveField(3)
   final double salePrice;
+  @HiveField(4)
   final int discount;
+  @HiveField(5)
   int? shelfLife;
+  @HiveField(6)
   double? weight;
+  @HiveField(7)
   int? rating;
-  int? quantity;
+  @HiveField(8)
+  late int quantity;
+  @HiveField(9)
   int? numOfRating;
+  @HiveField(10)
   String? description;
+  @HiveField(11)
   bool? favor;
+  @HiveField(12)
   bool? state;
+  @HiveField(13)
   final int storeId;
+  @HiveField(14)
   String? storeName;
+  @HiveField(15)
   final int categoryId;
+  @HiveField(16)
   String? categoryName;
+  @HiveField(17)
   final int brandId;
+  @HiveField(18)
   String? brandName;
+  @HiveField(19)
   final int countryId;
+  @HiveField(20)
   String? countryName;
+  @HiveField(21)
   String? imageCover;
+  @HiveField(22)
   bool? status;
 
   ProductModel(
@@ -34,7 +61,7 @@ class ProductModel extends Equatable {
       this.shelfLife,
       this.weight,
       this.rating,
-      this.quantity,
+      required this.quantity,
       this.numOfRating,
       this.description,
       this.favor,
@@ -80,29 +107,29 @@ class ProductModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['productName'] = this.productName;
-    data['originalPrice'] = this.originalPrice;
-    data['salePrice'] = this.salePrice;
-    data['discount'] = this.discount;
-    data['shelfLife'] = this.shelfLife;
-    data['weight'] = this.weight;
-    data['rating'] = this.rating;
-    data['quantity'] = this.quantity;
-    data['numOfRating'] = this.numOfRating;
-    data['description'] = this.description;
-    data['favor'] = this.favor;
-    data['state'] = this.state;
-    data['storeId'] = this.storeId;
-    data['storeName'] = this.storeName;
-    data['categoryId'] = this.categoryId;
-    data['categoryName'] = this.categoryName;
-    data['brandId'] = this.brandId;
-    data['brandName'] = this.brandName;
-    data['countryId'] = this.countryId;
-    data['countryName'] = this.countryName;
-    data['imageCover'] = this.imageCover;
-    data['status'] = this.status;
+    data['id'] = id;
+    data['productName'] = productName;
+    data['originalPrice'] = originalPrice;
+    data['salePrice'] = salePrice;
+    data['discount'] = discount;
+    data['shelfLife'] = shelfLife;
+    data['weight'] = weight;
+    data['rating'] = rating;
+    data['quantity'] = quantity;
+    data['numOfRating'] = numOfRating;
+    data['description'] = description;
+    data['favor'] = favor;
+    data['state'] = state;
+    data['storeId'] = storeId;
+    data['storeName'] = storeName;
+    data['categoryId'] = categoryId;
+    data['categoryName'] = categoryName;
+    data['brandId'] = brandId;
+    data['brandName'] = brandName;
+    data['countryId'] = countryId;
+    data['countryName'] = countryName;
+    data['imageCover'] = imageCover;
+    data['status'] = status;
     return data;
   }
 
@@ -130,4 +157,9 @@ class ProductModel extends Equatable {
         imageCover,
         status
       ];
+
+  @override
+  String toString() {
+    return 'Product: (id=$id, productName=$productName)';
+  }
 }

@@ -2,19 +2,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:my_app/config/app_router.dart';
+import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/data/repositories/brand_repository.dart';
 import 'package:my_app/data/repositories/category_repository.dart';
 import 'package:my_app/data/repositories/city_repository.dart';
 import 'package:my_app/data/repositories/customer_repository.dart';
 import 'package:my_app/data/repositories/geolocation_repository.dart';
+import 'package:my_app/data/repositories/local_storage_repository.dart';
 import 'package:my_app/data/repositories/order_repository.dart';
 import 'package:my_app/data/repositories/product_repository.dart';
 import 'package:my_app/data/repositories/state_repository.dart';
+import 'package:my_app/logic/blocs/autocomplete/autocomplete_bloc.dart';
 import 'package:my_app/logic/blocs/cart/cart_bloc.dart';
 import 'package:my_app/logic/blocs/category/category_bloc.dart';
 import 'package:my_app/logic/blocs/city/city_bloc.dart';
 import 'package:my_app/logic/blocs/filters/filters_bloc.dart';
+import 'package:my_app/logic/blocs/geolocation/geolocation_bloc.dart';
 import 'package:my_app/logic/blocs/state/state_bloc.dart';
 import 'package:my_app/logic/cubits/google_auth/cubit/google_auth_cubit.dart';
 import 'package:my_app/screens/welcome/splash.dart';
@@ -22,6 +27,8 @@ import 'package:my_app/screens/welcome/splash.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Hive.initFlutter();
+  Hive.registerAdapter(ProductModelAdapter());
   runApp(const App());
 }
 
@@ -56,6 +63,9 @@ class App extends StatelessWidget {
         RepositoryProvider<StateRepository>(
           create: (_) => StateRepository(),
         ),
+        RepositoryProvider<LocalStorageRepository>(
+          create: (_) => LocalStorageRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -70,8 +80,15 @@ class App extends StatelessWidget {
           // BlocProvider(
           //   create: (context) => CartBloc(),
           // )
+          // BlocProvider(
+          //   create: (context) =>
+          //       GeolocationBloc(geolocationRepository: context.read<GeolocationRepository>())
+          //         ..add(LoadGeolocation()),
+          // ),
           BlocProvider(
-            create: (context) => CartBloc()..add(LoadCartEvent()),
+            create: (context) =>
+                CartBloc(localStorageRepository: LocalStorageRepository())
+                  ..add(LoadCartEvent()),
           ),
           BlocProvider(
             create: (context) =>
@@ -82,6 +99,7 @@ class App extends StatelessWidget {
             create: (context) => StateBloc(context.read<StateRepository>())
               ..add(const LoadStateEvent()),
           ),
+
           BlocProvider(
             create: (context) => FiltersBloc(
                 categoryRepository: context.read<CategoryRepository>(),
@@ -89,6 +107,7 @@ class App extends StatelessWidget {
                 productRepository: context.read<ProductRepository>())
               ..add(FilterLoad()),
           ),
+
           BlocProvider(
               create: (context) => CityBloc(context.read<CityRepository>())
                 ..add(const LoadCityEvent())),

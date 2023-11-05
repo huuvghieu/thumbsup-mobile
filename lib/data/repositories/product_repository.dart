@@ -40,12 +40,14 @@ class ProductRepository {
     int page,
     List<CategoryModel> cateList,
     List<BrandModel> brandList,
-    PriceModel priceStart,
-    PriceModel priceEnd,
+    PriceModel priceStartModel,
+    PriceModel priceEndModel,
   ) async {
     try {
       String filterCateId = '';
       String filterBrandId = '';
+      String priceEnd = '1000000000';
+      String priceStart = '0';
       token = await NetWorkHandler.storage.read(key: 'token');
       final Map<String, String> headers = {
         'Content-Type': 'application/json; charset=UTF-8',
@@ -72,22 +74,72 @@ class ProductRepository {
         }
       }
 
+      if (priceStartModel != null && priceEndModel != null) {
+        priceStart = priceStartModel.price.toString();
+        priceEnd = priceEndModel.price.toString();
+      }
       http.Response response = await http.get(
           Uri.parse(
-              '$endpoint?sort=id%2Cdesc&page=$page&$filterCateId$filterBrandId'),
+              '$endpoint?priceStart=$priceStart&priceEnd=$priceEnd&sort=id%2Cdesc&page=$page&$filterCateId$filterBrandId'),
           headers: headers);
 
       if (response.statusCode == 200) {
         final List result =
             jsonDecode(utf8.decode(response.bodyBytes))['content'];
         productLists = result.map(((e) => ProductModel.fromJson(e))).toList();
-        // if (priceStart != null && priceEnd != null) {
-        //   productLists = productLists.where((product) {
-        //     return priceStart.price <= product.salePrice &&
-        //         product.salePrice <= priceEnd.price;
-        //   }).toList();
-        // }
         return productLists;
+      } else {
+        throw Exception(response.reasonPhrase);
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+
+    Future<List<ProductModel>> searchProducs(
+    int page,
+    String search
+  ) async {
+    try {
+
+      token = await NetWorkHandler.storage.read(key: 'token');
+      final Map<String, String> headers = {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      };
+
+      http.Response response = await http.get(
+          Uri.parse(
+              '$endpoint?search=$search&sort=id%2Cdesc&page=$page'),
+          headers: headers);
+
+      if (response.statusCode == 200) {
+        final List result =
+            jsonDecode(utf8.decode(response.bodyBytes))['content'];
+        productLists = result.map(((e) => ProductModel.fromJson(e))).toList();
+        return productLists;
+      } else {
+        throw Exception(response.reasonPhrase);
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<ProductModel> getProductById(int id) async {
+    try {
+      token = await NetWorkHandler.storage.read(key: 'token');
+      final Map<String, String> headers = {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      };
+      http.Response response =
+          await http.get(Uri.parse('$endpoint/$id'), headers: headers);
+
+      if (response.statusCode == 200) {
+        final result = jsonDecode(utf8.decode(response.bodyBytes));
+        return ProductModel.fromJson(result);
       } else {
         throw Exception(response.reasonPhrase);
       }

@@ -16,16 +16,13 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
   void initState() {
     super.initState();
     _suggestions = [
-      'Afeganistan',
-      'Albania',
-      'Algeria',
-      'Australia',
-      'Brazil',
-      'German',
-      'Madagascar',
-      'Mozambique',
-      'Portugal',
-      'Zambia'
+      'Acer',
+      'Android',
+      'Apple',
+      'Bàn phím',
+      'Logitech',
+      'Razer',
+      'SmartTech'
     ];
   }
 
@@ -59,6 +56,13 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
                     Icons.search_rounded,
                     color: Colors.black54,
                   ),
+                  onSubmitted: (value) {
+                    // String searchString = controller.text;
+                    // FocusScope.of(context).unfocus();
+                    // Navigator.pushNamed(context, '/product-list-search-screen',
+                    //     arguments: searchString);
+                    handleSearch(value, context);
+                  },
                   hintText: 'Tìm kiếm theo tên sản phẩm hoặc cửa hàng',
                   hintStyle: MaterialStateProperty.all(
                       const TextStyle(color: Colors.grey)),
@@ -84,6 +88,8 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
                     onTap: () {
                       setState(() {
                         controller.closeView(item);
+                        Navigator.pushNamed(context, '/product-list-search-screen',
+                        arguments: item);
                         FocusScope.of(context).unfocus();
                       });
                     },
@@ -139,5 +145,11 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
         );
       },
     );
+  }
+  
+    void handleSearch(String value, BuildContext context) {
+    
+    FocusScope.of(context).unfocus();
+    Navigator.pushNamed(context, '/product-list-search-screen', arguments: value);
   }
 }

@@ -82,7 +82,27 @@ class _WishListScreenState extends State<WishListScreen> {
             child:  CircleAvatar(
                 backgroundColor: AppColor.primary,
                 radius: 25.0,
-                child: Image.network('${AppString.avatar}'),
+                child:  AppString.isAvatar 
+                ? Align(
+                        child: SizedBox(
+                          // width: 54,
+                          height: 80,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(80),
+                            child: Image.network(
+                                // isStore
+                                //     ? (jwt.user as StoreExtra).logo.toString()
+                                //     : avatar.toString(),
+                                '${AppString.ava}',
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      )
+                :  CircleAvatar(
+                backgroundColor: AppColor.primary,
+                radius: 25.0,
+                child: Image.network('${AppString.avatar}',width: 30),
+              ),  
               ),
           )
         ],

@@ -11,12 +11,14 @@ class LoadCartEvent extends CartEvent {
   @override
   List<Object> get props => [];
 }
-
+class RefreshCartEvent extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
 class AddProductEvent extends CartEvent {
   final ProductModel product;
-  int? quantity;
 
-  AddProductEvent({
+  const AddProductEvent({
     required this.product,
   });
 

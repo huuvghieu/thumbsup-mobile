@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
@@ -8,11 +9,11 @@ import 'package:my_app/data/models/order_model.dart';
 import 'package:my_app/services/network_handler.dart';
 
 class CustomerRepository {
-  static String endpoint = '${AppString.baseURL}customers';
+  static String endpoint = '${AppString.baseURL}';
   static String? token;
   static List<OrderModel> orderList = List.empty();
 
-  Future<void> registerCustomer({
+  Future<bool> registerCustomer({
     required String userName,
     required String passWord,
     required String passWordConfirmed,
@@ -20,24 +21,23 @@ class CustomerRepository {
     required String email,
     required String phone,
     required String dob,
+    required String address,
     required int cityId,
-    required List<int> selectedFile,
-    required Uint8List bytesData,
-    required String filename,
+    required File avatar,
   }) async {
     try {
-      token = await NetWorkHandler.storage.read(key: 'token');
       final Map<String, String> headers = {
-        'Content-Type': 'multipart/form-data; charset=UTF-8',
-        'Authorization': 'Bearer $token'
+        'Content-Type': 'multipart/form-data',
+        'Accept': 'application/json'
       };
       var request = http.MultipartRequest(
-          'POST', Uri.parse('{$endpoint}auth/customer/register'));
+          'POST', Uri.parse('${endpoint}auth/customer/register'));
 
       //thêm file cho request
-      request.files.add(await http.MultipartFile.fromBytes(
-          'avatar', selectedFile!,
-          filename: filename, contentType: MediaType('image', 'png')));
+      request.files.add(await http.MultipartFile.fromPath(
+        'avatar',
+        avatar.path,
+      ));
 
       //thêm headers
       request.headers.addAll(headers);
@@ -51,15 +51,17 @@ class CustomerRepository {
         'email': email,
         'phone': phone,
         'dob': dob,
+        'address': address,
         'cityId': cityId.toString(),
       });
       //send the request
       var response = await request.send();
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print(response);
+        return true;
       } else {
-        throw Exception(response.reasonPhrase);
+        return false;
       }
     } catch (e) {
       throw Exception(e.toString());
@@ -74,7 +76,7 @@ class CustomerRepository {
         'Authorization': 'Bearer $token'
       };
       http.Response response = await http.get(
-          Uri.parse('$endpoint/$id/orders?sort=id%2Cdesc'),
+          Uri.parse('$endpoint/customers/$id/orders?sort=id%2Cdesc'),
           headers: headers);
 
       if (response.statusCode == 200) {
@@ -84,7 +86,7 @@ class CustomerRepository {
         orderList = result.map((json) => OrderModel.fromJson(json)).toList();
         return orderList;
       } else {
-        throw Exception(response.reasonPhrase);
+        return <OrderModel>[];
       }
     } catch (e) {
       throw Exception(e.toString());

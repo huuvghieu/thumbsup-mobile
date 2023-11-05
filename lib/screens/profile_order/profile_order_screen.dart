@@ -4,9 +4,10 @@ import 'package:my_app/common/string.dart';
 import 'package:my_app/screens/profile_order/components/body.dart';
 
 class ProfileOrderScreen extends StatelessWidget {
-  const ProfileOrderScreen({super.key, required this.customerId});
+  ProfileOrderScreen({super.key, required this.customerId});
 
   final int? customerId;
+  final String? avatar = AppString.ava;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,9 @@ class ProfileOrderScreen extends StatelessWidget {
         child: Scaffold(
           appBar: buildAppBar(),
           backgroundColor: Colors.white,
-          body: Body(customerId: customerId,),
+          body: Body(
+            customerId: customerId,
+          ),
         ),
       ),
     );
@@ -73,11 +76,31 @@ class ProfileOrderScreen extends StatelessWidget {
         Container(
           color: Colors.white,
           margin: const EdgeInsets.fromLTRB(5.0, 25.0, 10.0, 25.0),
-          child:  CircleAvatar(
+          child: CircleAvatar(
+            backgroundColor: AppColor.primary,
+            radius: 25.0,
+            child: AppString.isAvatar
+             ? Align(
+                        child: SizedBox(
+                          // width: 54,
+                          height: 80,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(80),
+                            child: Image.network(
+                                // isStore
+                                //     ? (jwt.user as StoreExtra).logo.toString()
+                                //     : avatar.toString(),
+                                '$avatar',
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      )
+                :  CircleAvatar(
                 backgroundColor: AppColor.primary,
                 radius: 25.0,
-                child: Image.network('${AppString.avatar}'),
-              ),
+                child: Image.network('${AppString.avatar}',width: 30),
+              ),     
+          ),
         )
       ],
     );

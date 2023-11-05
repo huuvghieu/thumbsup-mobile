@@ -8,13 +8,11 @@ class ItemCard extends StatelessWidget {
       {super.key,
       required this.fem,
       required this.ffem,
-      required this.productModel,
-      required this.quanity});
+      required this.productModel,});
 
   final double fem;
   final double ffem;
   ProductModel productModel;
-  final int quanity;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +53,7 @@ class ItemCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(bottom: 5 * fem),
                 child: Text(
-                  'Số lượng: $quanity',
+                  'Số lượng: ${productModel.quantity}',
                   style: TextStyle(
                     fontFamily: 'Solway',
                     fontSize: 14 * ffem,

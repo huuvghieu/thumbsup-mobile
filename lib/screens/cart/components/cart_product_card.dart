@@ -12,13 +12,13 @@ class CartProductCard extends StatelessWidget {
     required this.fem,
     required this.ffem,
     required this.product,
-    required this.quantity,
+    // required this.quantity,
   });
 
   final double fem;
   final double ffem;
   final ProductModel product;
-  final int quantity;
+  // final int quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class CartProductCard extends StatelessWidget {
                     Container(
                       width: 180 * fem,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 7*fem),
+                        padding: EdgeInsets.only(top: 7 * fem),
                         child: Text(
                           product.productName.toString(),
                           overflow: TextOverflow.ellipsis,
@@ -71,10 +71,9 @@ class CartProductCard extends StatelessWidget {
                       child: Text(
                         'x',
                         style: TextStyle(
-                          color: AppColor.primary,
-                          fontSize: 18 * ffem,
-                          fontWeight: FontWeight.w100
-                        ),
+                            color: AppColor.primary,
+                            fontSize: 18 * ffem,
+                            fontWeight: FontWeight.w100),
                       ),
                     ),
                   ],
@@ -143,7 +142,7 @@ class CartProductCard extends StatelessWidget {
                                   Container(
                                     margin: EdgeInsets.only(top: 15 * fem),
                                     child: Text(
-                                      '$quantity',
+                                      '${product.quantity}',
                                       style: TextStyle(
                                         fontFamily: 'Solway',
                                         fontSize: 13 * ffem,

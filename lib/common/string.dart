@@ -10,5 +10,8 @@ class AppString {
   static const String baseURL =
       'https://thumbsup-api.azurewebsites.net/api/v1/';
   static int? customerId;
-  static String avatar = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/800px-User-avatar.svg.png';
+  static const String avatar =
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/800px-User-avatar.svg.png';
+  static String? ava = '';
+  static bool isAvatar = false;
 }

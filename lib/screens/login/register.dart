@@ -1,8 +1,12 @@
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/data/repositories/customer_repository.dart';
@@ -136,6 +140,8 @@ class RegisterForm extends StatefulWidget {
 }
 
 class RegisterFormState extends State<RegisterForm> {
+  File? _selectedImage;
+  final _picker = ImagePicker();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final userController = TextEditingController();
@@ -146,9 +152,14 @@ class RegisterFormState extends State<RegisterForm> {
   final dobController = TextEditingController();
   final addressController = TextEditingController();
   final cityController = TextEditingController();
-  final List<int> selectedFile = List.empty();
-  Uint8List? bytesData;
-  String? filename;
+
+  Future<void> _pickImag() async {
+    final returnedImage = await _picker.pickImage(source: ImageSource.gallery);
+    if (returnedImage == null) return;
+    setState(() {
+      _selectedImage = File(returnedImage.path);
+    });
+  }
 
   @override
   void dispose() {
@@ -171,126 +182,218 @@ class RegisterFormState extends State<RegisterForm> {
       create: (context) => CustomerBloc(
           customerRepository:
               RepositoryProvider.of<CustomerRepository>(context))
-        ..add(RegisterEvent(
-            userName: userController.text,
-            passWord: passwordController.text,
-            passWordConfirmed: rePasswordController.text,
-            fullName: nameController.text,
-            email: emailController.text,
-            phone: phoneController.text,
-            dob: dobController.text,
-            cityId: (cityController.text as num).toInt(),
-            selectedFile: selectedFile,
-            bytesData: bytesData,
-            filename: filename)),
+        ..add(StartRegisterEvent()),
       child: Form(
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Đăng ký",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 45.0,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Align(
-                  alignment: Alignment.topLeft,
+          child: BlocBuilder<CustomerBloc, CustomerState>(
+            builder: (context, state) {
+              if (state is CustomerRegistering) {
+                return SingleChildScrollView(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextFormFieldCustom(
-                          label: "Họ và tên",
-                          hint: "Nhập họ và tên...",
-                          icon: Icons.account_box,
-                          isPassword: false,
-                          controller: nameController),
-                      const SizedBox(height: 25.0),
-                      TextFormFieldCustom(
-                          label: "Tài khoản",
-                          hint: "Nhập tài khoản...",
-                          icon: Icons.account_circle_rounded,
-                          isPassword: false,
-                          controller: userController),
-                      const SizedBox(height: 25.0),
-                      TextFormFieldCustom(
-                          label: "Mật khẩu",
-                          hint: "Nhập mật khẩu...",
-                          icon: Icons.password,
-                          isPassword: true,
-                          controller: passwordController),
-                      const SizedBox(height: 25.0),
-                      TextFormFieldCustom(
-                          label: "Nhập lại mật khẩu",
-                          hint: "Nhập lại mật khẩu...",
-                          icon: Icons.password_sharp,
-                          isPassword: true,
-                          controller: rePasswordController),
-                      const SizedBox(height: 25.0),
-                      TextFormFieldCustom(
-                          label: "Email",
-                          hint: "Nhập email...",
-                          icon: Icons.email,
-                          isPassword: false,
-                          controller: emailController),
-                      const SizedBox(height: 25.0),
-                      TextFormFieldCustom(
-                          label: "Số điện thoại",
-                          hint: "Nhập số điện thoại...",
-                          icon: Icons.password_sharp,
-                          isPassword: false,
-                          keyboardType: TextInputType.number,
-                          controller: phoneController),
-                      const SizedBox(height: 25.0),
-                      TextFormFieldBOD(
-                          label: 'Ngày sinh nhật',
-                          hint: 'Chọn ngày sinh nhật...',
-                          controller: dobController,
-                          icon: Icons.calendar_month,
-                          isPassword: false),
-                      const SizedBox(height: 25.0),
-                      TextFormFieldCustom(
-                          label: 'Địa chỉ',
-                          hint: "Nhập địa chỉ...",
-                          icon: Icons.home,
-                          isPassword: false,
-                          controller: addressController),
-                      const SizedBox(height: 25.0),
-                      DropDownTextFieldCustom(controller: cityController)
+                      const Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Đăng ký",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 45.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextFormFieldCustom(
+                                label: "Họ và tên",
+                                hint: "Nhập họ và tên...",
+                                icon: Icons.account_box,
+                                isPassword: false,
+                                controller: nameController),
+                            const SizedBox(height: 25.0),
+                            TextFormFieldCustom(
+                                label: "Tài khoản",
+                                hint: "Nhập tài khoản...",
+                                icon: Icons.account_circle_rounded,
+                                isPassword: false,
+                                controller: userController),
+                            const SizedBox(height: 25.0),
+                            TextFormFieldCustom(
+                                label: "Mật khẩu",
+                                hint: "Nhập mật khẩu...",
+                                icon: Icons.password,
+                                isPassword: true,
+                                controller: passwordController),
+                            const SizedBox(height: 25.0),
+                            TextFormFieldCustom(
+                                label: "Nhập lại mật khẩu",
+                                hint: "Nhập lại mật khẩu...",
+                                icon: Icons.password_sharp,
+                                isPassword: true,
+                                controller: rePasswordController),
+                            const SizedBox(height: 25.0),
+                            TextFormFieldCustom(
+                                label: "Email",
+                                hint: "Nhập email...",
+                                icon: Icons.email,
+                                isPassword: false,
+                                controller: emailController),
+                            const SizedBox(height: 25.0),
+                            TextFormFieldCustom(
+                                label: "Số điện thoại",
+                                hint: "Nhập số điện thoại...",
+                                icon: Icons.password_sharp,
+                                isPassword: false,
+                                keyboardType: TextInputType.number,
+                                controller: phoneController),
+                            const SizedBox(height: 25.0),
+                            TextFormFieldBOD(
+                                label: 'Ngày sinh nhật',
+                                hint: 'Chọn ngày sinh nhật...',
+                                controller: dobController,
+                                icon: Icons.calendar_month,
+                                isPassword: false),
+                            const SizedBox(height: 25.0),
+                            TextFormFieldCustom(
+                                label: 'Địa chỉ',
+                                hint: "Nhập địa chỉ...",
+                                icon: Icons.home,
+                                isPassword: false,
+                                controller: addressController),
+                            const SizedBox(height: 25.0),
+                            DropDownTextFieldCustom(controller: cityController),
+                            const SizedBox(height: 25.0),
+                            Column(
+                              children: [
+                                Text(
+                                  'Ảnh đại diện',
+                                  style: const TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                _selectedImage != null
+                                    ? Container(
+                                        height: 120,
+                                        width: 150,
+                                        child: Image.file(_selectedImage!))
+                                    : Container(
+                                        // margin: EdgeInsets.only(left: ),
+                                        child: const Icon(
+                                        Icons.photo,
+                                        size: 120,
+                                      )),
+                                Container(
+                                  width: 80,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      _pickImag();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColor.primaryDark,
+                                        elevation: 5.0,
+                                        shadowColor: Colors.black,
+                                        minimumSize:
+                                            const Size(double.infinity, 20.0),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0.0, 10.0, 0.0, 10.0),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50.0))),
+                                    child: const Text(
+                                      "Chọn ảnh",
+                                      style: TextStyle(
+                                          fontSize: 15.0, color: Colors.white),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<CustomerBloc>().add(RegisterEvent(
+                                userName: userController.text,
+                                passWord: passwordController.text,
+                                passWordConfirmed: rePasswordController.text,
+                                fullName: nameController.text,
+                                email: emailController.text,
+                                phone: phoneController.text,
+                                dob: dobController.text,
+                                address: addressController.text,
+                                cityId: int.parse(cityController.text),
+                                avatar: _selectedImage!,
+                              ));
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColor.primaryDark,
+                            elevation: 5.0,
+                            shadowColor: Colors.black,
+                            minimumSize: const Size(double.infinity, 20.0),
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0))),
+                        child: const Text(
+                          "Đăng ký",
+                          style: TextStyle(fontSize: 25.0),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                ElevatedButton(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PhoneVerify())),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColor.primaryDark,
-                      elevation: 5.0,
-                      shadowColor: Colors.black,
-                      minimumSize: const Size(double.infinity, 20.0),
-                      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0))),
-                  child: const Text(
-                    "Đăng ký",
-                    style: TextStyle(fontSize: 25.0),
-                  ),
-                ),
-              ],
-            ),
+                );
+              }
+              if (state is CustomerRegistered) {
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => const Login()));
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(SnackBar(
+                      elevation: 0,
+                      duration: const Duration(milliseconds: 2000),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      content: AwesomeSnackbarContent(
+                        title: 'Tạo tài khoản thành công!',
+                        message: 'Bây giờ bạn có thể đăng nhập bằng tài khoản!',
+                        contentType: ContentType.success,
+                      ),
+                    ));
+                });
+              }
+              if (state is CustomerError) {
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => const Login()));
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(SnackBar(
+                      elevation: 0,
+                      duration: const Duration(milliseconds: 2000),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      content: AwesomeSnackbarContent(
+                        title: 'Tạo tài khoản thất bại!',
+                        message: 'Vui lòng bạn tạo lại!',
+                        contentType: ContentType.failure,
+                      ),
+                    ));
+                });
+              }
+              return Container();
+            },
           ),
         ),
       ),

@@ -44,7 +44,8 @@ class TabBarViewCompletedOrder extends StatelessWidget {
                   size: 50*fem,
                   color: AppColor.primary,),
                   Text(
-                    'Chưa có đơn hàng \n  đã hoàn thành',
+                    'Chưa có đơn hàng \nđã hoàn thành',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'Solway',
                         fontSize: 25 * fem,
@@ -57,7 +58,7 @@ class TabBarViewCompletedOrder extends StatelessWidget {
               child: Column(children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: state.orderModelList.length,
+                    itemCount: checkOrder.length,
                     itemBuilder: (context, index) {
                       if (checkOrder.isNotEmpty) {
                         return OrderCompletedCard(

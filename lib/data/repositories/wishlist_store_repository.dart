@@ -27,7 +27,7 @@ class WishListStoreRepository {
             result.map((e) => WishListStoreModel.fromJson(e)).toList();
         return result.map(((e) => WishListStoreModel.fromJson(e))).toList();
       } else {
-        throw Exception(response.reasonPhrase);
+        return <WishListStoreModel>[];
       }
     } catch (e) {
       throw Exception(e.toString());

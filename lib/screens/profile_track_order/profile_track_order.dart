@@ -32,7 +32,9 @@ class ProfileTrackOrder extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20*fem,),
+            SizedBox(
+              height: 20 * fem,
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,75 +81,102 @@ class ProfileTrackOrder extends StatelessWidget {
                 }
                 if (state is StateLoadedState) {
                   bool isCurrent1 = state.stateModels[0].state!
-                      .contains('${orderModel.stateDetailList![0].stateName}');
+                      .contains('${orderModel.stateCurrent}');
+                  bool isDone1 = state.stateModels[0].state!.contains(
+                      '${orderModel.stateDetailList![orderModel.stateDetailList!.length - 1].stateName}');
+
+                  bool isCurrent2 = false;
+                  bool isDone2 = false;
+                  if ((orderModel.stateDetailList!.length) == 2) {
+                    isCurrent2 = state.stateModels[1].state!
+                        .contains('${orderModel.stateCurrent}');
+                    isDone2 = state.stateModels[1].state!.contains(
+                        '${orderModel.stateDetailList![orderModel.stateDetailList!.length - 1].stateName}');
+                  } else if(orderModel.stateDetailList!.length > 2 ){
+                    isCurrent2 = state.stateModels[1].state!
+                        .contains('${orderModel.stateCurrent}');
+                    isDone2 = state.stateModels[1].state!.contains(
+                        '${orderModel.stateDetailList![1].stateName}');
+                  }
+
+                  bool isCurrent3 = false;
+                  bool isDone3 = false;
+                  if ((orderModel.stateDetailList!.length) == 3) {
+                    isCurrent3 = state.stateModels[2].state!
+                        .contains('${orderModel.stateCurrent}');
+                    isDone3 = state.stateModels[2].state!.contains(
+                        '${orderModel.stateDetailList![orderModel.stateDetailList!.length - 1].stateName}');
+                  } else if(orderModel.stateDetailList!.length > 3 ) {
+                    isCurrent3 = state.stateModels[2].state!
+                        .contains('${orderModel.stateCurrent}');
+                    isDone3 = state.stateModels[2].state!.contains(
+                        '${orderModel.stateDetailList![2].stateName}');
+                  }
+
+                  bool isCurrent4 = false;
+                  bool isDone4 = false;
+                  if ((orderModel.stateDetailList!.length) == 4) {
+                    isCurrent4 = state.stateModels[3].state!
+                        .contains('${orderModel.stateCurrent}');
+                    isDone4 = state.stateModels[3].state!.contains(
+                        '${orderModel.stateDetailList![orderModel.stateDetailList!.length - 1].stateName}');
+                  } else if(orderModel.stateDetailList!.length > 4 ){
+                    isCurrent4 = state.stateModels[3].state!
+                        .contains('${orderModel.stateCurrent}');
+                    isDone4 = state.stateModels[3].state!.contains(
+                        '${orderModel.stateDetailList![3].stateName}');
+                  }
+
+                  bool isCurrent5 = false;
+                  bool isDone5 = false;
+                  if ((orderModel.stateDetailList!.length) == 5) {
+                    isCurrent5 = state.stateModels[4].state!
+                        .contains('${orderModel.stateCurrent}');
+                    isDone5 = state.stateModels[4].state!.contains(
+                        '${orderModel.stateDetailList![orderModel.stateDetailList!.length - 1].stateName}');
+                  }else if(orderModel.stateDetailList!.length > 5 ){
+                    isCurrent5 = state.stateModels[4].state!
+                        .contains('${orderModel.stateCurrent}');
+                    isDone5 = state.stateModels[4].state!.contains(
+                        '${orderModel.stateDetailList![4].stateName}');
+                  }
+
                   return Column(
                     children: [
                       FirstNode(
                         fem: fem,
                         stateString: '${state.stateModels[0].state}',
                         isCurrent: isCurrent1,
-                        isDone: isCurrent1,
+                        isDone: isDone1,
                         orderModel: orderModel,
                       ),
-                      TimelineTile(
-                        oppositeContents: Padding(
-                          padding: EdgeInsets.all(30 * fem),
-                          child: Text('07:45am'),
-                        ),
-                        contents: Padding(
-                          padding: EdgeInsets.all(30 * fem),
-                          child: Text('${state.stateModels[1].state}'),
-                        ),
-                        node: const TimelineNode(
-                          indicator: DotIndicator(
-                            color: AppColor.primary,
-                          ),
-                          startConnector: SolidLineConnector(
-                            color: AppColor.primary,
-                          ),
-                          endConnector: SolidLineConnector(
-                            color: AppColor.primary,
-                          ),
-                        ),
+                      SecondNode(
+                        fem: fem,
+                        isCurrent: isCurrent2,
+                        isDone: isDone2,
+                        orderModel: orderModel,
+                        stateString: '${state.stateModels[1].state}',
                       ),
-                      TimelineTile(
-                        oppositeContents: Padding(
-                          padding: EdgeInsets.all(30 * fem),
-                          child: Text('08:00am'),
-                        ),
-                        contents: Padding(
-                          padding: EdgeInsets.all(30 * fem),
-                          child: Text('Đang trên đường'),
-                        ),
-                        node: const TimelineNode(
-                          indicator: DotIndicator(
-                            color: AppColor.primary,
-                          ),
-                          startConnector: SolidLineConnector(
-                            color: AppColor.primary,
-                          ),
-                          endConnector: SolidLineConnector(
-                            color: AppColor.primary,
-                          ),
-                        ),
+                      ThirdNode(
+                        fem: fem,
+                        isCurrent: isCurrent3,
+                        isDone: isDone3,
+                        orderModel: orderModel,
+                        stateString: '${state.stateModels[2].state}',
                       ),
-                      TimelineTile(
-                        oppositeContents: Padding(
-                          padding: EdgeInsets.all(30 * fem),
-                          child: Text('08:10am'),
-                        ),
-                        contents: Padding(
-                          padding: EdgeInsets.all(30 * fem),
-                          child: Text('Đã giao'),
-                        ),
-                        node: const TimelineNode(
-                          indicator: DotIndicator(
-                            color: AppColor.primary,
-                          ),
-                          startConnector: SolidLineConnector(
-                            color: AppColor.primary,
-                          ),
-                        ),
+                      FourthNode(
+                        fem: fem,
+                        isCurrent: isCurrent4,
+                        isDone: isDone4,
+                        orderModel: orderModel,
+                        stateString: '${state.stateModels[3].state}',
+                      ),
+                      FifthNode(
+                        fem: fem,
+                        isCurrent: isCurrent4,
+                        isDone: isDone4,
+                        orderModel: orderModel,
+                        stateString: '${state.stateModels[4].state}',
                       ),
                     ],
                   );
@@ -157,7 +186,7 @@ class ProfileTrackOrder extends StatelessWidget {
               },
             ),
             SizedBox(
-              height: 80 * fem,
+              height: 40 * fem,
             ),
             Container(
               margin: EdgeInsets.fromLTRB(35 * fem, 0 * fem, 0 * fem, 0 * fem),
@@ -224,6 +253,307 @@ class ProfileTrackOrder extends StatelessWidget {
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 20 * ffem),
+        ),
+      ),
+    );
+  }
+}
+
+class FifthNode extends StatelessWidget {
+  FifthNode(
+      {super.key,
+      required this.fem,
+      required this.orderModel,
+      required this.stateString,
+      required this.isDone,
+      required this.isCurrent});
+
+  final double fem;
+  final OrderModel orderModel;
+  final String stateString;
+  bool isDone;
+  bool isCurrent;
+
+  @override
+  Widget build(BuildContext context) {
+    DateTime converToDatetime(String dateTime) {
+      DateTime date = DateTime.parse(dateTime);
+      return date;
+    }
+
+    Color getColor(bool isDone) {
+      if (isDone) {
+        return AppColor.primary;
+      }
+      return const Color.fromARGB(255, 187, 170, 145);
+    }
+
+    double getSize(bool isCurrent) {
+      if (isCurrent) {
+        return 25 * fem;
+      }
+      return 18 * fem;
+    }
+
+    String getDateSTring() {
+      if (orderModel.stateDetailList![1].date == null) {
+        return '';
+      } else {
+        return orderModel.stateDetailList![1].date!;
+      }
+    }
+
+    return TimelineTile(
+      oppositeContents: Padding(
+        padding: EdgeInsets.all(30 * fem),
+        child: const Column(
+          children: [
+            // Text('${DateFormat('dd-MM-yyyy').format(converToDatetime(getDateSTring()))}'),
+            // Text(
+            //     '${DateFormat('H:m').format(converToDatetime(getDateSTring()))}'),
+            Text('')
+          ],
+        ),
+      ),
+      contents: Padding(
+        padding: EdgeInsets.all(30 * fem),
+        child: Text(stateString),
+      ),
+      node: TimelineNode(
+          indicator: DotIndicator(
+            color: getColor(isDone),
+            size: getSize(isCurrent),
+          ),
+          startConnector: SolidLineConnector(
+            color: getColor(isDone),
+          ),
+          endConnector: null),
+    );
+  }
+}
+
+class FourthNode extends StatelessWidget {
+  FourthNode(
+      {super.key,
+      required this.fem,
+      required this.orderModel,
+      required this.stateString,
+      required this.isDone,
+      required this.isCurrent});
+
+  final double fem;
+  final OrderModel orderModel;
+  final String stateString;
+  bool isDone;
+  bool isCurrent;
+
+  @override
+  Widget build(BuildContext context) {
+    DateTime converToDatetime(String dateTime) {
+      DateTime date = DateTime.parse(dateTime);
+      return date;
+    }
+
+    Color getColor(bool isDone) {
+      if (isDone) {
+        return AppColor.primary;
+      }
+      return const Color.fromARGB(255, 187, 170, 145);
+    }
+
+    double getSize(bool isCurrent) {
+      if (isCurrent) {
+        return 25 * fem;
+      }
+      return 18 * fem;
+    }
+
+    String getDateSTring() {
+      if (orderModel.stateDetailList![1].date == null) {
+        return '';
+      } else {
+        return orderModel.stateDetailList![1].date!;
+      }
+    }
+
+    return TimelineTile(
+      oppositeContents: Padding(
+        padding: EdgeInsets.all(30 * fem),
+        child: const Column(
+          children: [
+            // Text('${DateFormat('dd-MM-yyyy').format(converToDatetime(getDateSTring()))}'),
+            // Text(
+            //     '${DateFormat('H:m').format(converToDatetime(getDateSTring()))}'),
+            Text('')
+          ],
+        ),
+      ),
+      contents: Padding(
+        padding: EdgeInsets.all(30 * fem),
+        child: Text(stateString),
+      ),
+      node: TimelineNode(
+        indicator: DotIndicator(
+          color: getColor(isDone),
+          size: getSize(isCurrent),
+        ),
+        startConnector: SolidLineConnector(
+          color: getColor(isDone),
+        ),
+        endConnector: SolidLineConnector(
+          color: getColor(isDone),
+        ),
+      ),
+    );
+  }
+}
+
+class ThirdNode extends StatelessWidget {
+  ThirdNode(
+      {super.key,
+      required this.fem,
+      required this.orderModel,
+      required this.stateString,
+      required this.isDone,
+      required this.isCurrent});
+
+  final double fem;
+  final OrderModel orderModel;
+  final String stateString;
+  bool isDone;
+  bool isCurrent;
+
+  @override
+  Widget build(BuildContext context) {
+    DateTime converToDatetime(String dateTime) {
+      DateTime date = DateTime.parse(dateTime);
+      return date;
+    }
+
+    Color getColor(bool isDone) {
+      if (isDone) {
+        return AppColor.primary;
+      }
+      return const Color.fromARGB(255, 187, 170, 145);
+    }
+
+    double getSize(bool isCurrent) {
+      if (isCurrent) {
+        return 25 * fem;
+      }
+      return 18 * fem;
+    }
+
+    String getDateSTring() {
+      if (orderModel.stateDetailList![1].date == null) {
+        return '';
+      } else {
+        return orderModel.stateDetailList![1].date!;
+      }
+    }
+
+    return TimelineTile(
+      oppositeContents: Padding(
+        padding: EdgeInsets.all(30 * fem),
+        child: const Column(
+          children: [
+            // Text('${DateFormat('dd-MM-yyyy').format(converToDatetime(getDateSTring()))}'),
+            // Text(
+            //     '${DateFormat('H:m').format(converToDatetime(getDateSTring()))}'),
+            Text('')
+          ],
+        ),
+      ),
+      contents: Padding(
+        padding: EdgeInsets.all(30 * fem),
+        child: Text(stateString),
+      ),
+      node: TimelineNode(
+        indicator: DotIndicator(
+          color: getColor(isDone),
+          size: getSize(isCurrent),
+        ),
+        startConnector: SolidLineConnector(
+          color: getColor(isDone),
+        ),
+        endConnector: SolidLineConnector(
+          color: getColor(isDone),
+        ),
+      ),
+    );
+  }
+}
+
+class SecondNode extends StatelessWidget {
+  SecondNode(
+      {super.key,
+      required this.fem,
+      required this.orderModel,
+      required this.stateString,
+      required this.isDone,
+      required this.isCurrent});
+
+  final double fem;
+  final OrderModel orderModel;
+  final String stateString;
+  bool isDone;
+  bool isCurrent;
+
+  @override
+  Widget build(BuildContext context) {
+    DateTime converToDatetime(String dateTime) {
+      DateTime date = DateTime.parse(dateTime);
+      return date;
+    }
+
+    Color getColor(bool isDone) {
+      if (isDone) {
+        return AppColor.primary;
+      }
+      return const Color.fromARGB(255, 187, 170, 145);
+    }
+
+    double getSize(bool isCurrent) {
+      if (isCurrent) {
+        return 25 * fem;
+      }
+      return 18 * fem;
+    }
+
+    String getDateSTring() {
+      if (orderModel.stateDetailList![1].date == null) {
+        return '';
+      } else {
+        return orderModel.stateDetailList![1].date!;
+      }
+    }
+
+    return TimelineTile(
+      oppositeContents: Padding(
+        padding: EdgeInsets.all(30 * fem),
+        child: const Column(
+          children: [
+            // Text('${DateFormat('dd-MM-yyyy').format(converToDatetime(getDateSTring()))}'),
+            // Text(
+            //     '${DateFormat('H:m').format(converToDatetime(getDateSTring()))}'),
+            Text('')
+          ],
+        ),
+      ),
+      contents: Padding(
+        padding: EdgeInsets.all(30 * fem),
+        child: Text(stateString),
+      ),
+      node: TimelineNode(
+        indicator: DotIndicator(
+          color: getColor(isDone),
+          size: getSize(isCurrent),
+        ),
+        startConnector: SolidLineConnector(
+          color: getColor(isDone),
+        ),
+        endConnector: SolidLineConnector(
+          color: getColor(isDone),
         ),
       ),
     );

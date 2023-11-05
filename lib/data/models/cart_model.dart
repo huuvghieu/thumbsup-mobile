@@ -2,19 +2,18 @@ import 'package:equatable/equatable.dart';
 import 'package:my_app/data/models/product_model.dart';
 
 class Cart extends Equatable {
-  List<ProductModel> products;
+  final List<ProductModel> products;
   Cart({required this.products});
 
   Map productQuantity(products) {
     var quantity = Map();
 
     products.forEach((product) {
-      if (!quantity.containsKey(product)) {
-        quantity[product] = 1;
-        (product as ProductModel).quantity = quantity[product];
+      if (!quantity.containsKey(product.toString())) {
+        quantity[product.toString()] = product;
+        (product as ProductModel).quantity = 1;
       } else {
-        quantity[product] += 1;
-        (product as ProductModel).quantity = quantity[product];
+        (quantity[product.toString()] as ProductModel).quantity += 1;
       }
     });
     return quantity;
@@ -43,8 +42,8 @@ class Cart extends Equatable {
   double get subTotal =>
       products.fold(0, (total, current) => total + current.salePrice);
 
-  double deliveryFree = 0;
-  double tax = 0;
+  final double deliveryFree = 0;
+  final double tax = 0;
   double total(subtotal, deliverFree, tax) {
     return subtotal + deliveryFree + tax;
   }

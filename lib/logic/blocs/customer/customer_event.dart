@@ -5,6 +5,11 @@ abstract class CustomerEvent extends Equatable {
   const CustomerEvent();
 }
 
+class StartRegisterEvent extends CustomerEvent{
+  @override
+  List<Object?> get props => [];
+}
+
 class RegisterEvent extends CustomerEvent {
   final String userName;
   final String passWord;
@@ -13,12 +18,11 @@ class RegisterEvent extends CustomerEvent {
   final String email;
   final String phone;
   final String dob;
+  final String address;
   final int cityId;
-  final List<int> selectedFile;
-  Uint8List? bytesData;
-  String? filename;
+  final File avatar;
 
-  RegisterEvent({
+  const RegisterEvent({
     required this.userName,
     required this.passWord,
     required this.passWordConfirmed,
@@ -26,10 +30,9 @@ class RegisterEvent extends CustomerEvent {
     required this.email,
     required this.phone,
     required this.dob,
+    required this.address,
     required this.cityId,
-    required this.selectedFile,
-    this.bytesData,
-    this.filename,
+    required this.avatar,
   });
 
   @override
@@ -42,17 +45,13 @@ class RegisterEvent extends CustomerEvent {
         phone,
         dob,
         cityId,
-        selectedFile,
-        bytesData,
-        filename
+        avatar,
       ];
 }
 
 class LoadOrderByCustomerIdEvent extends CustomerEvent {
   final int id;
-  const LoadOrderByCustomerIdEvent({
-    required this.id
-  });
+  const LoadOrderByCustomerIdEvent({required this.id});
 
   @override
   List<Object?> get props => [];

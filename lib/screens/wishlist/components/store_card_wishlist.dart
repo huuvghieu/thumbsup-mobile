@@ -3,12 +3,11 @@ import 'package:my_app/common/color.dart';
 import 'package:my_app/data/models/wish_list_store_model.dart';
 
 class StoreCardWishList extends StatelessWidget {
-  const StoreCardWishList({
-    super.key,
-    required this.fem,
-    required this.ffem,
-    required this.wishListStoreModel
-  });
+  const StoreCardWishList(
+      {super.key,
+      required this.fem,
+      required this.ffem,
+      required this.wishListStoreModel});
 
   final double fem;
   final double ffem;
@@ -49,7 +48,7 @@ class StoreCardWishList extends StatelessWidget {
                       width: 323 * fem,
                       height: 165.14 * fem,
                       child: Image.network(
-                       wishListStoreModel.storeImageCover.toString(),
+                        wishListStoreModel.storeImageCover.toString(),
                         width: 323 * fem,
                         height: 165.14 * fem,
                       ),
@@ -57,20 +56,28 @@ class StoreCardWishList extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  left: 276.8 * fem,
-                  top: 12.14 * fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 34 * fem,
-                      height: 34 * fem,
-                      child: Image.asset(
-                        'assets/images/favorite-heart.png',
-                        width: 34 * fem,
-                        height: 34 * fem,
-                      ),
-                    ),
-                  ),
-                ),
+                    left: 276.8 * fem,
+                    top: 12.14 * fem,
+                    child: Container(
+                        margin: EdgeInsets.only(right: 10 * fem),
+                        width: 47 * fem,
+                        decoration: BoxDecoration(
+                          color: wishListStoreModel.favor!
+                              ? AppColor.backgroundHeartColor
+                              : Colors.black26,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 100 * fem),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.favorite_rounded,
+                              color: Colors.white,
+                              size: 32 * fem,
+                            ),
+                          ),
+                        ))),
                 Positioned(
                   left: 13.3 * fem,
                   top: 150.5 * fem,

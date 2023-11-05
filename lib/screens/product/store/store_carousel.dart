@@ -120,11 +120,11 @@ class _CarouselStoreState extends State<CarouselStore> {
     return ads
         .map((item) => GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const StoreScreen(),
-                    ));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => const StoreScreen(),
+                //     ));
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -181,19 +181,29 @@ class _CarouselStoreState extends State<CarouselStore> {
                             ),
                           ),
                           Container(
-                              padding:
-                                  const EdgeInsets.only(right: 5.0, left: 5.0),
+                              margin: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.only(right: 10, bottom: 5),
+                              width: 40,
                               decoration: BoxDecoration(
                                 color: item.favor!
                                     ? AppColor.backgroundHeartColor
                                     : Colors.black26,
                                 shape: BoxShape.circle,
                               ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Icon(
-                                  Icons.favorite_rounded,
-                                  color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 2 ),
+                                child: Container(
+                                  height: 30,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      
+                                    },
+                                    icon: Icon(
+                                      Icons.favorite_rounded,
+                                      color: Colors.white,
+                                      size: 25,
+                                    ),
+                                  ),
                                 ),
                               ))
                         ],

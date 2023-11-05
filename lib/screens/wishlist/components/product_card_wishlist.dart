@@ -22,7 +22,7 @@ class ProductCardWishList extends StatelessWidget {
     return BlocProvider(
       create: (context) => WishListBloc(
         RepositoryProvider.of<WishListRepository>(context)
-      )..add(StartWishListEvent()),
+      )..add(const StartWishListEvent()),
       child: Container(
         margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 20.29 * fem),
         padding: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 9.71 * fem),
@@ -74,9 +74,7 @@ class ProductCardWishList extends StatelessWidget {
                             child: SizedBox(
                                 width: 34 * fem,
                                 height: 34 * fem,
-                                child:const CircularProgressIndicator(
-                                  color: AppColor.primary,
-                                )),
+                               ),
                           ),
                         );
                       }
@@ -84,27 +82,29 @@ class ProductCardWishList extends StatelessWidget {
                         return Positioned(
                           left: 276.8 * fem,
                           top: 12.14 * fem,
-                          child: Align(
-                            child: SizedBox(
-                                width: 34 * fem,
-                                height: 34 * fem,
+                          child:  Container(
+                            margin: EdgeInsets.only(right: 10*fem),
+                            width: 47*fem,
+
+                              decoration: BoxDecoration(
+                                color: wishListProducModel.favor!
+                                    ? AppColor.backgroundHeartColor
+                                    : Colors.black26,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 100*fem),
                                 child: IconButton(
-                                  icon: Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                    size: 40 * fem,
-                                  ),
-                                  onPressed: () {
-                                    context
-                                        .read<WishListBloc>()
-                                        .add(AddWishListProductEvent(
-                                            customerId: AppString
-                                                .customerId!,
-                                            productId:
-                                                wishListProducModel.id));
+                                  onPressed: (){
+                                    
                                   },
-                                )),
-                          ),
+                                  icon: Icon(
+                                    Icons.favorite_rounded,
+                                  color: Colors.white,
+                                  size: 32*fem,
+                                  ),
+                                ),
+                              ))
                         );
                       }
                       if (state is AddWishListSuccessState) {

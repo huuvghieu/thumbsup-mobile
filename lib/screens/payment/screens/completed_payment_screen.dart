@@ -21,11 +21,12 @@ class CompletedPaymentScreen extends StatelessWidget {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: BlocProvider(
           create: (context) => ReviewBloc(
-            repository: RepositoryProvider.of<ReviewRepository>(context)
-          )..add(LoadReviewEvent()),
+              repository: RepositoryProvider.of<ReviewRepository>(context))
+            ..add(const LoadReviewEvent()),
           child: const BodyCompletedPayment(),
         ),
       ),

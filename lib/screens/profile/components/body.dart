@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/common/string.dart';
 import 'package:my_app/model/customer.dart';
 import 'package:my_app/model/jwt.dart';
 import 'package:my_app/model/store.dart';
@@ -25,6 +26,8 @@ class _BodyState extends State<Body> {
   bool isStore = true;
   bool isLoading = true;
   SharedPref sharedPref = SharedPref();
+  String? avatar =
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/800px-User-avatar.svg.png';
 
   @override
   void initState() {
@@ -55,7 +58,7 @@ class _BodyState extends State<Body> {
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.fromLTRB(35 * fem, 0 * fem, 0 * fem, 30 * fem),
+                      EdgeInsets.fromLTRB(20 * fem, 0 * fem, 0 * fem, 30 * fem),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -66,9 +69,10 @@ class _BodyState extends State<Body> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100 * fem),
                             child: Image.network(
-                                isStore
-                                    ? (jwt.user as StoreExtra).logo.toString()
-                                    : (jwt.user as Customer).avatar.toString(),
+                                // isStore
+                                //     ? (jwt.user as StoreExtra).logo.toString()
+                                //     : avatar.toString(),
+                                '$avatar',
                                 fit: BoxFit.cover),
                           ),
                         ),
@@ -93,11 +97,11 @@ class _BodyState extends State<Body> {
                                         .fullName
                                         .toString(),
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
+                                // maxLines: 1,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontFamily: 'Solway',
-                                    fontSize: 18 * ffem,
+                                    fontSize: 17.3 * ffem,
                                     fontWeight: FontWeight.w400,
                                     height: 1.2 * ffem / fem,
                                     color: Colors.black),
@@ -159,7 +163,7 @@ class _BodyState extends State<Body> {
                           Padding(
                             padding: EdgeInsets.only(top: 5 * fem),
                             child: Text(
-                              '15',
+                              '0',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Solway',
@@ -189,7 +193,7 @@ class _BodyState extends State<Body> {
                           Padding(
                             padding: EdgeInsets.only(top: 5 * fem),
                             child: Text(
-                              '15',
+                              '0',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Solway',
@@ -209,11 +213,10 @@ class _BodyState extends State<Body> {
                   height: 20 * fem,
                 ),
                 Padding(
-                  padding:
-                      EdgeInsets.fromLTRB(40 * fem, 0 * fem, 30 * fem, 40 * fem),
+                  padding: EdgeInsets.fromLTRB(
+                      40 * fem, 0 * fem, 30 * fem, 40 * fem),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,7 +232,7 @@ class _BodyState extends State<Body> {
                           Padding(
                             padding: EdgeInsets.only(top: 5 * fem),
                             child: Text(
-                              '15',
+                              '0',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Solway',
@@ -242,6 +245,7 @@ class _BodyState extends State<Body> {
                           )
                         ],
                       ),
+                      SizedBox(width: 100*fem,),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -256,7 +260,7 @@ class _BodyState extends State<Body> {
                           Padding(
                             padding: EdgeInsets.only(top: 5 * fem),
                             child: Text(
-                              '100.000 VND',
+                              '0 VND',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Solway',
@@ -278,7 +282,10 @@ class _BodyState extends State<Body> {
                   child: Column(
                     children: [
                       ButtonWallet(fem: fem, ffem: ffem),
-                      ButtonOrder(fem: fem, ffem: ffem, customerId: (jwt.user as Customer).id),
+                      ButtonOrder(
+                          fem: fem,
+                          ffem: ffem,
+                          customerId: (jwt.user as Customer).id),
                       ButtonHistoryTransaction(fem: fem, ffem: ffem),
                       SizedBox(
                         height: 50 * fem,
@@ -304,7 +311,14 @@ class _BodyState extends State<Body> {
                           isLoading = false;
                           jwt.user = value as Customer;
                         })
-                      })
+                      }),
+              if ((jwt.user as Customer).avatar != '')
+                {
+                  avatar = (jwt.user as Customer).avatar!,
+                  AppString.ava = avatar
+                }
+              else
+                {avatar = AppString.avatar, AppString.ava = AppString.avatar},
             }
           else if (jwt.role == "Store")
             {

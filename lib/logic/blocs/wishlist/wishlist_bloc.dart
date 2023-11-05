@@ -31,8 +31,9 @@ class WishListBloc extends Bloc<WishListEvent, WishListState> {
     try {
       bool result = await _wishListRepository.createWishListProduct(
           event.customerId, event.productId);
+      final wishListProducts = await _wishListRepository.getWishListProducts();
       if (result) {
-        emit(AddWishListSuccessState());
+        emit(WishListLoadedState(wishLists: wishListProducts));
       } else {
         emit(WishListErrorState('Thêm thất bại'));
       }

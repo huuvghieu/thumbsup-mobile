@@ -38,6 +38,11 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
@@ -66,17 +71,23 @@ class _CartScreenState extends State<CartScreen> {
                     // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 150,),
-                      Icon(Icons.signal_cellular_no_sim_outlined,
-                      color: AppColor.primary,
-                      size: 100,),
-                      Text('Không có sản phẩm \n     trong giỏ hàng',
-                      style: TextStyle(
-                        fontFamily: 'Solway',
-                        fontSize: 20,
+                      SizedBox(
+                        height: 150,
+                      ),
+                      Icon(
+                        Icons.signal_cellular_no_sim_outlined,
                         color: AppColor.primary,
-                        fontWeight: FontWeight.bold
-                      ),),
+                        size: 100,
+                      ),
+                      Text(
+                        'Không có sản phẩm \ntrong giỏ hàng',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'Solway',
+                            fontSize: 20,
+                            color: AppColor.primary,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ],
                   ),
                 );
@@ -84,78 +95,80 @@ class _CartScreenState extends State<CartScreen> {
               return Column(
                 children: [
                   Expanded(
-                      child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: store.keys.length,
-                    itemBuilder: (context, index) {
-                      Map cart = state.cart
-                          .productQuantity(store.values.elementAt(index));
+                      child: Scrollbar(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: store.keys.length,
+                      itemBuilder: (context, index) {
+                        Map cart = state.cart
+                            .productQuantity(store.values.elementAt(index));
 
-                      return Container(
-                        height: 250 * fem,
-                        width: double.infinity,
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(bottom: 10 * fem),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color:
-                                          Color.fromARGB(255, 250, 237, 223))),
-                              child: Padding(
-                                padding: EdgeInsets.all(10 * fem),
-                                child: Text(
-                                  '${cart.keys.elementAt(0).storeName}',
-                                  style: TextStyle(
-                                      color: AppColor.primary,
-                                      fontSize: 20 * ffem),
+                        return Container(
+                          height: 250 * fem,
+                          width: double.infinity,
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(bottom: 10 * fem),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Color.fromARGB(
+                                            255, 250, 237, 223))),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10 * fem),
+                                  child: Text(
+                                    '${cart.values.elementAt(0).storeName}',
+                                    style: TextStyle(
+                                        color: AppColor.primary,
+                                        fontSize: 20 * ffem),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Flexible(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: cart.keys.length,
-                                itemBuilder: (context, index) {
-                                  // final item = cart.keys.elementAt(index);
-                                  return Column(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.only(left: 10 * fem),
-                                        child: CartProductCard(
+                              Flexible(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: cart.keys.length,
+                                  itemBuilder: (context, index) {
+                                    // final item = cart.keys.elementAt(index);
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 10 * fem),
+                                          child: CartProductCard(
                                             fem: fem,
                                             ffem: ffem,
-                                            product: cart.keys.elementAt(index),
-                                            quantity:
-                                                cart.values.elementAt(index)),
-                                      ),
-                                      const Divider(
-                                        color:
-                                            Color.fromARGB(255, 218, 216, 216),
-                                      )
-                                    ],
-                                  );
-                                  // return Dismissible(
-                                  //     onDismissed: (direction) {
-                                  //       setState(() {
-                                  //         final itemToRemove = cart.key
-                                  //       });
-                                  //     },
-                                  //     key: Key(item.toString()),
-                                  //     child: CartProductCard(
-                                  //         fem: fem,
-                                  //         ffem: ffem,
-                                  //         product: cart.keys.elementAt(index),
-                                  //         quantity: cart.values.elementAt(index)));
-                                },
+                                            product:
+                                                cart.values.elementAt(index),
+                                          ),
+                                        ),
+                                        const Divider(
+                                          color: Color.fromARGB(
+                                              255, 218, 216, 216),
+                                        )
+                                      ],
+                                    );
+                                    // return Dismissible(
+                                    //     onDismissed: (direction) {
+                                    //       setState(() {
+                                    //         final itemToRemove = cart.key
+                                    //       });
+                                    //     },
+                                    //     key: Key(item.toString()),
+                                    //     child: CartProductCard(
+                                    //         fem: fem,
+                                    //         ffem: ffem,
+                                    //         product: cart.keys.elementAt(index),
+                                    //         quantity: cart.values.elementAt(index)));
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   )),
 
                   Cost(

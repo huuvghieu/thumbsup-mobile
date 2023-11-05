@@ -46,11 +46,10 @@ class CheckoutScreen extends StatelessWidget {
               if (state is CheckoutLoadedState) {
                 Map store = state.cart!.productStore(state.cart!.products);
                 //sent event with customerId
-                context
-                    .read<CheckoutBloc>()
-                    .add(UpdateCheckoutEvent(customerId: (id as num).toInt()));
+                // context
+                //     .read<CheckoutBloc>()
+                //     .add(UpdateCheckoutEvent(customerId: (id as num).toInt()));
                 List<CreateOrderModel> orderList = [];
-
                 return Column(
                   children: [
                     Expanded(
@@ -58,29 +57,54 @@ class CheckoutScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: store.keys.length,
                       itemBuilder: (context, index) {
+                        // //map List<ProductModel> to List<CreateOrderDetailModel>
+                        // List<CreateOrderDetailModel> detailList = (store.values
+                        //         .elementAt(index) as List<ProductModel>)
+                        //     .map((product) => CreateOrderDetailModel(
+                        //           originalPrice: product.originalPrice,
+                        //           discount: product.discount,
+                        //           salePrice: product.salePrice,
+                        //           quantity: product.quantity,
+                        //           amount:
+                        //               (product.quantity! * product.salePrice),
+                        //           productId: product.id,
+                        //           state: product.state,
+                        //         ))
+                        //     .toList();
+
+                        // //get total for each orderDetail
+                        // double amount = 0;
+                        // detailList.forEach((detail) {
+                        //   amount += detail.amount!;
+                        // });
+
+                        Map cart = state.cart!
+                            .productQuantity(store.values.elementAt(index));
                         //map List<ProductModel> to List<CreateOrderDetailModel>
-                        List<CreateOrderDetailModel> detailList = (store.values
-                                .elementAt(index) as List<ProductModel>)
-                            .map((product) => CreateOrderDetailModel(
-                                  originalPrice: product.originalPrice,
-                                  discount: product.discount,
-                                  salePrice: product.salePrice,
-                                  quantity: product.quantity,
-                                  amount:
-                                      (product.quantity! * product.salePrice),
-                                  productId: product.id,
-                                  state: product.state,
-                                ))
-                            .toList();
+                        List<CreateOrderDetailModel> detailList = [];
+                        for (int i = 0; i < cart.keys.length; i++) {
+                          ProductModel productModel =
+                              (cart.values.elementAt(index) as ProductModel);
+                          CreateOrderDetailModel detailModel =
+                              CreateOrderDetailModel(
+                            originalPrice: productModel.originalPrice,
+                            discount: productModel.discount,
+                            salePrice: productModel.salePrice,
+                            quantity: productModel.quantity,
+                            amount: (productModel.quantity! *
+                                productModel.salePrice),
+                            productId: productModel.id,
+                            state: productModel.state,
+                          );
+
+                          detailList.add(detailModel);
+                        }
 
                         //get total for each orderDetail
                         double amount = 0;
                         detailList.forEach((detail) {
                           amount += detail.amount!;
                         });
-
-                        Map cart = state.cart!
-                            .productQuantity(store.values.elementAt(index));
 
                         //create order
                         CreateOrderModel order = CreateOrderModel(
@@ -106,7 +130,7 @@ class CheckoutScreen extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.all(10 * fem),
                                   child: Text(
-                                    '${cart.keys.elementAt(0).storeName}',
+                                    '${cart.values.elementAt(0).storeName}',
                                     style: TextStyle(
                                         color: AppColor.primary,
                                         fontSize: 20 * ffem),
@@ -128,8 +152,6 @@ class CheckoutScreen extends StatelessWidget {
                                             fem: fem,
                                             ffem: ffem,
                                             productModel:
-                                                cart.keys.elementAt(index),
-                                            quanity:
                                                 cart.values.elementAt(index),
                                           ),
                                         ),
@@ -161,53 +183,60 @@ class CheckoutScreen extends StatelessWidget {
                     // SizedBox(
                     //   height: 10 * fem,
                     // ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          0 * fem, 0 * fem, 0 * fem, 0 * fem),
-                      width: 130 * fem,
-                      height: 40 * fem,
-                      decoration: BoxDecoration(
-                        color: AppColor.primary,
-                        borderRadius: BorderRadius.circular(23.5 * fem),
-                      ),
-                      child: TextButton(
-                        onPressed: () => {
-                          context.read<CheckoutBloc>().add(ConfirmCheckoutEvent(
-                              checkoutModel:
-                                  CheckoutModel(orderList: orderList))),
-                        },
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.resolveWith<
-                                    RoundedRectangleBorder?>(
-                                (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.focused)) {
-                                return RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(25.3 * fem),
-                                    side: const BorderSide(
-                                      color: AppColor.primary,
-                                    ));
-                              }
-                              return RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(25.3 * fem),
-                                  side: const BorderSide(
-                                    color: Colors.white,
-                                  ));
-                            }),
-                            backgroundColor: MaterialStateProperty.all<Color?>(
-                                AppColor.primary)),
-                        child: Center(
-                          child: Text(
-                            'THANH TOÁN',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12 * ffem,
-                                fontFamily: 'Solway'),
-                            textAlign: TextAlign.center,
+                    BlocBuilder<CartBloc, CartState>(
+                      builder: (_, state) {
+                        return Container(
+                          margin: EdgeInsets.fromLTRB(
+                              0 * fem, 0 * fem, 0 * fem, 0 * fem),
+                          width: 130 * fem,
+                          height: 40 * fem,
+                          decoration: BoxDecoration(
+                            color: AppColor.primary,
+                            borderRadius: BorderRadius.circular(23.5 * fem),
                           ),
-                        ),
-                      ),
+                          child: TextButton(
+                            onPressed: () => {
+                              context.read<CheckoutBloc>().add(
+                                  ConfirmCheckoutEvent(
+                                      checkoutModel:
+                                          CheckoutModel(orderList: orderList))),
+                              _.read<CartBloc>().add(LoadCartEvent())
+                            },
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.resolveWith<
+                                        RoundedRectangleBorder?>(
+                                    (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.focused)) {
+                                    return RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25.3 * fem),
+                                        side: const BorderSide(
+                                          color: AppColor.primary,
+                                        ));
+                                  }
+                                  return RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(25.3 * fem),
+                                      side: const BorderSide(
+                                        color: Colors.white,
+                                      ));
+                                }),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color?>(
+                                        AppColor.primary)),
+                            child: Center(
+                              child: Text(
+                                'THANH TOÁN',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12 * ffem,
+                                    fontFamily: 'Solway'),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     SizedBox(
                       height: 5 * fem,

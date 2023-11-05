@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class ReviewModel extends Equatable{
   String? comment;
-  double? rating;
+  int? rating;
   bool? state;
   int? customerId;
   int? productId;
@@ -12,7 +12,7 @@ class ReviewModel extends Equatable{
 
   ReviewModel.fromJson(Map<String, dynamic> json) {
     comment = json['comment'];
-    rating = json['rating'];
+    rating = (json['rating'] as num).toInt();
     state = json['state'];
     customerId = json['customerId'];
     productId = json['productId'];
@@ -20,11 +20,11 @@ class ReviewModel extends Equatable{
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['comment'] = this.comment;
-    data['rating'] = this.rating;
-    data['state'] = this.state;
-    data['customerId'] = this.customerId;
-    data['productId'] = this.productId;
+    data['comment'] = comment;
+    data['rating'] = rating;
+    data['state'] = state;
+    data['customerId'] = customerId;
+    data['productId'] = productId;
     return data;
   }
   

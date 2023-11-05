@@ -15,37 +15,26 @@ import 'package:my_app/logic/cubits/product/product_cubit.dart';
 import 'package:my_app/screens/product_details/product_detail_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ProductListScreen extends StatelessWidget {
-  static const String routeName = '/product-list-screen';
+class ProductListSearchScreen extends StatelessWidget {
+  static const String routeName = '/product-list-search-screen';
 
-  const ProductListScreen(
-      {required this.categories,
-      required this.brands,
-      required this.priceStart,
-      required this.priceEnd,
+  const ProductListSearchScreen(
+      {required this.searchString,
       super.key});
 
   static Route route({
-    required List<CategoryModel> categories,
-    required List<BrandModel> brands,
-    required PriceModel priceStart,
-    required PriceModel priceEnd,
+    required String searchString,
   }) {
     return MaterialPageRoute(
-      builder: (_) => ProductListScreen(
-        categories: categories,
-        brands: brands,
-        priceStart: priceStart,
-        priceEnd: priceEnd,
+      builder: (_) => ProductListSearchScreen(
+        searchString: searchString,
       ),
       settings: const RouteSettings(name: routeName),
     );
   }
 
-  final List<CategoryModel> categories;
-  final List<BrandModel> brands;
-  final PriceModel priceStart;
-  final PriceModel priceEnd;
+  final String searchString;
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +95,7 @@ class ProductListScreen extends StatelessWidget {
         ),
         body: BlocProvider(
           create: (context) => ProductCubit(
-              ProductRepository(), categories, brands, priceStart, priceEnd, ''),
+              ProductRepository(), [], [], PriceModel(id: 0, price: 0), PriceModel(id: 0, price: 10000000),searchString),
           child: Container(
               margin: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
               child: const ProductView()),
@@ -146,7 +135,7 @@ class _ProductViewState extends State<ProductView> {
   //PQT
 
   Future<void> _fetchPage(int pageKey) async {
-    BlocProvider.of<ProductCubit>(context).loadProducts();
+    BlocProvider.of<ProductCubit>(context).loadSearchProducts();
   }
 
   @override

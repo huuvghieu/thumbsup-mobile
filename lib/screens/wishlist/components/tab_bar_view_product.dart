@@ -30,7 +30,29 @@ class TabBarViewProduct extends StatelessWidget {
                   );
                 }
                 if (state is WishListLoadedState) {
-                  return Expanded(
+                  if (state.wishLists.isEmpty) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 80*fem,),
+                        Icon(
+                          Icons.favorite,
+                          size: 50 * fem,
+                          color: AppColor.primary,
+                        ),
+                        Text(
+                          'Không có sản phẩm \nyêu thích',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Solway',
+                              fontSize: 25 * fem,
+                              color: AppColor.primary),
+                        ),
+                      ],
+                    );
+                  }
+                  else{
+                     return Expanded(
                     child: ListView.builder(
                       itemCount: state.wishLists.length,
                       itemBuilder: (context, index) => RepositoryProvider(
@@ -43,6 +65,7 @@ class TabBarViewProduct extends StatelessWidget {
                       ),
                     ),
                   );
+                  }
                 }
                 return Container();
               },

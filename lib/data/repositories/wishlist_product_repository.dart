@@ -27,7 +27,7 @@ class WishListRepository {
             result.map(((e) => WishListProductModel.fromJson(e))).toList();
         return result.map(((e) => WishListProductModel.fromJson(e))).toList();
       } else {
-        throw Exception(response.reasonPhrase);
+        return <WishListProductModel>[];
       }
     } catch (e) {
       throw Exception(e.toString());
@@ -47,10 +47,8 @@ class WishListRepository {
         'productId': productId,
       };
 
-      http.Response response = await http.post(
-          Uri.parse('$endpoint'),
-          body: jsonEncode(body),
-          headers: headers);
+      http.Response response = await http.post(Uri.parse('$endpoint'),
+          body: jsonEncode(body), headers: headers);
 
       if (response.statusCode == 200) {
         print('Create Success!');

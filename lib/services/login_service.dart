@@ -21,6 +21,11 @@ class LoginService {
       }),
     );
     if (response.statusCode == 200) {
+      final result = Jwt.fromJson(json.decode(utf8.decode(response.bodyBytes)));
+      String token = result.token.toString();
+      Customer user = (result.user as Customer);
+      NetWorkHandler.storeToken(token);
+      NetWorkHandler.storeId(user.id);
       return Jwt.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       return response.body.toString();

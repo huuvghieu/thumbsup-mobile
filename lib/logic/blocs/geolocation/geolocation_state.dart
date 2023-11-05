@@ -4,15 +4,33 @@ abstract class GeolocationState extends Equatable {
   const GeolocationState();
 }
 
-class GeoLocationLoading extends GeolocationState {
+// class GeoLocationLoading extends GeolocationState {
+//   @override
+//   List<Object?> get props => [];
+// }
+
+// class GeoLocationLoaded extends GeolocationState {
+//   final Position position;
+
+//   const GeoLocationLoaded({required this.position});
+//   @override
+//   List<Object?> get props => [position];
+// }
+
+class LocationLoading extends GeolocationState {
   @override
   List<Object?> get props => [];
 }
 
-class GeoLocationLoaded extends GeolocationState {
-  final Position position;
+class LocationLoaded extends GeolocationState {
+  final Place place;
+  final GoogleMapController? controller;
 
-  const GeoLocationLoaded({required this.position});
+  LocationLoaded({
+    required this.place,
+    this.controller,
+  });
+
   @override
-  List<Object?> get props => [position];
+  List<Object?> get props => [controller, place];
 }

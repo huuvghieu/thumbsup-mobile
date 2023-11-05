@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:my_app/common/color.dart';
+import 'package:my_app/common/string.dart';
 import 'package:my_app/logic/blocs/review/review_bloc.dart';
 import 'package:my_app/screens/home/home.dart';
 import 'package:my_app/screens/widget/decorate_top.dart';
@@ -11,6 +12,7 @@ class BodyCompletedPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int? rating = 5;
     final commentController = TextEditingController();
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
@@ -18,7 +20,7 @@ class BodyCompletedPayment extends StatelessWidget {
     return BlocBuilder<ReviewBloc, ReviewState>(
       builder: (context, state) {
         if (state is ReviewLoadingState) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               color: AppColor.primary,
             ),
@@ -30,6 +32,9 @@ class BodyCompletedPayment extends StatelessWidget {
             child: Column(
               children: [
                 const DecorateTop(),
+                SizedBox(
+                  height: 50 * fem,
+                ),
                 Padding(
                     padding:
                         EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 0 * fem),
@@ -59,18 +64,19 @@ class BodyCompletedPayment extends StatelessWidget {
                   height: 30 * fem,
                 ),
                 RatingBar.builder(
-                  initialRating: 3,
+                  initialRating: 5,
                   minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: true,
                   itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => Icon(
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => const Icon(
                     Icons.star,
                     color: Colors.amber,
                   ),
-                  onRatingUpdate: (rating) {
-                    print(rating);
+                  onRatingUpdate: (value) {
+                    print(value);
+                    rating = value.round();
                   },
                 ),
                 SizedBox(
@@ -116,69 +122,94 @@ class BodyCompletedPayment extends StatelessWidget {
                 SizedBox(
                   height: 30 * fem,
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Home(index: 0),
-                        ));
-                  },
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith<
-                          RoundedRectangleBorder?>((Set<MaterialState> states) {
-                        if (states.contains(MaterialState.focused)) {
+                Container(
+                  width: 200 * fem,
+                  height: 60 * fem,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home(index: 0),
+                          ));
+                    },
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.resolveWith<
+                                RoundedRectangleBorder?>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.focused)) {
+                            return RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5 * fem),
+                                side: const BorderSide(
+                                  color: AppColor.primary,
+                                ));
+                          }
                           return RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5 * fem),
                               side: const BorderSide(
-                                color: AppColor.primary,
+                                color: Colors.white,
                               ));
-                        }
-                        return RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5 * fem),
-                            side: const BorderSide(
-                              color: Colors.white,
-                            ));
-                      }),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color?>(AppColor.primary)),
-                  child: Text(
-                    'Gửi đánh giá',
-                    style: TextStyle(color: Colors.black),
+                        }),
+                        backgroundColor: MaterialStateProperty.all<Color?>(
+                            AppColor.primary)),
+                    child: Text(
+                      'Gửi đánh giá',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Solway',
+                        fontSize: 16 * fem,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 20 * fem,
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Home(index: 0),
-                        ));
-                  },
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith<
-                          RoundedRectangleBorder?>((Set<MaterialState> states) {
-                        if (states.contains(MaterialState.focused)) {
+                Container(
+                  width: 200 * fem,
+                  height: 60 * fem,
+                  child: TextButton(
+                    onPressed: () {
+                      context.read<ReviewBloc>().add(AddReviewEvent(
+                          comment: commentController.text,
+                          customerId: AppString.customerId,
+                          productId: 62,
+                          rating: rating,
+                          state: true));
+                      context.read<ReviewBloc>().add(const LoadReviewEvent());
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home(index: 0),
+                          ));
+                    },
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.resolveWith<
+                                RoundedRectangleBorder?>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.focused)) {
+                            return RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5 * fem),
+                                side: const BorderSide(
+                                  color: AppColor.primary,
+                                ));
+                          }
                           return RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5 * fem),
                               side: const BorderSide(
-                                color: AppColor.primary,
+                                color: Colors.white,
                               ));
-                        }
-                        return RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5 * fem),
-                            side: const BorderSide(
-                              color: Colors.white,
-                            ));
-                      }),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color?>(AppColor.primary)),
-                  child: Text(
-                    'Về trang chủ',
-                    style: TextStyle(color: Colors.black),
+                        }),
+                        backgroundColor: MaterialStateProperty.all<Color?>(
+                            AppColor.primary)),
+                    child: Text(
+                      'Về trang chủ',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Solway',
+                        fontSize: 16 * fem,
+                      ),
+                    ),
                   ),
                 )
               ],

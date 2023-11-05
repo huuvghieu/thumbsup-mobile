@@ -30,7 +30,7 @@ class _ProductState extends State<Product> {
   bool isLoading = true;
   SharedPref sharedPref = SharedPref();
   String? fullName = '';
-
+  String? avatar = '';
 
   @override
   void initState() {
@@ -109,7 +109,27 @@ class _ProductState extends State<Product> {
               child: CircleAvatar(
                 backgroundColor: AppColor.primary,
                 radius: 25.0,
-                child: Image.network('${AppString.avatar}'),
+                child: AppString.isAvatar 
+                ? Align(
+                        child: SizedBox(
+                          // width: 54,
+                          height: 80,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(80),
+                            child: Image.network(
+                                // isStore
+                                //     ? (jwt.user as StoreExtra).logo.toString()
+                                //     : avatar.toString(),
+                                '$avatar',
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      )
+                :  CircleAvatar(
+                backgroundColor: AppColor.primary,
+                radius: 25.0,
+                child: Image.network('${AppString.avatar}',width: 30),
+              ),     
               ),
             )
           ],
@@ -180,7 +200,14 @@ class _ProductState extends State<Product> {
                         })
                       }),
               fullName = (jwt.user as Customer).fullName,
-              AppString.avatar = (jwt.user as Customer).avatar!,
+              if ((jwt.user as Customer).avatar != '')
+                {avatar = (jwt.user as Customer).avatar!,
+                AppString.ava = avatar,
+                AppString.isAvatar = true}
+              else
+                {avatar = AppString.avatar,
+                AppString.ava = AppString.ava
+                },
               AppString.customerId = (jwt.user as Customer).id,
             }
           else if (jwt.role == "Store")

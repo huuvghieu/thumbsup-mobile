@@ -32,9 +32,7 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
           state: event.state);
       bool result = await repository.createReview(review);
       if (result) {
-        emit(const ReviewSuccessState());
-      } else {
-        emit(ReviewErrorState('Thêm thất bại'));
+        emit(const ReviewLoadedState());
       }
     } catch (e) {
       emit(ReviewErrorState(e.toString()));
