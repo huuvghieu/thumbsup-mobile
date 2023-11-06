@@ -3,10 +3,10 @@ import 'package:my_app/data/models/product_model.dart';
 
 class Cart extends Equatable {
   final List<ProductModel> products;
-  Cart({required this.products});
+  const Cart({required this.products});
 
   Map productQuantity(products) {
-    var quantity = Map();
+    var quantity = {};
 
     products.forEach((product) {
       if (!quantity.containsKey(product.toString())) {
@@ -20,7 +20,7 @@ class Cart extends Equatable {
   }
 
   Map productStore(products) {
-    Map<String?, List<ProductModel>> filterStore = Map();
+    Map<String?, List<ProductModel>> filterStore = {};
 
     products.forEach((product) {
       List<ProductModel> listItem = [];

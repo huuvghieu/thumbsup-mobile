@@ -27,13 +27,13 @@ class StateDetailListModel extends Equatable {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['date'] = this.date;
-    data['stateId'] = this.stateId;
-    data['stateName'] = this.stateName;
-    data['orderId'] = this.orderId;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['date'] = date;
+    data['stateId'] = stateId;
+    data['stateName'] = stateName;
+    data['orderId'] = orderId;
+    data['status'] = status;
     return data;
   }
 

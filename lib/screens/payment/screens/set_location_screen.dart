@@ -34,7 +34,7 @@ class SetLocationScreem extends StatelessWidget {
                     RepositoryProvider.of<GeolocationRepository>(context),
                 placesRepository:
                     RepositoryProvider.of<PlacesRepository>(context),
-              )..add(LoadMap()),
+              )..add(const LoadMap()),
             ),
             BlocProvider(
                 create: (context) => PlaceBloc(

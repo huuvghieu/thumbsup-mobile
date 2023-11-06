@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/data/models/ads_store_model.dart';
-import 'package:my_app/screens/store/screens/store_screen.dart';
 import 'package:my_app/services/ads_store_service.dart';
 
 class CarouselStore extends StatefulWidget {

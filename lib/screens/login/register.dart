@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
@@ -13,7 +12,6 @@ import 'package:my_app/data/repositories/customer_repository.dart';
 import 'package:my_app/logic/blocs/customer/customer_bloc.dart';
 import 'package:my_app/screens/login/components/dropdrown_form.dart';
 import 'package:my_app/screens/login/login.dart';
-import 'package:my_app/screens/login/phone.dart';
 import 'package:my_app/screens/widget/decorate_register.dart';
 import 'package:my_app/screens/widget/text_form_field_custom.dart';
 

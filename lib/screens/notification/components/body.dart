@@ -245,7 +245,7 @@ class Body extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 50 * fem,
                         width: 58 * fem,
                         child: Image.asset('assets/images/success-icon.png'),

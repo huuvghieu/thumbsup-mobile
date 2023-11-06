@@ -21,7 +21,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: buildAppBar(),
-        body: Body(),  
+        body: const Body(),
       ),
     );
   }

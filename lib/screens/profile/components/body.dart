@@ -50,251 +50,253 @@ class _BodyState extends State<Body> {
         : RefreshIndicator(
             onRefresh: refresh,
             color: AppColor.primaryDark,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 50 * fem,
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.fromLTRB(20 * fem, 0 * fem, 0 * fem, 30 * fem),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Align(
-                        child: SizedBox(
-                          width: 54 * fem,
-                          height: 55 * fem,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100 * fem),
-                            child: Image.network(
-                                // isStore
-                                //     ? (jwt.user as StoreExtra).logo.toString()
-                                //     : avatar.toString(),
-                                '$avatar',
-                                fit: BoxFit.cover),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 50 * fem,
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.fromLTRB(20 * fem, 0 * fem, 0 * fem, 30 * fem),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          child: SizedBox(
+                            width: 54 * fem,
+                            height: 55 * fem,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100 * fem),
+                              child: Image.network(
+                                  // isStore
+                                  //     ? (jwt.user as StoreExtra).logo.toString()
+                                  //     : avatar.toString(),
+                                  '$avatar',
+                                  fit: BoxFit.cover),
+                            ),
                           ),
                         ),
-                      ),
 
-                      //
-                      SizedBox(
-                        width: 20 * fem,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
+                        //
+                        SizedBox(
+                          width: 20 * fem,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  isStore
+                                      ? (jwt.user as StoreExtra)
+                                          .storeName
+                                          .toString()
+                                      : (jwt.user as Customer)
+                                          .fullName
+                                          .toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  // maxLines: 1,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontFamily: 'Solway',
+                                      fontSize: 17.3 * ffem,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.2 * ffem / fem,
+                                      color: Colors.black),
+                                ),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 30 * fem),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/pencil-icon.svg',
+                                      width: 18 * fem,
+                                      height: 18 * fem,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(
+                                  0 * fem, 0 * fem, 20 * fem, 0 * fem),
+                              child: Text(
                                 isStore
-                                    ? (jwt.user as StoreExtra)
-                                        .storeName
-                                        .toString()
-                                    : (jwt.user as Customer)
-                                        .fullName
-                                        .toString(),
+                                    ? (jwt.user as StoreExtra).email.toString()
+                                    : (jwt.user as Customer).email.toString(),
                                 overflow: TextOverflow.ellipsis,
-                                // maxLines: 1,
+                                maxLines: 1,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                    fontFamily: 'Solway',
-                                    fontSize: 17.3 * ffem,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.2 * ffem / fem,
-                                    color: Colors.black),
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 30 * fem),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/pencil-icon.svg',
-                                    width: 18 * fem,
-                                    height: 18 * fem,
-                                  ),
+                                  fontFamily: 'Solway',
+                                  fontSize: 14 * ffem,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2 * ffem / fem,
+                                  color: AppColor.kTextColor,
                                 ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                0 * fem, 0 * fem, 20 * fem, 0 * fem),
-                            child: Text(
-                              isStore
-                                  ? (jwt.user as StoreExtra).email.toString()
-                                  : (jwt.user as Customer).email.toString(),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontFamily: 'Solway',
-                                fontSize: 14 * ffem,
-                                fontWeight: FontWeight.w400,
-                                height: 1.2 * ffem / fem,
-                                color: AppColor.kTextColor,
                               ),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.fromLTRB(40 * fem, 0 * fem, 30 * fem, 0 * fem),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/icons/number-of-following-icon.svg',
-                            width: 30 * fem,
-                            height: 30 * fem,
-                          ),
-                          SizedBox(
-                            width: 15 * fem,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 5 * fem),
-                            child: Text(
-                              '0',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Solway',
-                                fontSize: 18 * ffem,
-                                fontWeight: FontWeight.w400,
-                                height: 1.2 * ffem / fem,
-                                color: Colors.black,
-                              ),
+                  Padding(
+                    padding:
+                        EdgeInsets.fromLTRB(40 * fem, 0 * fem, 30 * fem, 0 * fem),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/number-of-following-icon.svg',
+                              width: 30 * fem,
+                              height: 30 * fem,
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        width: 100 * fem,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/icons/number-of-rating-icon.svg',
-                            width: 30 * fem,
-                            height: 30 * fem,
-                          ),
-                          SizedBox(
-                            width: 15 * fem,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 5 * fem),
-                            child: Text(
-                              '0',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Solway',
-                                fontSize: 18 * ffem,
-                                fontWeight: FontWeight.w400,
-                                height: 1.2 * ffem / fem,
-                                color: Colors.black,
-                              ),
+                            SizedBox(
+                              width: 15 * fem,
                             ),
-                          )
-                        ],
-                      ),
-                    ],
+                            Padding(
+                              padding: EdgeInsets.only(top: 5 * fem),
+                              child: Text(
+                                '0',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Solway',
+                                  fontSize: 18 * ffem,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2 * ffem / fem,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          width: 100 * fem,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/number-of-rating-icon.svg',
+                              width: 30 * fem,
+                              height: 30 * fem,
+                            ),
+                            SizedBox(
+                              width: 15 * fem,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5 * fem),
+                              child: Text(
+                                '0',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Solway',
+                                  fontSize: 18 * ffem,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2 * ffem / fem,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 20 * fem,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      40 * fem, 0 * fem, 30 * fem, 40 * fem),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                            size: 30 * fem,
-                          ),
-                          SizedBox(
-                            width: 15 * fem,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 5 * fem),
-                            child: Text(
-                              '0',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Solway',
-                                fontSize: 18 * ffem,
-                                fontWeight: FontWeight.w400,
-                                height: 1.2 * ffem / fem,
-                                color: Colors.black,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(width: 100*fem,),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/icons/cash-coins-icon.svg',
-                            width: 30 * fem,
-                            height: 30 * fem,
-                          ),
-                          SizedBox(
-                            width: 15 * fem,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 5 * fem),
-                            child: Text(
-                              '0 VND',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Solway',
-                                fontSize: 18 * ffem,
-                                fontWeight: FontWeight.w400,
-                                height: 1.2 * ffem / fem,
-                                color: Colors.black,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                  SizedBox(
+                    height: 20 * fem,
                   ),
-                ),
-                Container(
-                  margin:
-                      EdgeInsets.fromLTRB(20 * fem, 0 * fem, 20 * fem, 0 * fem),
-                  child: Column(
-                    children: [
-                      ButtonWallet(fem: fem, ffem: ffem),
-                      ButtonOrder(
-                          fem: fem,
-                          ffem: ffem,
-                          customerId: (jwt.user as Customer).id),
-                      ButtonHistoryTransaction(fem: fem, ffem: ffem),
-                      SizedBox(
-                        height: 50 * fem,
-                      ),
-                      const ButtonLogout(),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        40 * fem, 0 * fem, 30 * fem, 40 * fem),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                              size: 30 * fem,
+                            ),
+                            SizedBox(
+                              width: 15 * fem,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5 * fem),
+                              child: Text(
+                                '0',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Solway',
+                                  fontSize: 18 * ffem,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2 * ffem / fem,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(width: 100*fem,),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/cash-coins-icon.svg',
+                              width: 30 * fem,
+                              height: 30 * fem,
+                            ),
+                            SizedBox(
+                              width: 15 * fem,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5 * fem),
+                              child: Text(
+                                '0 VND',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Solway',
+                                  fontSize: 18 * ffem,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2 * ffem / fem,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                )
-              ],
+                  Container(
+                    margin:
+                        EdgeInsets.fromLTRB(20 * fem, 0 * fem, 20 * fem, 0 * fem),
+                    child: Column(
+                      children: [
+                        ButtonWallet(fem: fem, ffem: ffem),
+                        ButtonOrder(
+                            fem: fem,
+                            ffem: ffem,
+                            customerId: (jwt.user as Customer).id),
+                        ButtonHistoryTransaction(fem: fem, ffem: ffem),
+                        SizedBox(
+                          height: 50 * fem,
+                        ),
+                        const ButtonLogout(),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ));
   }
 

@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
                       child: CircularProgressIndicator(),
                     );
                   });
-              var result = await createOrder(amount);
+              var result = await createOrder(0);
               if (result != null) {
                 Navigator.pop(context);
                 zpTransToken = result.zptranstoken!;
@@ -132,39 +132,6 @@ class _HomeState extends State<Home> {
                   style: TextStyle(color: Colors.white, fontSize: 20.0))),
         ),
       );
-  //
-  // /// Build Button Pay
-  // Widget _btnPay(String zpToken) => Padding(
-  //     padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-  //     child: Visibility(
-  //       visible: showResult,
-  //       child: GestureDetector(
-  //         onTap: () async {
-  //           String response = "";
-  //           try {
-  //             final String result = await platform.invokeMethod('payOrder', {"zptoken": zpToken});
-  //             response = result;
-  //             print("payOrder Result: '$result'.");
-  //           } on PlatformException catch (e) {
-  //             print("Failed to Invoke: '${e.message}'.");
-  //             response = "Thanh toán thất bại";
-  //           }
-  //           print(response);
-  //           setState(() {
-  //             payResult = response;
-  //           });
-  //         },
-  //         child: Container(
-  //             height: 50.0,
-  //             alignment: Alignment.center,
-  //             decoration: BoxDecoration(
-  //               color: AppColor.primaryColor,
-  //               borderRadius: BorderRadius.circular(8.0),
-  //             ),
-  //             child: Text("Pay",
-  //                 style: TextStyle(color: Colors.white, fontSize: 20.0))),
-  //       ),
-  //     ));
 
   @override
   Widget build(BuildContext context) {
@@ -190,11 +157,11 @@ class _HomeState extends State<Home> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Visibility(
+            visible: showResult,
             child: Text(
               "zptranstoken:",
               style: textStyle,
             ),
-            visible: showResult,
           ),
         ),
         Container(
@@ -208,8 +175,8 @@ class _HomeState extends State<Home> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Visibility(
-              child: Text("Transaction status:", style: textStyle),
-              visible: showResult),
+              visible: showResult,
+              child: Text("Transaction status:", style: textStyle)),
         ),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 5.0),

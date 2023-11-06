@@ -19,155 +19,157 @@ class BodySetLocation extends StatelessWidget {
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          const DecorateTop(),
-          Padding(
-              padding: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 20 * fem),
-              child: Text(
-                'Tìm vị trí',
-                style: TextStyle(
-                  fontFamily: 'Solway',
-                  fontSize: 25 * ffem,
-                  color: Colors.black,
-                ),
-              )),
-          BlocProvider(
-            create: (context) => AutocompleteBloc(
-                placesRepository:
-                    RepositoryProvider.of<PlacesRepository>(context))
-              ..add(const LoadAutocomplete()),
-            child: SearchBoxLocation(
-              fem: fem,
+    return SingleChildScrollView(
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            const DecorateTop(),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 20 * fem),
+                child: Text(
+                  'Tìm vị trí',
+                  style: TextStyle(
+                    fontFamily: 'Solway',
+                    fontSize: 25 * ffem,
+                    color: Colors.black,
+                  ),
+                )),
+            BlocProvider(
+              create: (context) => AutocompleteBloc(
+                  placesRepository:
+                      RepositoryProvider.of<PlacesRepository>(context))
+                ..add(const LoadAutocomplete()),
+              child: SearchBoxLocation(
+                fem: fem,
+              ),
             ),
-          ),
-          Center(
-            child: Container(
-                margin:
-                    EdgeInsets.fromLTRB(30 * fem, 0 * fem, 30 * fem, 0 * fem),
-                width: double.infinity,
-                height: 350 * fem,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10 * fem),
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 206, 206, 206))),
-                child: BlocBuilder<GeolocationBloc, GeolocationState>(
-                  builder: (context, state) {
-                    if (state is LocationLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColor.primary,
-                        ),
-                      );
-                    }
-                    if (state is LocationLoaded) {
-                      Set<Marker> markers = {};
-                      Marker maker = Marker(
-                        markerId: MarkerId('1'),
-                        infoWindow: InfoWindow(
-                          title: 'You are here',
-                        ),
-                        position: LatLng(
-                          state.place.lat,
-                          state.place.lon,
-                        ),
-                      );
-                      markers.add(maker);
+            Center(
+              child: Container(
+                  margin:
+                      EdgeInsets.fromLTRB(30 * fem, 0 * fem, 30 * fem, 0 * fem),
+                  width: double.infinity,
+                  height: 350 * fem,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10 * fem),
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 206, 206, 206))),
+                  child: BlocBuilder<GeolocationBloc, GeolocationState>(
+                    builder: (context, state) {
+                      if (state is LocationLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColor.primary,
+                          ),
+                        );
+                      }
+                      if (state is LocationLoaded) {
+                        Set<Marker> markers = {};
+                        Marker maker = Marker(
+                          markerId: MarkerId('1'),
+                          infoWindow: InfoWindow(
+                            title: 'You are here',
+                          ),
+                          position: LatLng(
+                            state.place.lat,
+                            state.place.lon,
+                          ),
+                        );
+                        markers.add(maker);
+                        return GoogleMap(
+                          myLocationButtonEnabled: true,
+                          buildingsEnabled: false,
+                          markers: markers,
+                          onMapCreated: (GoogleMapController controller) {
+                            context.read<GeolocationBloc>().add(
+                                  LoadMap(controller: controller),
+                                );
+                          },
+                          initialCameraPosition: CameraPosition(
+                              target: LatLng(
+                                state.place.lat,
+                                state.place.lon,
+                              ),
+                              zoom: 15 * fem),
+                        );
+                      }
                       return GoogleMap(
                         myLocationButtonEnabled: true,
                         buildingsEnabled: false,
-                        markers: markers,
                         onMapCreated: (GoogleMapController controller) {
                           context.read<GeolocationBloc>().add(
                                 LoadMap(controller: controller),
                               );
                         },
                         initialCameraPosition: CameraPosition(
-                            target: LatLng(
-                              state.place.lat,
-                              state.place.lon,
+                            target: const LatLng(
+                              10,
+                              10,
                             ),
                             zoom: 15 * fem),
                       );
-                    }
-                    return GoogleMap(
-                      myLocationButtonEnabled: true,
-                      buildingsEnabled: false,
-                      onMapCreated: (GoogleMapController controller) {
-                        context.read<GeolocationBloc>().add(
-                              LoadMap(controller: controller),
-                            );
-                      },
-                      initialCameraPosition: CameraPosition(
-                          target: const LatLng(
-                            10,
-                            10,
-                          ),
-                          zoom: 15 * fem),
-                    );
+                    },
+                  )),
+            ),
+            BlocProvider(
+              create: (context) => AutocompleteBloc(
+                  placesRepository:
+                      RepositoryProvider.of<PlacesRepository>(context))
+                ..add(const LoadAutocomplete()),
+              child: _SearchBoxSuggestions(),
+            ),
+            Center(
+              child: Container(
+                margin:
+                    EdgeInsets.fromLTRB(30 * fem, 50 * fem, 30 * fem, 0 * fem),
+                width: 250 * fem,
+                height: 60 * fem,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10 * fem),
+                    border: Border.all(
+                        color: const Color.fromARGB(255, 206, 206, 206))),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BlocProvider(
+                                  create: (context) => CheckoutBloc(
+                                      cartBloc: context.read<CartBloc>(),
+                                      orderRepository:
+                                          context.read<OrderRepository>()),
+                                  child: CheckoutScreen(
+                                    id: AppString.customerId,
+                                  ),
+                                )));
                   },
-                )),
-          ),
-          BlocProvider(
-            create: (context) => AutocompleteBloc(
-                placesRepository:
-                    RepositoryProvider.of<PlacesRepository>(context))
-              ..add(const LoadAutocomplete()),
-            child: _SearchBoxSuggestions(),
-          ),
-          Center(
-            child: Container(
-              margin:
-                  EdgeInsets.fromLTRB(30 * fem, 50 * fem, 30 * fem, 0 * fem),
-              width: 250 * fem,
-              height: 60 * fem,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10 * fem),
-                  border: Border.all(
-                      color: const Color.fromARGB(255, 206, 206, 206))),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                                create: (context) => CheckoutBloc(
-                                    cartBloc: context.read<CartBloc>(),
-                                    orderRepository:
-                                        context.read<OrderRepository>()),
-                                child: CheckoutScreen(
-                                  id: AppString.customerId,
-                                ),
-                              )));
-                },
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.resolveWith<
-                        RoundedRectangleBorder?>((Set<MaterialState> states) {
-                      if (states.contains(MaterialState.focused)) {
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.resolveWith<
+                          RoundedRectangleBorder?>((Set<MaterialState> states) {
+                        if (states.contains(MaterialState.focused)) {
+                          return RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5 * fem),
+                              side: const BorderSide(
+                                color: AppColor.primary,
+                              ));
+                        }
                         return RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5 * fem),
                             side: const BorderSide(
-                              color: AppColor.primary,
+                              color: Colors.white,
                             ));
-                      }
-                      return RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5 * fem),
-                          side: const BorderSide(
-                            color: Colors.white,
-                          ));
-                    }),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color?>(AppColor.primary)),
-                child: const Text(
-                  'THIẾT LẬP ĐỊA ĐIỂM',
-                  style: TextStyle(color: Colors.white),
+                      }),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color?>(AppColor.primary)),
+                  child: const Text(
+                    'THIẾT LẬP ĐỊA ĐIỂM',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

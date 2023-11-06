@@ -182,8 +182,8 @@ class _ProductViewState extends State<ProductView> {
           showNewPageErrorIndicatorAsGridChild: false,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            mainAxisSpacing: 10.0,
-            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 7.0,
+            crossAxisSpacing: 7.0,
             childAspectRatio: 0.55,
           ),
           builderDelegate: PagedChildBuilderDelegate<ProductModel>(
@@ -300,7 +300,7 @@ class _ProductViewState extends State<ProductView> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -384,7 +384,7 @@ class _ProductViewState extends State<ProductView> {
                       Text(
                         "Cách 500m",
                         style: TextStyle(
-                          fontSize: 11.0,
+                          fontSize: 10.0,
                           color: AppColor.productNameColor,
                         ),
                       ),
@@ -400,7 +400,7 @@ class _ProductViewState extends State<ProductView> {
                       Text(
                         'Số lượng: ${product.quantity.toString()}',
                         style: const TextStyle(
-                          fontSize: 11.0,
+                          fontSize: 10.0,
                           color: AppColor.productNameColor,
                         ),
                       ),
@@ -422,9 +422,9 @@ class _ProductViewState extends State<ProductView> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 5.0,
-        childAspectRatio: 0.55,
+        mainAxisSpacing: 7.0,
+        crossAxisSpacing: 7.0,
+        childAspectRatio: 0.5,
       ),
       itemBuilder: (context, index) {
         return Shimmer.fromColors(

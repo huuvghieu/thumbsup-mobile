@@ -2,6 +2,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zalopay_sdk/flutter_zalopay_sdk.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/data/models/checkout_model.dart';
 import 'package:my_app/data/models/create_model/create_order_detail_model.dart';
@@ -13,12 +14,21 @@ import 'package:my_app/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:my_app/screens/cart/components/cost.dart';
 import 'package:my_app/screens/home/home.dart';
 import 'package:my_app/screens/payment/screens/completed_payment_screen.dart';
+import 'package:my_app/zalo/payment.dart';
 
 import '../components/item_card.dart';
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends StatefulWidget {
   CheckoutScreen({super.key, required this.id});
+
   int? id;
+
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
+  String zpTransToken = "";
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +94,7 @@ class CheckoutScreen extends StatelessWidget {
                         List<CreateOrderDetailModel> detailList = [];
                         for (int i = 0; i < cart.keys.length; i++) {
                           ProductModel productModel =
-                              (cart.values.elementAt(index) as ProductModel);
+                              (cart.values.elementAt(i) as ProductModel);
                           CreateOrderDetailModel detailModel =
                               CreateOrderDetailModel(
                             originalPrice: productModel.originalPrice,
@@ -109,7 +119,7 @@ class CheckoutScreen extends StatelessWidget {
                         //create order
                         CreateOrderModel order = CreateOrderModel(
                             amount: amount,
-                            customerId: id,
+                            customerId: widget.id,
                             state: true,
                             orderDetailList: detailList);
 
@@ -140,6 +150,7 @@ class CheckoutScreen extends StatelessWidget {
                               Flexible(
                                 child: ListView.builder(
                                   shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: cart.keys.length,
                                   itemBuilder: (context, index) {
                                     // final item = cart.keys.elementAt(index);
@@ -185,6 +196,7 @@ class CheckoutScreen extends StatelessWidget {
                     // ),
                     BlocBuilder<CartBloc, CartState>(
                       builder: (_, state) {
+                        double amount;
                         return Container(
                           margin: EdgeInsets.fromLTRB(
                               0 * fem, 0 * fem, 0 * fem, 0 * fem),
@@ -196,11 +208,63 @@ class CheckoutScreen extends StatelessWidget {
                           ),
                           child: TextButton(
                             onPressed: () => {
-                              context.read<CheckoutBloc>().add(
-                                  ConfirmCheckoutEvent(
-                                      checkoutModel:
-                                          CheckoutModel(orderList: orderList))),
-                              _.read<CartBloc>().add(LoadCartEvent())
+                              amount = 30000000.333,
+
+                              if (amount < 1000 || amount > 100000000)
+                                {
+                                  setState(() {
+                                    zpTransToken = "Invalid Amount";
+                                  }),
+                                }
+                              else
+                                {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return const Center(
+                                            child: CircularProgressIndicator(
+                                                color: AppColor.primaryDark));
+                                      }),
+                                  createOrder(amount).then((value) => {
+                                        if (value != null)
+                                          {
+                                            Navigator.pop(context),
+                                            zpTransToken = value.zptranstoken!,
+                                            print(
+                                                "zpTransToken $zpTransToken'."),
+                                            FlutterZaloPaySdk.payOrder(
+                                                    zpToken: zpTransToken)
+                                                .listen((event) {
+                                              switch (event) {
+                                                case FlutterZaloPayStatus.cancelled:
+                                                  print("User Huỷ Thanh Toán");
+                                                  break;
+                                                case FlutterZaloPayStatus.success:
+                                                  context
+                                                      .read<CheckoutBloc>()
+                                                      .add(ConfirmCheckoutEvent(
+                                                          checkoutModel:
+                                                              CheckoutModel(
+                                                                  orderList:
+                                                                      orderList)));
+                                                  _
+                                                      .read<CartBloc>()
+                                                      .add(LoadCartEvent());
+                                                  print(
+                                                      "Thanh toán thành công");
+                                                  break;
+                                                case FlutterZaloPayStatus
+                                                      .failed:
+                                                  print("Thanh toán thất bại");
+                                                  break;
+                                                default:
+                                                  print("Thanh toán thất bại");
+                                                  break;
+                                              }
+                                            }),
+                                          }
+                                      }),
+                                }
                             },
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.resolveWith<

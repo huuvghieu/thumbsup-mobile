@@ -77,8 +77,8 @@ class _ProductScreenState extends State<ProductScreen> {
       showNewPageErrorIndicatorAsGridChild: false,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 8.0,
+        mainAxisSpacing: 7.0,
+        crossAxisSpacing: 7.0,
         childAspectRatio: 0.55,
       ),
       builderDelegate: PagedChildBuilderDelegate<ProductModel>(
@@ -215,7 +215,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        changeCurrency(item.originalPrice!.toDouble() ?? 0),
+                        changeCurrency(item.originalPrice.toDouble() ?? 0),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -228,42 +228,42 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                     const SizedBox(height: 10.0),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Row(
-                          children: [
-                            Icon(
-                              size: 20.0,
-                              Icons.fmd_good_sharp,
-                              color: AppColor.productNameColor,
-                            ),
-                            Text(
-                              "Cách 500m",
-                              style: TextStyle(
-                                fontSize: 11.0,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(
+                                size: 20.0,
+                                Icons.fmd_good_sharp,
                                 color: AppColor.productNameColor,
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(
-                              size: 20.0,
-                              Icons.view_in_ar_rounded,
-                              color: AppColor.productNameColor,
-                            ),
-                            Text(
-                              'Số lượng: ${item.quantity.toString()}',
-                              style: const TextStyle(
-                                fontSize: 11.0,
+                              Text(
+                                "Cách 500m",
+                                style: TextStyle(
+                                  fontSize: 10.0,
+                                  color: AppColor.productNameColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(
+                                size: 20.0,
+                                Icons.view_in_ar_rounded,
                                 color: AppColor.productNameColor,
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
+                              Text(
+                                'Số lượng: ${item.quantity.toString()}',
+                                style: const TextStyle(
+                                  fontSize: 10.0,
+                                  color: AppColor.productNameColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -313,9 +313,9 @@ class _ProductScreenState extends State<ProductScreen> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 8.0,
-        childAspectRatio: 0.55,
+        mainAxisSpacing: 7.0,
+        crossAxisSpacing: 7.0,
+        childAspectRatio: 0.5,
       ),
       itemBuilder: (context, index) {
         return Shimmer.fromColors(

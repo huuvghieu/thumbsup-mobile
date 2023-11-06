@@ -19,7 +19,7 @@ class ButtonSMS extends StatelessWidget {
         onPressed: () => {},
         style: ElevatedButton.styleFrom(
           shadowColor: Colors.black,
-          backgroundColor: Color.fromARGB(211, 237, 237, 237),
+          backgroundColor: const Color.fromARGB(211, 237, 237, 237),
         ),
         child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Padding(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/common/color.dart';
-import 'package:my_app/common/string.dart';
 import 'package:my_app/data/models/wish_list_model.dart';
 import 'package:my_app/data/repositories/wishlist_product_repository.dart';
 import 'package:my_app/logic/blocs/wishlist/wishlist_bloc.dart';
