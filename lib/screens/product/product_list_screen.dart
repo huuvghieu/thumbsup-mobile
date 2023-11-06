@@ -165,7 +165,7 @@ class _ProductViewState extends State<ProductView> {
           if (isLastPage) {
             _pagingController.appendLastPage(newItems);
           } else {
-            final nextPageKey = page;
+            final nextPageKey = ++page;
             _pagingController.appendPage(newItems, nextPageKey);
           }
         } catch (error) {

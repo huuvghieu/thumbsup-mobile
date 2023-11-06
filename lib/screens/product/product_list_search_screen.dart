@@ -6,8 +6,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/common/image.dart';
-import 'package:my_app/data/models/brand_model.dart';
-import 'package:my_app/data/models/category_model.dart';
 import 'package:my_app/data/models/price_model.dart';
 import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/data/repositories/product_repository.dart';

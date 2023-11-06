@@ -74,11 +74,9 @@ class ProductRepository {
         }
       }
 
-      if (priceStartModel != null && priceEndModel != null) {
-        priceStart = priceStartModel.price.toString();
-        priceEnd = priceEndModel.price.toString();
-      }
-      http.Response response = await http.get(
+      priceStart = priceStartModel.price.toString();
+      priceEnd = priceEndModel.price.toString();
+          http.Response response = await http.get(
           Uri.parse(
               '$endpoint?priceStart=$priceStart&priceEnd=$priceEnd&sort=id%2Cdesc&page=$page&$filterCateId$filterBrandId'),
           headers: headers);
