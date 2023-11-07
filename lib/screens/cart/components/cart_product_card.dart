@@ -67,7 +67,13 @@ class CartProductCard extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<CartBloc>().add(RemoveAllProduct(product));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home(index: 1)));
+                      },
                       child: Text(
                         'x',
                         style: TextStyle(

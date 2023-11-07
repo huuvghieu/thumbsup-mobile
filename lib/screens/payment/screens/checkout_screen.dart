@@ -35,7 +35,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
-
+    double amout = 0;
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -60,6 +60,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 //     .read<CheckoutBloc>()
                 //     .add(UpdateCheckoutEvent(customerId: (id as num).toInt()));
                 List<CreateOrderModel> orderList = [];
+
                 return Column(
                   children: [
                     Expanded(
@@ -67,27 +68,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       shrinkWrap: true,
                       itemCount: store.keys.length,
                       itemBuilder: (context, index) {
-                        // //map List<ProductModel> to List<CreateOrderDetailModel>
-                        // List<CreateOrderDetailModel> detailList = (store.values
-                        //         .elementAt(index) as List<ProductModel>)
-                        //     .map((product) => CreateOrderDetailModel(
-                        //           originalPrice: product.originalPrice,
-                        //           discount: product.discount,
-                        //           salePrice: product.salePrice,
-                        //           quantity: product.quantity,
-                        //           amount:
-                        //               (product.quantity! * product.salePrice),
-                        //           productId: product.id,
-                        //           state: product.state,
-                        //         ))
-                        //     .toList();
-
-                        // //get total for each orderDetail
-                        // double amount = 0;
-                        // detailList.forEach((detail) {
-                        //   amount += detail.amount!;
-                        // });
-
                         Map cart = state.cart!
                             .productQuantity(store.values.elementAt(index));
                         //map List<ProductModel> to List<CreateOrderDetailModel>
@@ -115,7 +95,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         detailList.forEach((detail) {
                           amount += detail.amount!;
                         });
-
+                        amout = amount;
                         //create order
                         CreateOrderModel order = CreateOrderModel(
                             amount: amount,
@@ -196,7 +176,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     // ),
                     BlocBuilder<CartBloc, CartState>(
                       builder: (_, state) {
-                        double amount;
+                        int amount = amout.round();
                         return Container(
                           margin: EdgeInsets.fromLTRB(
                               0 * fem, 0 * fem, 0 * fem, 0 * fem),
@@ -208,8 +188,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                           child: TextButton(
                             onPressed: () => {
-                              amount = 30000000.333,
-
                               if (amount < 1000 || amount > 100000000)
                                 {
                                   setState(() {
@@ -225,7 +203,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             child: CircularProgressIndicator(
                                                 color: AppColor.primaryDark));
                                       }),
-                                  createOrder(amount).then((value) => {
+                                  createOrder(amount.toDouble()).then((value) =>
+                                      {
                                         if (value != null)
                                           {
                                             Navigator.pop(context),
@@ -236,10 +215,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                     zpToken: zpTransToken)
                                                 .listen((event) {
                                               switch (event) {
-                                                case FlutterZaloPayStatus.cancelled:
+                                                case FlutterZaloPayStatus
+                                                      .cancelled:
                                                   print("User Huỷ Thanh Toán");
                                                   break;
-                                                case FlutterZaloPayStatus.success:
+                                                case FlutterZaloPayStatus
+                                                      .success:
                                                   context
                                                       .read<CheckoutBloc>()
                                                       .add(ConfirmCheckoutEvent(
@@ -255,9 +236,79 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                   break;
                                                 case FlutterZaloPayStatus
                                                       .failed:
+                                                  SchedulerBinding.instance
+                                                      .addPostFrameCallback(
+                                                          (_) {
+                                                    Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                const Home(
+                                                                    index: 0)));
+                                                    ScaffoldMessenger.of(
+                                                        context)
+                                                      ..hideCurrentSnackBar()
+                                                      ..showSnackBar(SnackBar(
+                                                        elevation: 0,
+                                                        duration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    2000),
+                                                        behavior:
+                                                            SnackBarBehavior
+                                                                .floating,
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        content:
+                                                            AwesomeSnackbarContent(
+                                                          title:
+                                                              'Thanh toán thất bại!',
+                                                          message:
+                                                              'Vui lòng thanh toán lại!',
+                                                          contentType:
+                                                              ContentType
+                                                                  .failure,
+                                                        ),
+                                                      ));
+                                                  });
                                                   print("Thanh toán thất bại");
                                                   break;
                                                 default:
+                                                  SchedulerBinding.instance
+                                                      .addPostFrameCallback(
+                                                          (_) {
+                                                    Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                const Home(
+                                                                    index: 0)));
+                                                    ScaffoldMessenger.of(
+                                                        context)
+                                                      ..hideCurrentSnackBar()
+                                                      ..showSnackBar(SnackBar(
+                                                        elevation: 0,
+                                                        duration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    2000),
+                                                        behavior:
+                                                            SnackBarBehavior
+                                                                .floating,
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        content:
+                                                            AwesomeSnackbarContent(
+                                                          title:
+                                                              'Thanh toán thất bại!',
+                                                          message:
+                                                              'Vui lòng thanh toán lại!',
+                                                          contentType:
+                                                              ContentType
+                                                                  .failure,
+                                                        ),
+                                                      ));
+                                                  });
                                                   print("Thanh toán thất bại");
                                                   break;
                                               }

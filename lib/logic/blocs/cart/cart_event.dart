@@ -34,3 +34,13 @@ class RemoveProductEvent extends CartEvent {
   @override
   List<Object> get props => [product];
 }
+
+
+class RemoveAllProduct extends CartEvent {
+  final ProductModel product;
+
+  const RemoveAllProduct(this.product);
+
+  @override
+  List<Object> get props => [product];
+}

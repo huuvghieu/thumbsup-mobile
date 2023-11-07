@@ -16,6 +16,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<RefreshCartEvent>(_onCartRefresh);
     on<AddProductEvent>(_onCartProductAdded);
     on<RemoveProductEvent>(_onCartProductRemoved);
+      on<RemoveAllProduct>(_onRemoveAllProduct);
   }
 
   Future<void> _onCartStarted(
@@ -80,6 +81,28 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       } on Exception {
         emit(CartError());
       }
+    }
+  }
+
+    Future<void> _onRemoveAllProduct(
+    RemoveAllProduct event,
+    Emitter<CartState> emit,
+  ) async {
+    final state = this.state;
+
+    if (state is CartLoaded) {
+      try {
+        Box box = await localStorageRepository.openBox();
+        localStorageRepository.removeProductFromCart(box, event.product);
+        emit(
+          CartLoaded(
+            cart: state.cart.copyWith(
+              products: List.from(state.cart.products)
+                ..removeWhere((product) => product == event.product),
+            ),
+          ),
+        );
+      } catch (_) {}
     }
   }
 }

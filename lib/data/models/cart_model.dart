@@ -52,4 +52,10 @@ class Cart extends Equatable {
 
   @override
   List<Object?> get props => [products, deliveryFree, tax];
+
+  Cart copyWith({
+    List<ProductModel>? products,
+  }) {
+    return Cart(products: products ?? this.products);
+  }
 }

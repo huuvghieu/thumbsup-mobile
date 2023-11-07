@@ -25,11 +25,11 @@ class ButtonReserve extends StatelessWidget {
       ),
       child: TextButton(
         onPressed: () => {
-           Navigator.push(
-            context, MaterialPageRoute(
-              builder: (context) => const ReserveScreen(),
-            )
-          )
+          //  Navigator.push(
+          //   context, MaterialPageRoute(
+          //     builder: (context) => const ReserveScreen(),
+          //   )
+          // )
         },
         style: ButtonStyle(
             shape: MaterialStateProperty.resolveWith<
