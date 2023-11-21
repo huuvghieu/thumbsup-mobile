@@ -16,7 +16,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<RefreshCartEvent>(_onCartRefresh);
     on<AddProductEvent>(_onCartProductAdded);
     on<RemoveProductEvent>(_onCartProductRemoved);
-      on<RemoveAllProduct>(_onRemoveAllProduct);
+    on<RemoveAllProduct>(_onRemoveAllProduct);
+    on<LoadCartAfterPaymentEvent>(_onLoadCartAfterPaymentProduct);
   }
 
   Future<void> _onCartStarted(
@@ -47,16 +48,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _onCartProductAdded(
       AddProductEvent event, Emitter<CartState> emit) async {
+    final state = this.state;
     if (state is CartLoaded) {
       try {
         Box box = await localStorageRepository.openBox();
         localStorageRepository.addProductToCart(box, event.product);
         emit(
           CartLoaded(
-            cart: Cart(
-              products: (state as CartLoaded).cart.products..add(event.product),
-            ),
-          ),
+              cart: state.cart.copyWith(
+                  products: List.from(state.cart.products)
+                    ..add(event.product))),
         );
       } on Exception {
         emit(CartError());
@@ -66,16 +67,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _onCartProductRemoved(
       RemoveProductEvent event, Emitter<CartState> emit) async {
+    final state = this.state;
     if (state is CartLoaded) {
       try {
         Box box = await localStorageRepository.openBox();
         localStorageRepository.removeProductFromCart(box, event.product);
         emit(
           CartLoaded(
-            cart: Cart(
-              products: (state as CartLoaded).cart.products
-                ..remove(event.product),
-            ),
+            cart: state.cart.copyWith(
+              products: List.from(state.cart.products)..remove(event.product)
+            )
           ),
         );
       } on Exception {
@@ -84,7 +85,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-    Future<void> _onRemoveAllProduct(
+  Future<void> _onRemoveAllProduct(
     RemoveAllProduct event,
     Emitter<CartState> emit,
   ) async {
@@ -102,6 +103,21 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             ),
           ),
         );
+      } catch (_) {}
+    }
+  }
+
+  Future<void> _onLoadCartAfterPaymentProduct(
+    LoadCartAfterPaymentEvent event,
+    Emitter<CartState> emit,
+  ) async {
+    final state = this.state;
+
+    if (state is CartLoaded) {
+      try {
+        Box box = await localStorageRepository.openBox();
+        localStorageRepository.clearCart(box);
+        emit(CartLoading());
       } catch (_) {}
     }
   }

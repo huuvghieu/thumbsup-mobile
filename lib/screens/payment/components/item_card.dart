@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:my_app/common/color.dart';
 import 'package:my_app/data/models/product_model.dart';
 
+// ignore: must_be_immutable
 class ItemCard extends StatelessWidget {
   ItemCard(
       {super.key,

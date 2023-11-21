@@ -334,7 +334,7 @@ class _ProductViewState extends State<ProductView> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  changeCurrency(product.salePrice!.toDouble() ?? 0),
+                  changeCurrency(product.salePrice.toDouble()),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -346,7 +346,7 @@ class _ProductViewState extends State<ProductView> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  changeCurrency(product.originalPrice!.toDouble() ?? 0),
+                  changeCurrency(product.originalPrice.toDouble()),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

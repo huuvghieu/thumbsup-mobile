@@ -5,6 +5,7 @@ abstract class CheckoutEvent extends Equatable {
   const CheckoutEvent();
 }
 
+// ignore: must_be_immutable
 class UpdateCheckoutEvent extends CheckoutEvent {
   List<CreateOrderDetailModel>? detailLists;
   int? customerId;

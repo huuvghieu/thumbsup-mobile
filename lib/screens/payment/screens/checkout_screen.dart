@@ -18,6 +18,7 @@ import 'package:my_app/zalo/payment.dart';
 
 import '../components/item_card.dart';
 
+// ignore: must_be_immutable
 class CheckoutScreen extends StatefulWidget {
   CheckoutScreen({super.key, required this.id});
 
@@ -81,7 +82,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             discount: productModel.discount,
                             salePrice: productModel.salePrice,
                             quantity: productModel.quantity,
-                            amount: (productModel.quantity! *
+                            amount: (productModel.quantity *
                                 productModel.salePrice),
                             productId: productModel.id,
                             state: productModel.state,
@@ -230,7 +231,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                       orderList)));
                                                   _
                                                       .read<CartBloc>()
-                                                      .add(LoadCartEvent());
+                                                      .add(LoadCartAfterPaymentEvent());
                                                   print(
                                                       "Thanh toán thành công");
                                                   break;

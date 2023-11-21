@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class CreateOrderDetailModel extends Equatable{
   double? originalPrice;
   int? discount;
@@ -32,13 +33,13 @@ class CreateOrderDetailModel extends Equatable{
 
     Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['originalPrice'] = this.originalPrice;
-    data['discount'] = this.discount;
-    data['salePrice'] = this.salePrice;
-    data['quantity'] = this.quantity;
-    data['amount'] = this.amount;
-    data['state'] = this.state;
-    data['productId'] = this.productId;
+    data['originalPrice'] = originalPrice;
+    data['discount'] = discount;
+    data['salePrice'] = salePrice;
+    data['quantity'] = quantity;
+    data['amount'] = amount;
+    data['state'] = state;
+    data['productId'] = productId;
     return data;
   }
 }

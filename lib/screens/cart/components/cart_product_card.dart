@@ -134,11 +134,11 @@ class CartProductCard extends StatelessWidget {
                                       context
                                           .read<CartBloc>()
                                           .add(RemoveProductEvent(product));
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Home(index: 1)));
+                                      // Navigator.pushReplacement(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             const Home(index: 1)));
                                     },
                                     icon: const Icon(
                                       Icons.remove_circle_outline,
@@ -162,11 +162,11 @@ class CartProductCard extends StatelessWidget {
                                     onPressed: () {
                                       context.read<CartBloc>().add(
                                           AddProductEvent(product: product));
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Home(index: 1)));
+                                      // Navigator.pushReplacement(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             const Home(index: 1)));
                                     },
                                     icon: const Icon(
                                       Icons.add_circle,

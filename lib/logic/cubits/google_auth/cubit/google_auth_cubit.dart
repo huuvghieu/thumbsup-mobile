@@ -43,6 +43,5 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       emit(GoogleAuthFailedState(e.toString()));
       return e.toString();
     }
-    return null;
   }
 }

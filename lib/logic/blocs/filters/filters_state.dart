@@ -8,6 +8,7 @@ class FiltersLoading extends FiltersState {
   List<Object?> get props => [];
 }
 
+// ignore: must_be_immutable
 class FiltersLoaded extends FiltersState {
   final FilterModel filter;
   //  List<ProductModel>? filterdProductModels;

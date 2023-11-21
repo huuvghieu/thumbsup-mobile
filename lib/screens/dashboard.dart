@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/screens/home.dart';
 
 
+// ignore: must_be_immutable
 class Dashboard extends StatefulWidget {
   String? title;
   String? version;

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class CategoryModel extends Equatable{
   final int id;
   final String category;

@@ -19,6 +19,7 @@ class WishListStoreLoadedState extends WishListStoreState {
   List<Object?> get props => [wishLists];
 }
 
+// ignore: must_be_immutable
 class WishListStoreErrorState extends WishListStoreState {
   String? error;
   WishListStoreErrorState(this.error);

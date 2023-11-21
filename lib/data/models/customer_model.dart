@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class CustomerModel extends Equatable {
   final int id;
   final String userName;
@@ -46,18 +47,18 @@ class CustomerModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userName'] = this.userName;
-    data['fullName'] = this.fullName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['avatar'] = this.avatar;
-    data['dob'] = this.dob;
-    data['address'] = this.address;
-    data['state'] = this.state;
-    data['cityId'] = this.cityId;
-    data['cityName'] = this.cityName;
-    data['status'] = this.status;
+    data['id'] = id;
+    data['userName'] = userName;
+    data['fullName'] = fullName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['avatar'] = avatar;
+    data['dob'] = dob;
+    data['address'] = address;
+    data['state'] = state;
+    data['cityId'] = cityId;
+    data['cityName'] = cityName;
+    data['status'] = status;
     return data;
   }
   

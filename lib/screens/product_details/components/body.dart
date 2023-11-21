@@ -14,6 +14,7 @@ import 'package:my_app/logic/blocs/wishlist/wishlist_bloc.dart';
 import 'package:my_app/logic/cubits/counter/cubit/counter_cubit.dart';
 import 'package:my_app/screens/product_details/components/button_add_to_cart.dart';
 
+// ignore: must_be_immutable
 class Body extends StatelessWidget {
   Body({super.key, required this.product});
 

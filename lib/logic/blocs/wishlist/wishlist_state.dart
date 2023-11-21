@@ -36,6 +36,7 @@ class RemoveWishListSuccessState extends WishListState {
   List<Object?> get props => [];
 }
 
+// ignore: must_be_immutable
 class WishListErrorState extends WishListState {
   String? error;
   WishListErrorState(this.error);

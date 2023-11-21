@@ -215,7 +215,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        changeCurrency(item.originalPrice.toDouble() ?? 0),
+                        changeCurrency(item.originalPrice.toDouble()),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

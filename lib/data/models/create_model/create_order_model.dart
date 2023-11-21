@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:my_app/data/models/create_model/create_order_detail_model.dart';
 
+// ignore: must_be_immutable
 class CreateOrderModel extends Equatable {
   double? amount;
   int? customerId;

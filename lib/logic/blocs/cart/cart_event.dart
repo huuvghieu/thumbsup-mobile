@@ -11,6 +11,11 @@ class LoadCartEvent extends CartEvent {
   @override
   List<Object> get props => [];
 }
+
+class LoadCartAfterPaymentEvent extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
 class RefreshCartEvent extends CartEvent {
   @override
   List<Object> get props => [];
@@ -44,3 +49,4 @@ class RemoveAllProduct extends CartEvent {
   @override
   List<Object> get props => [product];
 }
+

@@ -269,25 +269,25 @@ class RegisterFormState extends State<RegisterForm> {
                             const SizedBox(height: 25.0),
                             Column(
                               children: [
-                                Text(
+                                const Text(
                                   'Ảnh đại diện',
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                     color: Colors.black54,
                                     fontSize: 20.0,
                                   ),
                                 ),
                                 _selectedImage != null
-                                    ? Container(
+                                    ? SizedBox(
                                         height: 120,
                                         width: 150,
                                         child: Image.file(_selectedImage!))
-                                    : Container(
+                                    : const SizedBox(
                                         // margin: EdgeInsets.only(left: ),
-                                        child: const Icon(
+                                        child:  Icon(
                                         Icons.photo,
                                         size: 120,
                                       )),
-                                Container(
+                                SizedBox(
                                   width: 80,
                                   child: TextButton(
                                     onPressed: () {
@@ -399,6 +399,7 @@ class RegisterFormState extends State<RegisterForm> {
   }
 }
 
+// ignore: must_be_immutable
 class TextFormFieldBOD extends StatefulWidget {
   final String label;
   final String hint;

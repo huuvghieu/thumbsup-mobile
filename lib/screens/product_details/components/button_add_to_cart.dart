@@ -5,6 +5,7 @@ import 'package:my_app/common/color.dart';
 import 'package:my_app/data/models/product_model.dart';
 import 'package:my_app/logic/blocs/cart/cart_bloc.dart';
 
+// ignore: must_be_immutable
 class ButtonAddToCart extends StatelessWidget {
   ButtonAddToCart({
     super.key,
@@ -93,7 +94,7 @@ class ButtonAddToCart extends StatelessWidget {
                       ],
                     )));
           } else {
-            return Text('Có lỗi đã xảy ra ');
+            return const Text('Có lỗi đã xảy ra ');
           }
         },
       ),
